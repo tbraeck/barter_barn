@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "Frama Lamma",
+        "image": "https://www.rd.com/wp-content/uploads/2021/03/GettyImages-1133605325-scaled-e1617227898456.jpg?fit=696%2C463?fit=700,700",
+        "desc": "The puppies are cute. Can't you see?",
+        "price": 9
+    },
+    {
+        "id": 2,
+        "name": "Ding Dong",
+        "image": "https://www.rd.com/wp-content/uploads/2018/02/01_Adorable-Puppy-Pictures-that-Will-Make-You-Melt_516537724_ch_ch.jpg?fit=700%2C467?fit=700,700",
+        "desc": "The puppies are cute. Can't you see?",
+        "price": 12
+    },
+    {
+        "id": 3,
+        "name": "Super Fly",
+        "image": "https://www.rd.com/wp-content/uploads/2018/02/02_Adorable-Puppy-Pictures-that-Will-Make-You-Melt_556211362_ANURAK-PONGPATIMET.jpg?fit=700%2C467?fit=700,700",
+        "desc": "The puppies are cute. Can't you see?",
+        "price": 24
+    },
+    {
+        "id": 4,
+        "name": "Dingy Pingy",
+        "image": "https://www.rd.com/wp-content/uploads/2018/02/04_Adorable-Puppy-Pictures-that-Will-Make-You-Melt_361302206_Grigorita-Ko.jpg?fit=700%2C467?fit=700,700",
+        "desc": "The puppies are cute. Can't you see?",
+        "price": 18
+    }
+]
