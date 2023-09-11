@@ -1,5 +1,5 @@
 class ForumsController < ApplicationController
-  before_action :set_forum, only: %i[ show update destroy ]
+  # before_action :set_forum, only: %i[ show update destroy ]
 
   # GET /forums
   def index
