@@ -24,11 +24,23 @@ puts "🥷👩‍🦰 Seeding users..."
 puts "🤡🤠👽🤖 Seeding Forum Categories..." 
 
 20.times do
+    user = User.all.sample  # Get a random user
+    forum = Forum.all.sample 
+
     Post.create!(
       title: Faker::Lorem.sentence,
-      content: Faker::Lorem.paragraphs.join('\n'),
-      user: User.all.sample # Assign a random user to each post
+      body: Faker::Lorem.paragraphs.join('\n'),
+      user: User.all.sample,  # Assign a random user to the post
+      forum: Forum.all.sample,  # Assign a random forum to the post
+      created_at: Faker::Time.between(from: 2.years.ago, to: Time.now, format: :default),
+      updated_at: Faker::Time.between(from: 2.years.ago, to: Time.now, format: :default)
     )
+    if post.save
+        puts "Created post with title: #{post.title}"
+      else
+        puts "Failed to create post with title: #{post.title}"
+        puts "Errors: #{post.errors.full_messages}"
+      end
   end
 
   puts "🤡 Seeding Comments..." 
@@ -42,75 +54,3 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
   end
 
 
-UserDrawing.create!([
-    {
-        adjective: "smelly",
-        noun: "cat",
-        verb: "swam",
-        adverb: "happily",
-        user_id: 2,
-    },
-    {
-        adjective: "jolly",
-        noun: "witch",
-        verb: "laughed",
-        adverb: "angrily",
-        user_id: 1,
-    },
-    {
-        adjective: "tall",
-        noun: "carrot",
-        verb: "slept",
-        adverb: "quickly",
-        user_id: 3,
-    },
-    {
-        adjective: "short",
-        noun: "giraffe",
-        verb: "ate",
-        adverb: "sadly",
-        user_id: 6,
-    },
-    {
-        adjective: "stinky",
-        noun: "alien",
-        verb: "surfed",
-        adverb: "backwards",
-        user_id: 5,
-    },
-    {
-        adjective: "strange",
-        noun: "cupcake",
-        verb: "hid",
-        adverb: "like a ninja",
-        user_id: 4,
-    },
-    {
-        adjective: "hairy",
-        noun: "skeleton",
-        verb: "danced",
-        adverb: "merrily",
-        user_id: 3,
-    },
-    {
-        adjective: "frustrated",
-        noun: "baby",
-        verb: "kissed",
-        adverb: "puppies",
-        user_id: 2,
-    },
-    {
-        adjective: "tired",
-        noun: "werewolf",
-        verb: "chased",
-        adverb: "butterflies",
-        user_id: 1,
-    },
-    {
-        adjective: "tired",
-        noun: "werewolf",
-        verb: "chased",
-        adverb: "butterflies",
-        user_id: 8,
-    }
-])
