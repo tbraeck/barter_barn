@@ -20,6 +20,15 @@ puts "🥷👩‍🦰 Seeding users..."
     )
   end
   
+  8.times do
+    Forum.create!(
+      name: Faker::Lorem.words(number: 3).join(' '), # Generate a random name
+    )
+  end
+  
+  # Fetch all users and forums
+  users = User.all
+  forums = Forum.all
 
 puts "🤡🤠👽🤖 Seeding Forum Categories..." 
 
@@ -31,17 +40,17 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
       title: Faker::Lorem.sentence,
       body: Faker::Lorem.paragraphs.join('\n'),
       user: User.all.sample,  # Assign a random user to the post
-      forum: Forum.all.sample,  # Assign a random forum to the post
-      created_at: Faker::Time.between(from: 2.years.ago, to: Time.now, format: :default),
-      updated_at: Faker::Time.between(from: 2.years.ago, to: Time.now, format: :default)
+      forum: Forum.all.sample  # Assign a random forum to the post
+     
     )
-    if post.save
-        puts "Created post with title: #{post.title}"
-      else
-        puts "Failed to create post with title: #{post.title}"
-        puts "Errors: #{post.errors.full_messages}"
-      end
   end
+  #   if post.save
+  #       puts "Created post with title: #{post.title}"
+  #     else
+  #       puts "Failed to create post with title: #{post.title}"
+  #       puts "Errors: #{post.errors.full_messages}"
+  #     end
+  # end
 
   puts "🤡 Seeding Comments..." 
 

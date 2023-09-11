@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :forums
   resources :comments
   resources :posts, only: [:index, :show, :create, :update, :destroy]
-  resources :users, only: [:show]
+  resources :users, only: [:index, :show]
 
   # resources :categories, only: [:index, :show]
   # resources :users do

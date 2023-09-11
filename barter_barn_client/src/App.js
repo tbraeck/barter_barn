@@ -1,5 +1,5 @@
 
-import React from 'react'; 
+import React, {useState, useEffect, useContext} from 'react'; 
 // import 'bootstrap/dist/css/bootstrap.min.css'
 // import {Container, Row} from 'react-bootstrap';
 import './main.css';
@@ -20,8 +20,8 @@ function App() {
   useEffect(()=> {
     fetch("http://localhost:3000/forums")
       .then((res)=> res.json())
-      .then((data) => setCategories(data))
-      .catch((error) => console.error('Error fetching categories:', error));
+      .then((data) => setAllForum(data))
+      .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
 
