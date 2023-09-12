@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
-  resources :forums
-  resources :comments
+  resources :forums, only: [:index, :show]
+  resources :comments, only: [:index, :show, :create, :update, :destroy]
   resources :posts, only: [:index, :show, :create, :update, :destroy]
-  resources :users, only: [:index, :show]
-
+  resources :users, only: [:show]
+  resources :users do 
+    resources :user_posts
+    resources :user_comments
+  end
   # resources :categories, only: [:index, :show]
   # resources :users do
   #   resources :user_drawings

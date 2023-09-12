@@ -366,6 +366,22 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   text-decoration: none;
 }
 
+
+.wrapper-container {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Distribute columns evenly */
+  align-items: center; /* Align columns vertically */
+  padding: 20px; /* Add padding as needed */
+  background-color: #f0f0f0; /* Background color for the wrapper */
+}
+
+.column {
+  flex: 1; /* Make columns expand to fill available space */
+  padding: 10px; /* Add padding for each column */
+  border: 1px solid #ccc; /* Add a border for each column */
+  background-color: #fff; /* Background color for columns */
+}
+
 pre,
 code,
 kbd,

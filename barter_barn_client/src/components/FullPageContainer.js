@@ -3,9 +3,13 @@ import React from 'react';
 const FullPageContainer = ({children}) => {
   
   return (
-    <div style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
+    <wrapper className='wrapper-container' style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
+    <section className='page-container'> 
       {children}
-    </div>
+    </section>
+    </wrapper>
+
+   
   );
 };
 
