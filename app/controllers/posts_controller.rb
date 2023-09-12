@@ -1,50 +1,39 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show update destroy ]
+  skip_before_action :authorize
 
-  # GET /posts
   def index
-    @posts = Post.all
-
-    render json: @posts
+    posts = Post.all
+    render json: posts, status: :ok
   end
 
-  # GET /posts/1
   def show
-    render json: @post
+    post = find_post
+    render json: post, status: :ok
   end
 
-  # POST /posts
   def create
-    @post = Post.new(post_params)
-
-    if @post.save
-      render json: @post, status: :created, location: @post
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    user = User.find(params[:user_id])
+    post = user.posts.create!(post_params)
+    render json: post, status: :created
   end
 
-  # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
-      render json: @post
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    post = find_post
+    post.update!(post_params)
+    render json: post, status: :ok
   end
 
-  # DELETE /posts/1
   def destroy
-    @post.destroy
+    post = find_post
+    post.destroy
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
+    def find_post
+      Post.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :body, :user_id, :forum_id)
     end
