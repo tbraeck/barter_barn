@@ -1,5 +1,5 @@
 class ForumsController < ApplicationController
-  skip_before_action :authorize
+  # skip_before_action :authorize
 
   def index
     forums = Forum.includes(:posts).all

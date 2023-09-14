@@ -15,8 +15,8 @@ const Login = () => {
       <h3 className='login-taglineH3'>Community ~ Bartering ~ Free</h3>
       <div className="login-form-container">
         {showLogin ? (
-          <div className='login-form'>
-            <LoginForm className="login-form"setUser={setUser} />
+          <div>
+            <LoginForm setUser={setUser} />
             <p className="login-account-question">
               Don't have an account?</p> &nbsp;
             <button className="login-toggle-button" onClick={() => setShowLogin(false)}>
@@ -24,7 +24,7 @@ const Login = () => {
             </button>
           </div>
         ) : (
-          <div className='login-form'>
+          <div >
             <SignUpForm setUser={setUser} />
             <p className="login-account-question">
               Already have an account?</p> &nbsp;

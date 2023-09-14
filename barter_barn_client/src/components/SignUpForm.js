@@ -34,7 +34,7 @@ const SignUpForm = ({setUser}) => {
     }
 
   return (
-    <div >
+    <div  className='login-container'>
       <div >
     <h2 >Sign Up</h2>
     <form  onSubmit={handleSubmit}>
@@ -83,6 +83,7 @@ const SignUpForm = ({setUser}) => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className='form-input'
+
       />
 
       <button         className='form-button'

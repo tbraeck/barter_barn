@@ -1,7 +1,7 @@
 class UserCommentsController < ApplicationController
     before_action :set_user
     before_action :set_user_comments, only: [:show, :update, :destroy]
-    skip_before_action :authorize
+    # skip_before_action :authorize
 
     def index
       @user_comments = @user.user_comments
