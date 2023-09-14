@@ -6,7 +6,6 @@ const SignUpForm = ({setUser}) => {
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
     const [email, setEmail] = useState('')
-
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = (e) => {

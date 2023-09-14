@@ -12,12 +12,14 @@ module BarterBarn
     config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins 'http://localhost:3001'  # Replace with the origin of your React frontend
-        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options]
-      end
-    end
+    config.load_defaults 7.0
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.action_dispatch.cookies_same_site_protection = :strict
+   
+# config/application.rb
+
+    config.session_store :cookie_store, key: '_your_app_session'
 
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
