@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize
+  # skip_before_action :authorize
 
 
-  # def index 
-  #   users = User.includes(:posts).all
-  #   render json: users, status: :ok
-  # end
+  def index 
+    users = User.includes(:posts).all
+    render json: users, status: :ok
+  end
+  
   def show
     render json: @current_user
   end

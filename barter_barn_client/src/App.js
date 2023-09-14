@@ -8,6 +8,8 @@ import FullPageContainer from './components/FullPageContainer';
 import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
+import ForumCard from './components/ForumCard';
+import ForumList from './components/ForumList';
 import Footer from './components/Footer';
 import { UserContext } from './contexts/UserContext';
 
@@ -53,12 +55,12 @@ function App() {
     <div className='mainContainer'>
       <FullPageContainer>
       <div className="App">
-          <Header handleLogout={handleLogout} />
+          <Header user={user} setUser={setUser} handleLogout={handleLogout} />
         </div>
         <Routes>
             <Route exact path="/" element={<Home /> } />  
-            <Route path="/forums" allForum={allForum}/>  
-            <Route path="/forums/:id" />
+            <Route path="/forums"  element={<ForumList allForum={allForum} setAllForum={setAllForum}/>}/>  
+            <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
             <Route path="/forums/:id/edit" />
             <Route path="/users/:user_id/posts/:post_id"  />
             <Route path="/user-profile"  />

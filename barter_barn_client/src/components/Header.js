@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'; 
 import NavBar from './NavBar'
+import { UserContext } from '../contexts/UserContext'
 
-const Header = () => {
+
+const Header = ({handleLogout}) => {
+  const {user, setUser} = useContext(UserContext);
+
   return (
     <div className="container">
       <p>Header is here</p>
-      <NavBar/>
+      <NavBar user={user} setUser={setUser} handleLogout={handleLogout} />
     </div>
   )
 }

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :forums, only: [:index, :show]
   resources :comments, only: [:index, :show, :create, :update, :destroy]
   resources :posts, only: [:index, :show, :create, :update, :destroy]
-  resources :users, only: [:show]
+  resources :users, only: [:index, :show, :create]
   resources :users do 
     resources :user_posts
     resources :user_comments
@@ -20,7 +20,7 @@ post "/users/:user_id/posts", to: "user_posts#create"
 delete "users/:user_id/posts/:post_id", to: "user_posts#destroy"
 patch "/users/:user_id/posts/:post_id", to: "user_posts#update"
 
-  # get  "/login", to: "sessions#new"
+  # get  "/login", to: "sessions#new" 
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
