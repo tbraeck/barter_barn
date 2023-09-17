@@ -7,9 +7,11 @@ const Header = ({handleLogout}) => {
   const {user, setUser} = useContext(UserContext);
 
   return (
-    <div className="container">
-      <p>Header is here</p>
-      <NavBar user={user} setUser={setUser} handleLogout={handleLogout} />
+    <div className="headerCont">
+      <img src="/barn.gif" alt="Barter Barn Logo" className="logo" />
+      <div className='navbar'>
+        <NavBar user={user} setUser={setUser} handleLogout={handleLogout} />
+      </div>
     </div>
   )
 }

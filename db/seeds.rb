@@ -20,11 +20,17 @@ puts "🥷👩‍🦰 Seeding users..."
     )
   end
   
-  8.times do
-    Forum.create!(
-      name: Faker::Lorem.words(number: 3).join(' '), # Generate a random name
-    )
-  end
+  puts "🥷👩‍🦰 Seeding forum categories..."
+
+    Forum.create!([
+      {name: "Will trade carpentry Work"},
+      {name: "Will trade house cleaning Work"},
+      {name: "Will trade plumbing Work"},
+      {name: "Will trade sewing Work"},
+      {name: "Will trade painting Work"},
+      {name: "Will trade lawnwork"},
+      {name: "Will trade accounting Work"}
+    ])
   
   # Fetch all users and forums
   users = User.all

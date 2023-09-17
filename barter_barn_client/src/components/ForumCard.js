@@ -3,7 +3,7 @@ import PostCard from './PostCard'
 // import NewUserDrawing from './NewUserDrawing'
 import { useParams } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext';
-import './styles/CategoryCard.css';
+// import './styles/CategoryCard.css';
 
 const ForumCard = ({allForum, setAllForum, handleAdd}) => {
   const [forum, setForum] = useState({
@@ -95,7 +95,7 @@ const forumPosts = forum.posts.map((post) => (
       allForum={allForum}
       handleDeleteClick={handleDeleteClick}
       handleUpdateSubmit={handleUpdateSubmit}
-      handleSavePostToUserProfile={handleSavePostToUserProfile}
+      handleSavePostToUserProfile={handleSavePostsToUserProfile}
     />
   </div>
 ))

@@ -1,13 +1,20 @@
 import React from 'react';
+import GoodsList from './GoodsList';
+import ServicesList from './ServicesList';
+import ForumList from './ForumList';
 
-const FullPageContainer = ({children}) => {
+const FullPageContainer = ({allForum, setAllForum}) => {
   
   return (
-    <wrapper className='wrapper-container' style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
+    <div className='wrapper-container' style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
     <section className='page-container'> 
-      {children}
+    <FullPageContainer>
+        <ForumList allForum={allForum} setAllForum={setAllForum}/>
+        <GoodsList />
+        <ServicesList />
+      </FullPageContainer>
     </section>
-    </wrapper>
+    </div>
 
    
   );

@@ -9,7 +9,7 @@ import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
 import ForumCard from './components/ForumCard';
-import ForumList from './components/ForumList';
+import SavedContent from './components/SavedContent';
 import Footer from './components/Footer';
 import { UserContext } from './contexts/UserContext';
 
@@ -27,7 +27,7 @@ function App() {
       .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
-
+console.log(allForum)
   // const handleAdd = (newPost) => {
   //   const newPostArray = [...allForum, newPost]
   //   setAllForum(newPostArray)
@@ -53,21 +53,20 @@ function App() {
   return (
     <div>
     <div className='mainContainer'>
-      <FullPageContainer>
-      <div className="App">
+    <div className="App">
           <Header user={user} setUser={setUser} handleLogout={handleLogout} />
         </div>
-        <Routes>
+
+      
+      <Routes>
             <Route exact path="/" element={<Home /> } />  
-            <Route path="/forums"  element={<ForumList allForum={allForum} setAllForum={setAllForum}/>}/>  
+            <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum}/>}/>  
             <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
             <Route path="/forums/:id/edit" />
             <Route path="/users/:user_id/posts/:post_id"  />
-            <Route path="/user-profile"  />
+            <Route path="/user-profile"  element={<SavedContent />} />
         </Routes>
-            <p>Hello There</p>
-      </FullPageContainer>
-    </div>
+        </div>
     <div className='footer--pin'>
        <Footer/>
     </div>

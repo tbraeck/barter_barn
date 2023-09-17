@@ -1,36 +1,33 @@
 import React, {useState} from 'react';
-import './styles/DrawingCard.css';
-import EditDrawing from './EditDrawing';
+// import './styles/DrawingCard.css';
+import EditPost from './EditPost';
 
-const PostCard = ({ drawing, userDrawings, setUserDrawings, user, categories, handleUpdateSubmit, handleUpdateUserDrawings, handleDeleteClick,  handleSaveDrawingToUserProfile }) => {
+const PostCard = ({ post, userPosts, setUserPosts, user, allForum, handleUpdateSubmit, handleUpdateUserPosts, handleDeleteClick,  handleSavePostsToUserProfile }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-
-  const { id, adjective, noun, verb, adverb } = drawing;
+console.log(post)
+  const { id, title, body } = post;
 
   const handleShowEditForm = () => {
     setIsEditFormVisible(true);
   };
 
   const handleSave = () => {
-    handleSaveDrawingToUserProfile(drawing);
+    handleSavePostsToUserProfile(post);
   };
 
   const handleDelete = () => {
     handleDeleteClick(id);
   };
+
   return (
-
-    <div className='drawingEdit' onDoubleClick={()=> setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
+    <div className='postEdit' onDoubleClick={()=> setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
     {isEditFormVisible? 
-      <EditDrawing user={user} categories={categories} drawing={drawing} handleShowEditForm={handleShowEditForm} userDrawings={userDrawings} setUserDrawings={setUserDrawings} handleUpdateSubmit={handleUpdateSubmit} isEditFormVisible={isEditFormVisible} setIsEditFormVisible={setIsEditFormVisible} handleUpdateUserDrawings={handleUpdateUserDrawings}/> :
+      <EditPost user={user} allForum={allForum} post={post} handleShowEditForm={handleShowEditForm} userPosts={userPosts} setUserPosts={setUserPosts} handleUpdateSubmit={handleUpdateSubmit} isEditFormVisible={isEditFormVisible} setIsEditFormVisible={setIsEditFormVisible} handleUpdateUserPosts={handleUpdateUserPosts}/> :
 
-    (<div className="drawingCardContainer">
-      <div className='drawingCard'>
-        <h1>The</h1>
-        <h2>{adjective}</h2>
-        <h2>{noun}</h2>
-        <h2>{verb}</h2>
-        <h2>{adverb}!</h2>
+    (<div className="postCardContainer">
+      <div className='postCard'>
+        <h1>{title}</h1>
+       <h2>{body}</h2>
         <button onClick={handleSave} className='crudButton'>
           SAVE
         </button>

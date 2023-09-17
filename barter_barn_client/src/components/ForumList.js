@@ -17,14 +17,14 @@ const ForumList = ({allForum}) => {
 
   return (
     <div className='forum-page'>
-    <div className='forumBox'>
-        <div className='forums'>
+        <div className='forumList'>
+            <div className='forums'>
             <h1>Forum Categories</h1>
-        </div>
-        <div className='forumLinksLinks'>
+            </div>
+            <div className='forumLinks'>
             {forumItems}
+            </div>
         </div>
-    </div>
     </div>
   )
 }

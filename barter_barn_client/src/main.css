@@ -373,6 +373,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   align-items: center; /* Align columns vertically */
   padding: 20px; /* Add padding as needed */
   background-color: #f0f0f0; /* Background color for the wrapper */
+  margin-top: 0px;
 }
 
 .column {
@@ -381,6 +382,143 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   border: 1px solid #ccc; /* Add a border for each column */
   background-color: #fff; /* Background color for columns */
 }
+
+.forum-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* min-height: 100vh; */
+  background-color: #f0f0f0; /* Adjust the background color as needed */
+}
+
+.forumList {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 800px; /* Adjust the maximum width as needed */
+  width: 100%;
+}
+
+.forums h1 {
+  font-size: 34px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.forum-container {
+  background-color: #fff; /* Adjust the background color as needed */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 800px; /* Adjust the maximum width as needed */
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.subTitle {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.forumName {
+  h1 {
+    font-size: 24px;
+    margin: 0;
+    em {
+      font-style: italic;
+    }
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Adjust column widths as needed */
+  gap: 20px;
+}
+
+.postList {
+  /* Styles for the post list */
+}
+
+.postGrid {
+  /* Styles for the grid of posts */
+}
+
+.forumPosts {
+  list-style: none;
+  padding: 0;
+}
+
+/* Styles for the new user form, uncomment and modify as needed */
+/* .newUserForm {
+  // Styles for the form
+} */
+
+/* Add styles for forum links or items here */
+.forumLinks {
+  background-color: #f0f0f0; /* Background color */
+  padding: 10px; /* Padding around the content */
+  border: 1px solid #ccc; /* Border */
+  border-radius: 5px; /* Rounded corners */
+  margin: 10px; /* Margin around the element */
+}
+
+/* Style for the headings within the forumLinks element */
+.forumLinks h1 {
+  font-size: 24px; /* Font size */
+  color: #333; /* Text color */
+  margin-bottom: 10px; /* Margin below the heading */
+}
+
+/* Style for the links within the forumLinks element */
+.forumLinks a {
+  display: block; /* Display as block to create a list effect */
+  padding: 5px 0; /* Padding for each link */
+  color: #007bff; /* Link color (blue) */
+  text-decoration: none; /* Remove underline */
+}
+
+/* Hover effect for the links */
+.forumLinks a:hover {
+  background-color: #007bff; /* Background color on hover (blue) */
+  color: #fff; /* Text color on hover (white) */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Header.css */
+.headerCont {
+  height: 250px; /* Adjust the height as needed */
+  display: flex;
+  background: url('../public/colorBanner.png');
+background-position: right;
+background-size: 50% ;
+
+ 
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* margin: 30px; */
+  flex-direction: row;
+}
+
+.navbar{
+  margin-top: 0px;
+margin-left: 20px;
+}
+
+.logo {
+margin-top: 25px;  
+width: 200px; /* Adjust the width as needed */
+  height: 200px; /* Maintain the aspect ratio of the logo */
+}
+
+.navbar {
+  align-items: right;
+}
+
 
 pre,
 code,
@@ -2947,6 +3085,7 @@ textarea.form-control-lg {
     transition: none;
   }
 }
+
 .btn:hover {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
