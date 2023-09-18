@@ -29,7 +29,7 @@ console.log(user)
       </Link>
       <Link to="/forums" className='btn '>
         <button  type='button' className='btn btn-secondary'>
-            FORUM CATEGORIES
+            FORUMS
         </button>
       </Link>
       <div className='btn '>

@@ -12,7 +12,7 @@ const FullPageContainer = ({allForum, setAllForum}) => {
         <ForumList allForum={allForum} setAllForum={setAllForum}/>
         <GoodsList />
         <ServicesList />
-      </FullPageContainer>
+    </FullPageContainer>
     </section>
     </div>
 

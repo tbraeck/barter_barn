@@ -8,7 +8,10 @@ import FullPageContainer from './components/FullPageContainer';
 import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
-import ForumCard from './components/ForumCard';
+// import ForumCard from './components/ForumCard';
+// import ForumList from './components/ForumList';
+// import ServicesList from './components/ServicesList';
+// import GoodsList from './components/GoodsList';
 import SavedContent from './components/SavedContent';
 import Footer from './components/Footer';
 import { UserContext } from './contexts/UserContext';
@@ -55,13 +58,11 @@ console.log(allForum)
     <div className='mainContainer'>
     <div className="App">
           <Header user={user} setUser={setUser} handleLogout={handleLogout} />
-        </div>
-
-      
+    </div>
       <Routes>
             <Route exact path="/" element={<Home /> } />  
-            <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum}/>}/>  
-            <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
+            {/* <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} /> }/> */}
+            {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
             <Route path="/forums/:id/edit" />
             <Route path="/users/:user_id/posts/:post_id"  />
             <Route path="/user-profile"  element={<SavedContent />} />
