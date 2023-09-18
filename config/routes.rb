@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :free_stuff, only: [:index, :show, :create, :update, :destroy]
   resources :forums, only: [:index, :show]
   resources :comments, only: [:index, :show, :create, :update, :destroy]
   resources :posts, only: [:index, :show, :create, :update, :destroy]

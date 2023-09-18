@@ -50,13 +50,19 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
      
     )
   end
-  #   if post.save
-  #       puts "Created post with title: #{post.title}"
-  #     else
-  #       puts "Failed to create post with title: #{post.title}"
-  #       puts "Errors: #{post.errors.full_messages}"
-  #     end
-  # end
+  
+  puts "🤖 Seeding Free Stuff..." 
+
+  20.times do 
+    FreeStuff.create!(
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user: User.all.sample,  
+      post: Post.all.sample 
+    )
+  end
+
+
 
   puts "🤡 Seeding Comments..." 
 
