@@ -56,18 +56,20 @@ console.log(allForum)
   return (
     <div>
     <div className='mainContainer'>
-    <div className="App">
+    <div className="header">
           <Header user={user} setUser={setUser} handleLogout={handleLogout} />
     </div>
+    {/* <div className='welcomeMsg'> */}
       <Routes>
-            <Route exact path="/" element={<Home /> } />  
-            {/* <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} /> }/> */}
+          <Route exact path="/" element={<Home /> } />  
+          <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} /> }/>
             {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
-            <Route path="/forums/:id/edit" />
-            <Route path="/users/:user_id/posts/:post_id"  />
-            <Route path="/user-profile"  element={<SavedContent />} />
-        </Routes>
-        </div>
+          <Route path="/forums/:id/edit" />
+          <Route path="/users/:user_id/posts/:post_id"  />
+          <Route path="/user-profile"  element={<SavedContent />} />
+      </Routes>
+    {/* </div> */}
+  </div>
     <div className='footer--pin'>
        <Footer/>
     </div>

@@ -29,13 +29,19 @@ console.log(user)
       </Link>
       <Link to="/forums" className='btn '>
         <button  type='button' className='btn btn-secondary'>
-            FORUMS
+            THINGS TO BARTER
         </button>
       </Link>
+      <Link to="/free" className='btn '>
+        <button  type='button' className='btn btn-secondary'>
+            FREE STUFF
+        </button>
+      </Link>
+
       <div className='btn '>
           <p>Welcome, {user.username}!</p>
           <button type='submit' onClick={handleLogoutClick} className='btn btn-secondary' >LOGOUT</button>
-        </div>
+      </div>
       {/* <Link to="/" className='navButton'>Home</Link> */}
     </div>
     </div>

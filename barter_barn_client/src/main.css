@@ -371,7 +371,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   display: flex; /* Use flexbox for layout */
   justify-content: space-between; /* Distribute columns evenly */
   align-items: center; /* Align columns vertically */
-  padding: 20px; /* Add padding as needed */
+  /* padding: 20px; Add padding as needed */
   background-color: #f0f0f0; /* Background color for the wrapper */
   margin-top: 0px;
 }
@@ -430,6 +430,19 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     }
   }
 }
+
+.page-container {
+  display: flex;
+}
+
+.column {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid #ccc;
+  margin: 8px;
+  background-color: #f9f9f9;
+}
+
 
 .grid-container {
   display: grid;
@@ -490,6 +503,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 .headerCont {
   height: 250px; /* Adjust the height as needed */
   display: flex;
+  margin-bottom: 0px;
   background: url('../public/colorBanner.png');
 background-position: right;
 background-size: 50% ;
@@ -519,7 +533,55 @@ width: 200px; /* Adjust the width as needed */
   align-items: right;
 }
 
+.welcomeMsg {
+  
+  /* margin-top: 40px;  */
+  margin-bottom: 20px; /* Add space below the element */
+  /* text-align: center; */
+  justify-content: center; 
+  background: url('../public/BigBarn.png') center/cover;
+  height: 100vh;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0); /* Adjust the last value (0.5) for opacity */
+  justify-content: right;
+  align-items: center;
+  flex-direction: column;/* Center align the text */
+}
 
+.welcomeMsgH1 {
+  font-weight: bold;
+  color: #f9f9f9;
+  font-size: 45px;
+  margin-top: 50px;
+  margin-left: 300px;
+  font-family: 'Courier Prime', Courier, monospace;
+  text-align: center; /* Center align the text horizontally */
+  /* Add a text-shadow to create an outside stroke effect */
+  text-shadow:
+    -2px -2px 0 #000, /* Top-left */
+    2px -2px 0 #000, /* Top-right */
+    -2px 2px 0 #000, /* Bottom-left */
+    2px 2px 0 #000; /* Bottom-right */
+}
+
+
+.welcomeMsgP{
+  font-weight: bold; 
+  color: #f5fab4;
+  font-size: 30px;
+  margin-top: 110px;
+  font-family: 'Courier Prime', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+justify-content: center;
+align-items: center;
+  margin-left: 800px;
+  text-shadow:
+  -2px -2px 0 #000, /* Top-left */
+  2px -2px 0 #000, /* Top-right */
+  -2px 2px 0 #000, /* Bottom-left */
+  2px 2px 0 #000; /* Bottom-right */
+}
 pre,
 code,
 kbd,

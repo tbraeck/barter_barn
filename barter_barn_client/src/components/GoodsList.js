@@ -2,8 +2,14 @@ import React from 'react'
 
 const GoodsList = () => {
   return (
-    <div>
-      <h1>GoodsList</h1>
+    <div className='forum-page'>
+        <div className='forumList'>
+            <div className='forums'>
+            <h1>Forum Categories</h1>
+            </div>
+            <div className='forumLinks'>
+            </div>
+        </div>
     </div>
   )
 }

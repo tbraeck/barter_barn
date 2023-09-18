@@ -7,7 +7,7 @@ const ForumList = ({allForum}) => {
    const forumItems = allForum.map((forum) => (
         <div key={forum.id}>
             <h1>
-                <Link to={`/forums/${forum.id}`}>
+                <Link to={`/forums/${forum.id}`}>x``
                     {forum.name}
                   
                 </Link>
