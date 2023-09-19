@@ -3,7 +3,7 @@ import ServicesList from './ServicesList';
 import GoodsList from './GoodsList';
 import ForumList from './ForumList';
 
-const FullPageContainer = ({ allForum, setAllForum }) => {
+const FullPageContainer = ({ allForum, setAllForum, allGoods, setAllGoods, allServices, setAllServices }) => {
   return (
     <div className='wrapper-container' style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
       <section className='page-container'>
@@ -11,10 +11,10 @@ const FullPageContainer = ({ allForum, setAllForum }) => {
           <ForumList allForum={allForum} setAllForum={setAllForum}/>
         </div>
         <div className='column goods-column'>
-          <GoodsList/>
+          <GoodsList allGoods={allGoods} setAllGoods={setAllGoods}/>
         </div>
         <div className='column services-column'>
-          <ServicesList/>        
+          <ServicesList allServices={allServices} setAllServices={setAllServices}/>        
         </div>
       </section>
     </div>

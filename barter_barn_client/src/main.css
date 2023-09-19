@@ -370,18 +370,26 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 .wrapper-container {
   display: flex; /* Use flexbox for layout */
   justify-content: space-between; /* Distribute columns evenly */
-  align-items: center; /* Align columns vertically */
-  /* padding: 20px; Add padding as needed */
+  align-items: stretch; /* Align columns vertically */
+  padding: 20px;
   background-color: #f0f0f0; /* Background color for the wrapper */
   margin-top: 0px;
 }
 
-.column {
-  flex: 1; /* Make columns expand to fill available space */
-  padding: 10px; /* Add padding for each column */
-  border: 1px solid #ccc; /* Add a border for each column */
-  background-color: #fff; /* Background color for columns */
+.page-container {
+  display: flex;
+  flex: 1;
+
 }
+
+.column {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 8px;
+  background-color: #f9f9f9;
+}
+
 
 .forum-page {
   display: flex;
@@ -431,17 +439,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   }
 }
 
-.page-container {
-  display: flex;
-}
 
-.column {
-  flex: 1;
-  padding: 16px;
-  border: 1px solid #ccc;
-  margin: 8px;
-  background-color: #f9f9f9;
-}
 
 
 .grid-container {

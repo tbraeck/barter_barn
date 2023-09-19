@@ -1,17 +1,12 @@
 
 import React, {useState, useEffect, useContext} from 'react'; 
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import {Container, Row} from 'react-bootstrap';
 import './main.css';
 import {Routes, Route} from 'react-router-dom';
 import FullPageContainer from './components/FullPageContainer';
 import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
-// import ForumCard from './components/ForumCard';
-// import ForumList from './components/ForumList';
-// import ServicesList from './components/ServicesList';
-// import GoodsList from './components/GoodsList';
+import ForumCard from './components/ForumCard';
 import SavedContent from './components/SavedContent';
 import Footer from './components/Footer';
 import { UserContext } from './contexts/UserContext';
@@ -20,6 +15,9 @@ import { UserContext } from './contexts/UserContext';
 
 function App() {
   const [allForum, setAllForum] = useState([]);
+  const [allGoods, setAllGoods] = useState([]);
+  const [allServices, setAllServices] = useState([]);
+
   const {user, setUser} = useContext(UserContext);
 
 
@@ -30,7 +28,24 @@ function App() {
       .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
-console.log(allForum)
+
+  useEffect(()=> {
+    fetch("http://localhost:3000/goods")
+      .then((res)=> res.json())
+      .then((data) => setAllGoods(data))
+      .catch((error) => console.error('Error fetching goods:', error));
+
+  }, [])
+console.log(allGoods)
+
+useEffect(()=> {
+  fetch("http://localhost:3000/services")
+    .then((res)=> res.json())
+    .then((data) => setAllServices(data))
+    .catch((error) => console.error('Error fetching services:', error));
+
+}, [])
+console.log(allServices)
   // const handleAdd = (newPost) => {
   //   const newPostArray = [...allForum, newPost]
   //   setAllForum(newPostArray)
@@ -62,8 +77,8 @@ console.log(allForum)
     {/* <div className='welcomeMsg'> */}
       <Routes>
           <Route exact path="/" element={<Home /> } />  
-          <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} /> }/>
-            {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
+          <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices}/> }/>
+            <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
           <Route path="/forums/:id/edit" />
           <Route path="/users/:user_id/posts/:post_id"  />
           <Route path="/user-profile"  element={<SavedContent />} />

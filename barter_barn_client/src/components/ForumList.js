@@ -7,7 +7,7 @@ const ForumList = ({allForum}) => {
    const forumItems = allForum.map((forum) => (
         <div key={forum.id}>
             <h1>
-                <Link to={`/forums/${forum.id}`}>x``
+                <Link to={`/forums/${forum.id}`}>
                     {forum.name}
                   
                 </Link>
@@ -19,7 +19,7 @@ const ForumList = ({allForum}) => {
     <div className='forum-page'>
         <div className='forumList'>
             <div className='forums'>
-            <h1>Forum Categories</h1>
+            <h1> CATEGORIES</h1>
             </div>
             <div className='forumLinks'>
             {forumItems}

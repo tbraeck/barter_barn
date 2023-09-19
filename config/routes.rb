@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
-  resources :free_stuff, only: [:index, :show, :create, :update, :destroy]
+  resources :services, only: [:index, :show, :create, :update, :destroy]
+  resources :goods, only: [:index, :show, :create, :update, :destroy]
+  resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
   resources :forums, only: [:index, :show]
   resources :comments, only: [:index, :show, :create, :update, :destroy]
   resources :posts, only: [:index, :show, :create, :update, :destroy]
   resources :users, only: [:index, :show, :create]
+
   resources :users do 
     resources :user_posts
     resources :user_comments
+    resources :user_free_stuff
+    resources :user_services
+    resources :user_goods
   end
   # resources :categories, only: [:index, :show]
   # resources :users do

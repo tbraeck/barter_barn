@@ -1,4 +1,4 @@
-class CreateFreeStuff < ActiveRecord::Migration[7.0]
+class CreateFreeStuffs < ActiveRecord::Migration[7.0]
   def change
     create_table :free_stuffs do |t|
       t.text :body

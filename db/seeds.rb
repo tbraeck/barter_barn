@@ -74,4 +74,26 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
     )
   end
 
+  puts "🤖 Seeding Services..." 
 
+  20.times do 
+    Service.create!(
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      user: User.all.sample,  
+      forum: Forum.all.sample 
+    )
+  end
+
+  puts "🤖 Seeding Goods..." 
+
+  20.times do 
+    Good.create!(
+      title: Faker::House.furniture,
+      description: Faker::Construction.material,
+      image_url: Faker::Internet.url,
+      user: User.all.sample,  
+      forum: Forum.all.sample 
+    )
+  end

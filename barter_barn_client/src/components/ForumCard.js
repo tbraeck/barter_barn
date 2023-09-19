@@ -11,9 +11,10 @@ const ForumCard = ({allForum, setAllForum, handleAdd}) => {
     comments: []
 })
 
+console.log(allForum)
 const [userPosts, setUserPosts] = useState([])
 const [userComments, setUserComments] = useState([])
-
+console.log(userPosts, "UserPosts:")
 
 const { user } = useContext(UserContext);
 

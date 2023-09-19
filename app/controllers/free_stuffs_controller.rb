@@ -1,21 +1,18 @@
-class FreeStuffController < ApplicationController
-  before_action :set_free_stuff, only: %i[ show update destroy ]
+class FreeStuffsController < ApplicationController
+  skip_before_action :authorize
 
 
-  # GET /free_stuffs
   def index
-    @free_stuffs = FreeStuff.all
+    @free_stuff = FreeStuff.all
 
-    render json: @free_stuffs
+    render json: @free_stuff
   end
 
   
-  # GET /comments/1
   def show
     render json: @free_stuff
   end
 
-  # POST /comments
   def create
     @free_stuff = FreeStuff.new(freeStuff_params)
 
