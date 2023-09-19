@@ -69,14 +69,14 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
   30.times do
     Comment.create!(
       body: Faker::Lorem.sentence,
-      user: User.all.sample,  # Assign a random user to the comment
-      post: Post.all.sample  # Assign a random post to the comment
+      user: User.all.sample, 
+      post: Post.all.sample  
     )
   end
 
   puts "🤖 Seeding Services..." 
 
-  20.times do 
+  10.times do 
     Service.create!(
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
@@ -88,7 +88,7 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
 
   puts "🤖 Seeding Goods..." 
 
-  20.times do 
+  10.times do 
     Good.create!(
       title: Faker::House.furniture,
       description: Faker::Construction.material,

@@ -3,18 +3,20 @@ import PostCard from './PostCard'
 // import NewUserDrawing from './NewUserDrawing'
 import { useParams } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext';
-// import './styles/CategoryCard.css';
 
 const ForumCard = ({allForum, setAllForum, handleAdd}) => {
   const [forum, setForum] = useState({
     posts: [],
     comments: []
 })
-
-console.log(allForum)
 const [userPosts, setUserPosts] = useState([])
 const [userComments, setUserComments] = useState([])
-console.log(userPosts, "UserPosts:")
+
+console.log(allForum)
+console.log(forum)
+
+
+console.log( "UserPosts:", userPosts)
 
 const { user } = useContext(UserContext);
 
@@ -54,6 +56,31 @@ const handleSavePostsToUserProfile = (post) => {
     });
 };
 
+const handleSaveCommentsToUserProfile = (comment) => {
+  fetch(`http://localhost:3000/users/${user.id}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(comment),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to save comment to user profile');
+      }
+    })
+    .then((savedComment) => {
+      setUserPosts([...userComments, savedComment]); 
+      handleUpdateSubmit(savedComment); 
+      console.log('Comment saved to user profile:', savedComment);
+    })
+    .catch((error) => {
+      console.error('Error saving post:', error);
+    });
+};
+
 const handleDeleteClick = (user_id, post_id) => {
   fetch(`http://localhost:3000/users/${user_id}/drawings/${post_id}`, {
     method: "DELETE",
@@ -87,7 +114,7 @@ const handleDeleteClick = (user_id, post_id) => {
       });
   };
 
-const forumPosts = forum.posts.map((post) => (
+const forumPosts = forum.posts && forum.posts.map((post) => (
   <div key={post.id}>
     <PostCard
       post={post}

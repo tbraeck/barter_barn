@@ -9,7 +9,6 @@ const ForumList = ({allForum}) => {
             <h1>
                 <Link to={`/forums/${forum.id}`}>
                     {forum.name}
-                  
                 </Link>
             </h1>
         </div>

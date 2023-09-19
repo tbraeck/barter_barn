@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
 
 const ServicesList = ({allServices}) => {
   console.log(allServices)
@@ -11,6 +13,8 @@ const ServicesList = ({allServices}) => {
             </Link>
         </h1>
     </div>
+    ))
+
   return (
     <div className='forum-page'>
     <div className='forumList'>

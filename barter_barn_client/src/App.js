@@ -78,7 +78,9 @@ console.log(allServices)
       <Routes>
           <Route exact path="/" element={<Home /> } />  
           <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices}/> }/>
-            <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
+          <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
+          <Route path="/goods/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
+          <Route path="/services/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
           <Route path="/forums/:id/edit" />
           <Route path="/users/:user_id/posts/:post_id"  />
           <Route path="/user-profile"  element={<SavedContent />} />

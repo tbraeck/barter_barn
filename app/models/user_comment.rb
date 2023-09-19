@@ -1,4 +1,4 @@
-class UserComments < ApplicationRecord
+class UserComment < ApplicationRecord
   belongs_to :user
   belongs_to :post
 end
