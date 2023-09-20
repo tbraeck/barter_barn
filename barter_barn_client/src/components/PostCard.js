@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 // import './styles/DrawingCard.css';
 import EditPost from './EditPost';
 
-const PostCard = ({ post, userPosts, setUserPosts, user, allForum, handleUpdateSubmit, handleUpdateUserPosts, handleDeleteClick,  handleSavePostsToUserProfile }) => {
+const PostCard = ({ post, userPosts, setUserPosts, user, allForum, handleUpdateSubmit, handleDeleteClick,  handleSavePostsToUserProfile }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 console.log(post)
   const { id, title, body } = post;
-
+console.log()
   const handleShowEditForm = () => {
     setIsEditFormVisible(true);
   };
@@ -22,7 +22,7 @@ console.log(post)
   return (
     <div className='postEdit' onDoubleClick={()=> setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
     {isEditFormVisible? 
-      <EditPost user={user} allForum={allForum} post={post} handleShowEditForm={handleShowEditForm} userPosts={userPosts} setUserPosts={setUserPosts} handleUpdateSubmit={handleUpdateSubmit} isEditFormVisible={isEditFormVisible} setIsEditFormVisible={setIsEditFormVisible} handleUpdateUserPosts={handleUpdateUserPosts}/> :
+      <EditPost user={user} allForum={allForum} post={post} handleShowEditForm={handleShowEditForm} userPosts={userPosts} setUserPosts={setUserPosts} handleUpdateSubmit={handleUpdateSubmit} isEditFormVisible={isEditFormVisible} setIsEditFormVisible={setIsEditFormVisible} /> :
 
     (<div className="postCardContainer">
       <div className='postCard'>

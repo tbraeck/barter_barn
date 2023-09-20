@@ -1,15 +1,15 @@
 import React from 'react';
 import ServicesList from './ServicesList';
 import GoodsList from './GoodsList';
-import ForumList from './ForumList';
+// import ForumList from './ForumList';
 
 const FullPageContainer = ({ allForum, setAllForum, allGoods, setAllGoods, allServices, setAllServices }) => {
   return (
     <div className='wrapper-container' style={{ width: '100%', height: '100vh', overflow: 'hidden' }}>
       <section className='page-container'>
-        <div className='column forum-column'>
+        {/* <div className='column forum-column'>
           <ForumList allForum={allForum} setAllForum={setAllForum}/>
-        </div>
+        </div> */}
         <div className='column goods-column'>
           <GoodsList allGoods={allGoods} setAllGoods={setAllGoods}/>
         </div>

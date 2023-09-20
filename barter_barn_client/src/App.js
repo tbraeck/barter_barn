@@ -6,11 +6,12 @@ import FullPageContainer from './components/FullPageContainer';
 import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
-import ForumCard from './components/ForumCard';
+// import ForumCard from './components/ForumCard';
 import SavedContent from './components/SavedContent';
 import Footer from './components/Footer';
 import { UserContext } from './contexts/UserContext';
-
+import GoodsCard from './components/GoodsCard';
+import ServicesCard from './components/ServicesCard'; 
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
+  console.log(allForum)
 
   useEffect(()=> {
     fetch("http://localhost:3000/goods")
@@ -78,9 +80,9 @@ console.log(allServices)
       <Routes>
           <Route exact path="/" element={<Home /> } />  
           <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices}/> }/>
-          <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
-          <Route path="/goods/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
-          <Route path="/services/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
+          {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
+          <Route path="/goods/:id" element={<GoodsCard allGoods={allGoods} setAllGoods={setAllGoods} />}/>
+          <Route path="/services/:id" element={<ServicesCard allServices={allServices} setAllServices={setAllServices} />}/>
           <Route path="/forums/:id/edit" />
           <Route path="/users/:user_id/posts/:post_id"  />
           <Route path="/user-profile"  element={<SavedContent />} />

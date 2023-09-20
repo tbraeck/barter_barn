@@ -1,51 +1,70 @@
-import React, {useState} from 'react';
-// import './styles/DrawingCard.css';
-// import EditDrawing from './EditDrawing';
+import React, { useState } from 'react';
+import EditGoods from './EditGoods';
+// import './GoodsCardPost.css'; // Import your custom CSS file for styling
 
-const GoodsCardPost = ({ drawing, userDrawings, setUserDrawings, user, categories, handleUpdateSubmit, handleUpdateUserDrawings, handleDeleteClick,  handleSaveDrawingToUserProfile }) => {
+const GoodsCardPost = ({
+  good,
+  userGoods,
+  allGoods,
+  setUserGoods,
+  user,
+  handleUpdateSubmit,
+  handleUpdateUserGoods,
+  handleDeleteClick,
+}) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-
-  const { id, adjective, noun, verb, adverb } = drawing;
-
+  const { id, title, description, image_url, good_or_service } = good;
+console.log(title, description)
   const handleShowEditForm = () => {
     setIsEditFormVisible(true);
-  };
-
-  const handleSave = () => {
-    handleSaveDrawingToUserProfile(drawing);
   };
 
   const handleDelete = () => {
     handleDeleteClick(id);
   };
+
   return (
-
-    <div className='drawingEdit' onDoubleClick={()=> setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
-    {isEditFormVisible? 
-      <EditDrawing user={user} categories={categories} drawing={drawing} handleShowEditForm={handleShowEditForm} userDrawings={userDrawings} setUserDrawings={setUserDrawings} handleUpdateSubmit={handleUpdateSubmit} isEditFormVisible={isEditFormVisible} setIsEditFormVisible={setIsEditFormVisible} handleUpdateUserDrawings={handleUpdateUserDrawings}/> :
-
-    (<div className="drawingCardContainer">
-      <div className='drawingCard'>
-        <h1>The</h1>
-        <h2>{adjective}</h2>
-        <h2>{noun}</h2>
-        <h2>{verb}</h2>
-        <h2>{adverb}!</h2>
-        <button onClick={handleSave} className='crudButton'>
-          SAVE
-        </button>
-        <button onClick={handleDelete} className='crudButton'>
-          DELETE
-        </button>
-        <button onClick={handleShowEditForm} className='crudButton'>
-          EDIT
-        </button>
-       
-      </div>
-    </div>)}
+    <div
+      className={`goodsCard ${isEditFormVisible ? 'editing' : ''}`}
+      onDoubleClick={() =>
+        setIsEditFormVisible((isEditFormVisible) => !isEditFormVisible)
+      }
+    >
+      {isEditFormVisible ? (
+        <EditGoods
+          user={user}
+          allGoods={allGoods}
+          good={good}
+          handleShowEditForm={handleShowEditForm}
+          userGoods={userGoods}
+          setUserGoods={setUserGoods}
+          handleUpdateSubmit={handleUpdateSubmit}
+          isEditFormVisible={isEditFormVisible}
+          setIsEditFormVisible={setIsEditFormVisible}
+          handleUpdateUserGoods={handleUpdateUserGoods}
+        />
+      ) : (
+        <div className="goodsCardContainer">
+          <div className="goodsCardContent">
+            <h1 className="goodsCardTitle">PRODUCT: {title}</h1>
+            <h2 className="goodsCardDescription">DESCRIPTION: {description}</h2>
+            <h2 className="goodsCardDescription">IMAGE: {image_url}</h2>
+            <h2 className="goodsCardDescription">SERVICE NEEDED: {good_or_service}</h2>
+            <button className="goodsCardButton btn btn-secondary">SAVE</button>
+            <button onClick={handleDelete} className="goodsCardButton btn btn-secondary">
+              DELETE
+            </button>
+            <button
+              onClick={handleShowEditForm}
+              className="goodsCardButton btn btn-secondary"
+            >
+              EDIT
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default GoodsCardPost;
-

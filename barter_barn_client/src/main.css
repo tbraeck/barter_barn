@@ -439,6 +439,39 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   }
 }
 
+.goodsCard {
+  border: 2px solid #0e0d0d;
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+}
+
+.goodsCard.editing {
+  /* Add styles for editing mode if needed */
+}
+
+.goodsCardContainer {
+  /* Add styles for the card container */
+}
+
+.goodsCardContent {
+  /* Add styles for the card content */
+}
+
+.goodsCardTitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.goodsCardDescription {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.goodsCardButton {
+  margin-top: 10px;
+  margin: 20px;
+}
 
 
 

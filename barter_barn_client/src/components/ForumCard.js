@@ -10,17 +10,17 @@ const ForumCard = ({allForum, setAllForum, handleAdd}) => {
     comments: []
 })
 const [userPosts, setUserPosts] = useState([])
-const [userComments, setUserComments] = useState([])
+// const [userComments, setUserComments] = useState([])
 
-console.log(allForum)
+// console.log(allForum)
 console.log(forum)
 
 
-console.log( "UserPosts:", userPosts)
+// console.log( "UserPosts:", userPosts)
 
 const { user } = useContext(UserContext);
 
-const {id, userId, postId, commentId} = useParams()
+const {id, userId, postId} = useParams()
 
 const parsedUserId = parseInt(userId, 10);
 
@@ -56,30 +56,30 @@ const handleSavePostsToUserProfile = (post) => {
     });
 };
 
-const handleSaveCommentsToUserProfile = (comment) => {
-  fetch(`http://localhost:3000/users/${user.id}/comments`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(comment),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to save comment to user profile');
-      }
-    })
-    .then((savedComment) => {
-      setUserPosts([...userComments, savedComment]); 
-      handleUpdateSubmit(savedComment); 
-      console.log('Comment saved to user profile:', savedComment);
-    })
-    .catch((error) => {
-      console.error('Error saving post:', error);
-    });
-};
+// const handleSaveCommentsToUserProfile = (comment) => {
+//   fetch(`http://localhost:3000/users/${user.id}/comments`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(comment),
+//   })
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       } else {
+//         throw new Error('Failed to save comment to user profile');
+//       }
+//     })
+//     .then((savedComment) => {
+//       setUserPosts([...userComments, savedComment]); 
+//       handleUpdateSubmit(savedComment); 
+//       console.log('Comment saved to user profile:', savedComment);
+//     })
+//     .catch((error) => {
+//       console.error('Error saving post:', error);
+//     });
+// };
 
 const handleDeleteClick = (user_id, post_id) => {
   fetch(`http://localhost:3000/users/${user_id}/drawings/${post_id}`, {
@@ -119,10 +119,12 @@ const forumPosts = forum.posts && forum.posts.map((post) => (
     <PostCard
       post={post}
       user={{ id: parsedUserId }}
-      forum={forum}
+      userPosts={userPosts}
+      setUserPosts={setUserPosts}
       allForum={allForum}
       handleDeleteClick={handleDeleteClick}
       handleUpdateSubmit={handleUpdateSubmit}
+      // handleUpdateUserPosts={handleUpdateUserPosts}
       handleSavePostToUserProfile={handleSavePostsToUserProfile}
     />
   </div>

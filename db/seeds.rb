@@ -81,6 +81,7 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
       image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
       user: User.all.sample,  
       forum: Forum.all.sample 
     )
@@ -93,6 +94,7 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
       title: Faker::House.furniture,
       description: Faker::Construction.material,
       image_url: Faker::Internet.url,
+      good_or_service: Faker::Construction.trade,
       user: User.all.sample,  
       forum: Forum.all.sample 
     )

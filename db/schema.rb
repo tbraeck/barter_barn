@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_18_231035) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_19_210129) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_231035) do
     t.integer "forum_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "good_or_service"
     t.index ["forum_id"], name: "index_goods_on_forum_id"
     t.index ["user_id"], name: "index_goods_on_user_id"
   end
@@ -97,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_231035) do
     t.integer "forum_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "good_or_service"
     t.index ["forum_id"], name: "index_services_on_forum_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
