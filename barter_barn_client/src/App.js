@@ -6,18 +6,20 @@ import FullPageContainer from './components/FullPageContainer';
 import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
-// import ForumCard from './components/ForumCard';
 import SavedContent from './components/SavedContent';
 import Footer from './components/Footer';
-import { UserContext } from './contexts/UserContext';
 import GoodsCard from './components/GoodsCard';
 import ServicesCard from './components/ServicesCard'; 
+import { UserContext } from './contexts/UserContext';
+import FreeStuffList from './components/FreeStuffList';
 
 
 function App() {
   const [allForum, setAllForum] = useState([]);
   const [allGoods, setAllGoods] = useState([]);
   const [allServices, setAllServices] = useState([]);
+  const [allFreeStuff, setAllFreeStuff] = useState([]);
+
 
   const {user, setUser} = useContext(UserContext);
 
@@ -29,7 +31,6 @@ function App() {
       .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
-  console.log(allForum)
 
   useEffect(()=> {
     fetch("http://localhost:3000/goods")
@@ -38,7 +39,6 @@ function App() {
       .catch((error) => console.error('Error fetching goods:', error));
 
   }, [])
-console.log(allGoods)
 
 useEffect(()=> {
   fetch("http://localhost:3000/services")
@@ -47,8 +47,16 @@ useEffect(()=> {
     .catch((error) => console.error('Error fetching services:', error));
 
 }, [])
-console.log(allServices)
-  // const handleAdd = (newPost) => {
+
+useEffect(()=> {
+  fetch("http://localhost:3000/free_stuffs")
+    .then((res)=> res.json())
+    .then((data) => setAllFreeStuff(data))
+    .catch((error) => console.error('Error fetching free stuff:', error));
+
+}, [])
+
+// const handleAdd = (newPost) => {
   //   const newPostArray = [...allForum, newPost]
   //   setAllForum(newPostArray)
   //   }
@@ -76,15 +84,15 @@ console.log(allServices)
     <div className="header">
           <Header user={user} setUser={setUser} handleLogout={handleLogout} />
     </div>
-    {/* <div className='welcomeMsg'> */}
       <Routes>
           <Route exact path="/" element={<Home /> } />  
           <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices}/> }/>
           {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
           <Route path="/goods/:id" element={<GoodsCard allGoods={allGoods} setAllGoods={setAllGoods} />}/>
           <Route path="/services/:id" element={<ServicesCard allServices={allServices} setAllServices={setAllServices} />}/>
+          <Route path="/free_stuffs"  element={<FreeStuffList allFreeStuff={allFreeStuff} setAllFreeStuff={setAllFreeStuff} /> }/>
           <Route path="/forums/:id/edit" />
-          <Route path="/users/:user_id/posts/:post_id"  />
+          <Route path="/users/:user_id/comments/:comment_id"  />
           <Route path="/user-profile"  element={<SavedContent />} />
       </Routes>
     {/* </div> */}

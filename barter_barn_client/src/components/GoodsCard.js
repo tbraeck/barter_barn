@@ -11,7 +11,6 @@ const GoodsCard = ({ allGoods }) => {
 })
 const [userGoods, setUserGoods] = useState([])
 
-    console.log(allGoods)
         
     const { user } = useContext(UserContext);
     

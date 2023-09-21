@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 
 const ServicesList = ({allServices}) => {
-  console.log(allServices)
 
   const serviceItems = allServices.map((service) => (
     <div key={service.id}>

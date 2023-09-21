@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 
 const GoodsList = ({allGoods}) => {
-  console.log(allGoods)
 
   const goodItems = allGoods.map((good) => (
     <div key={good.id}>

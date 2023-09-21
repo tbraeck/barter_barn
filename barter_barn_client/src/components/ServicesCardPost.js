@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
-import EditGoods from './EditGoods';
+import EditServices from './EditServices';
 // import './GoodsCardPost.css'; // Import your custom CSS file for styling
 
-const GoodsCardPost = ({
-  good,
-  userGoods,
-  allGoods,
-  setUserGoods,
+const ServicesCardPost = ({
+  service,
+  userServices,
+  allServices,
+  setUserServices,
   user,
   handleUpdateSubmit,
-  handleUpdateUserGoods,
-  handleDeleteClick,
+  handleUpdateUserServices,
+  handleDeleteClickServices,
 }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-  const { id, title, description, image_url, good_or_service } = good;
-  const capitalizedTitle = title.toUpperCase();
+  const { id, title, description, image_url, good_or_service } = service;
 
   const handleShowEditForm = () => {
     setIsEditFormVisible(true);
   };
 
   const handleDelete = () => {
-    handleDeleteClick(id);
+    handleDeleteClickServices(id);
   };
 
   return (
@@ -32,25 +31,25 @@ const GoodsCardPost = ({
       }
     >
       {isEditFormVisible ? (
-        <EditGoods
+        <EditServices
           user={user}
-          allGoods={allGoods}
-          good={good}
+          allServices={allServices}
+          service={service}
           handleShowEditForm={handleShowEditForm}
-          userGoods={userGoods}
-          setUserGoods={setUserGoods}
+          userServices={userServices}
+          setUserServices={setUserServices}
           handleUpdateSubmit={handleUpdateSubmit}
           isEditFormVisible={isEditFormVisible}
           setIsEditFormVisible={setIsEditFormVisible}
-          handleUpdateUserGoods={handleUpdateUserGoods}
+          handleUpdateUserServices={handleUpdateUserServices}
         />
       ) : (
         <div className="goodsCardContainer">
           <div className="goodsCardContent">
-            <h1 className="goodsCardTitle">WHAT I OFFER: {capitalizedTitle}</h1>
-            <h2 className="goodsCardDescription">DESCRIPTION: {description}</h2>
-            <h2 className="goodsCardDescription">IMAGE: {image_url}</h2>
-            <h2 className="goodsCardDescription">SERVICE NEEDED: {good_or_service}</h2>
+            <h1 className="goodsCardTitle">WHAT I OFFER: {title}</h1>
+            <h2 className="goodsCardDescription"><em>DESCRIPTION:</em> {description}</h2>
+            <h2 className="goodsCardDescription"><em>IMAGE:</em> {image_url}</h2>
+            <h2 className="goodsCardDescription"><em>GOOD NEEDED:</em> {good_or_service}</h2>
             <button className="goodsCardButton btn btn-secondary">SAVE</button>
             <button onClick={handleDelete} className="goodsCardButton btn btn-secondary">
               DELETE
@@ -68,4 +67,4 @@ const GoodsCardPost = ({
   );
 };
 
-export default GoodsCardPost;
+export default ServicesCardPost;

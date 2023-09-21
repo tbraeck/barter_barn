@@ -13,7 +13,7 @@ const NavBar = ({user, handleLogout}) => {
       }
     })
   }
-console.log(user)
+
   return (
     <div className='headerBack'>  
       <div className="btn ">
@@ -32,7 +32,7 @@ console.log(user)
             THINGS TO BARTER
         </button>
       </Link>
-      <Link to="/free" className='btn '>
+      <Link to="/free_stuffs" className='btn '>
         <button  type='button' className='btn btn-secondary'>
             FREE STUFF
         </button>
