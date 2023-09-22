@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_19_210129) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_21_190055) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_210129) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -103,6 +103,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_210129) do
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
+  create_table "user_comments", force: :cascade do |t|
+    t.string "body"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_comments_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
@@ -123,4 +131,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_19_210129) do
   add_foreign_key "posts", "users"
   add_foreign_key "services", "forums"
   add_foreign_key "services", "users"
+  add_foreign_key "user_comments", "users"
 end

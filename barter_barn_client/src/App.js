@@ -19,6 +19,7 @@ function App() {
   const [allGoods, setAllGoods] = useState([]);
   const [allServices, setAllServices] = useState([]);
   const [allFreeStuff, setAllFreeStuff] = useState([]);
+  // const [userComments, setUserComments] = useState([]);
 
 
   const {user, setUser} = useContext(UserContext);
@@ -56,6 +57,48 @@ useEffect(()=> {
 
 }, [])
 
+// const handleSaveCommentsToUserProfile = (comment) => {
+//   fetch(`http://localhost:3000/users/${user.id}/comments`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(comment),
+//   })
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       } else {
+//         throw new Error('Failed to save comment to user profile');
+//       }
+//     })
+//     .then((savedComment) => {
+//       setUserComments([...userComments, savedComment]); 
+//       handleUpdateSubmit(savedComment); 
+//       console.log('Comment saved to user profile:', savedDrawing);
+//     })
+//     .catch((error) => {
+//       console.error('Error saving comment:', error);
+//     });
+// };
+
+// const handleUpdateSubmit = (_id, updatedDrawing) => {
+//   fetch(`http://localhost:3000/users/${user.id}/user_drawings/${drawing_id}`, {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(updatedDrawing),
+//   })
+//     .then(r => r.json())
+//     .then(savedDrawing => {
+//       console.log(savedDrawing)
+//       const updatedUserDrawings = userDrawings.map(drawing =>
+//         drawing.id === drawingId ? savedDrawing : drawing
+//       );
+//       setUserDrawings(updatedUserDrawings);
+//     });
+// };
 // const handleAdd = (newPost) => {
   //   const newPostArray = [...allForum, newPost]
   //   setAllForum(newPostArray)

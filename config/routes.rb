@@ -29,8 +29,8 @@ patch "/users/:user_id/posts/:post_id", to: "user_posts#update"
 
 get "/users/:user_id/comments", to: "user_comments#index"
 post "/users/:user_id/comments", to: "user_comments#create"
-delete "users/:user_id/comments/:comment_id", to: "user_comments#destroy"
-patch "/users/:user_id/posts/:post_id", to: "user_comments#update"
+delete '/users/:user_id/user_comments/:comment_id', to: 'user_comments#destroy'
+patch "/users/:user_id/posts/:comment_id", to: "user_comments#update"
 
   # get  "/login", to: "sessions#new" 
   post "/login", to: "sessions#create"

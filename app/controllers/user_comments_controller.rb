@@ -9,12 +9,12 @@ class UserCommentsController < ApplicationController
   end
 
   def show
-    @user_comment = User.find(params[:id])
+    # @user_comment = User.find(params[:id])
     render json: @user_comment
   end
 
   def create
-    @user_comment = @user.user_comments.build(user_comment_params)
+    @user_comment = @user.user_comments.create!(user_comment_params)
     if @user_comment.save
       render json: @user_comment, status: :created
     else
@@ -46,6 +46,6 @@ class UserCommentsController < ApplicationController
   end
 
   def user_comment_params
-    params.require(:user_comment).permit(:content) # Replace with the actual permitted parameters
+    params.require(:user_comment).permit(:body, :user_id, ) 
   end
-end
+end 
