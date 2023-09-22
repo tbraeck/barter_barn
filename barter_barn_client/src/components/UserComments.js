@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import UserSavedCard from './UserSavedCard';
-// import './styles/UserDrawings.css';
+import FreeStuffCard from './FreeStuffCard';
+import FreeStuffList from './FreeStuffList';
 
 const UserComments = ({ user, handleSaveDrawingToUserProfile }) => {
-  const [userComments, setUserComments] = useState([])
- 
+  const {userComments, setUserComments} = useState([])
+
+
   useEffect(() => {
-    fetch(`http://localhost:3000/users/${user.id}/user_comments`)
+    fetch(`http://localhost:3000/users/${user.id}/comments`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -58,7 +59,7 @@ const handleUpdateUserComments = (updatedComment) => {
     <div className="drawingList">
       {userComments.map((comment) => (
         <div key={comment.id}>
-       <UserSavedCard
+       <FreeStuffCard
             comment={comment}
             handleDeleteClick={() => handleDelete(comment.id)}
             user={user}

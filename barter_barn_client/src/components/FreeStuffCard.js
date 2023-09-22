@@ -1,142 +1,80 @@
-  import React, { useState } from 'react';
-  import EditFreeStuff from './EditFreeStuff';
-  // import './GoodsCardPost.css'; // Import your custom CSS file for styling
+import React, { useEffect, useState, useContext } from 'react';
+import FreeStuffCard from './FreeStuffCardPost';
+import { useParams } from 'react-router-dom';
+import { UserContext } from '../contexts/UserContext';
 
-  const FreeStuffCard = ({
-    stuff,
-    allFreeStuff,
-    userFreeStuff,
-    setUserFreeStuff,
-    user,
-    user_comments,
-    handleUpdateSubmit,
-    handleUpdateUserFreeStuff,
-    handleDeleteClickFreeStuff,
-    handleSaveComment}) => {
-    const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-    const [isCommentFormVisible, setIsCommentFormVisible] = useState(false);
-    const [comments, setComments] = useState([]);
-    const [comment, setComment] = useState(''); // Add state to store comment text
+const FreeStuffCardPost = ({ allFreeStuff, setAllFreeStuff, handleAdd }) => {
+  // const [freeStuff, setFreeStuff] = useState({});
+  const [userFreeStuff, setUserFreeStuff] = useState([]);
+  const { user } = useContext(UserContext);
+  const { id } = useParams();
 
-    const { id, body, image_url } = stuff;
-  // console.log(user)
-    const capitalizedBody = body.toUpperCase();
+  useEffect(() => {
+    const selectedFreeStuff = allFreeStuff.find((stuff) => stuff.id === parseInt(id));
+    if (selectedFreeStuff) {
+      setAllFreeStuff(selectedFreeStuff);
+    }
+  }, [allFreeStuff, setAllFreeStuff, id]);
 
-    const handleShowEditForm = () => {
-      setIsEditFormVisible(true);
-    };
-
-    const handleDelete = () => {
-      handleDeleteClickFreeStuff(id);
-    };
-
-    const handleCommentButtonClick = () => {
-      setIsCommentFormVisible(!isCommentFormVisible);
-    };
-
-    // const handleSave = () => {
-    //   handleSaveCommentsToUserProfile(comment)
-    // }
-
-    const handleCommentSubmit = () => {
-    
-      const newComment = {
-        body: comment,
-        user_id: user.id, // Add user id
-        freeStuffId: id, // Add the id of the free stuff
-      };
-
-      // Make an API call to save the comment
-      fetch(`http://localhost:3000/users/${user.id}/user_comments  `, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newComment),
+  const handleSaveComment = (comment) => {
+    // Make an API call to save the comment
+    fetch(`http://localhost:3000/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(comment),
+    })
+      .then((response) => response.json())
+      .then((savedComment) => {
+        // Handle the saved comment (e.g., add it to userFreeStuff state)
+        setUserFreeStuff([...userFreeStuff, savedComment]);
       })
-        .then((response) => response.json())
-        .then((savedComment) => {
-          setComments([...user_comments, savedComment]);
-          setComment('');
-          setIsCommentFormVisible(false);
-        })
-        .catch((error) => {
-          console.error('Error saving comment:', error);
-        });
-    };  
+      .catch((error) => {
+        console.error('Error saving comment:', error);
+      });
+  };
+  
+  // In your FreeStuffCard component, you can call this function when a comment is submitted:
+  
 
+  const freeStuffPosts = allFreeStuff.map((stuff) => (
+    <div key={stuff.id}>
+      <FreeStuffCard
+        stuff={stuff}
+        allFreeStuff={allFreeStuff}
+        userFreeStuff={userFreeStuff}
+        setUserFreeStuff={setUserFreeStuff}
+        user={user}
+        handleSaveComment={handleSaveComment}
+        // handleSaveComment={handleSaveComment} // Pass the function to save comments
+      />
+    </div>
+  ));
 
-    return (
-      <div
-        className={`goodsCard ${isEditFormVisible ? 'editing' : ''}`}
-        onDoubleClick={() => setIsEditFormVisible(!isEditFormVisible)}
-      >
-        {isEditFormVisible ? (
-          <EditFreeStuff
-          user={user}
-          allFreeStuff={allFreeStuff}
-          stuff={stuff}
-          handleShowEditForm={handleShowEditForm}
-          userFreeStuff={userFreeStuff}
-          setUserFreeStuff={setUserFreeStuff}
-          handleUpdateSubmit={handleUpdateSubmit}
-          isEditFormVisible={isEditFormVisible}
-          setIsEditFormVisible={setIsEditFormVisible}
-          handleUpdateUserFreeStuff={handleUpdateUserFreeStuff}
-        />
-        ) : (
-          <div className="goodsCardContainer">
-            <div className="goodsCardContent">
-              <h1 className="goodsCardTitle">WHAT I OFFER: {capitalizedBody}</h1>
-              <h2 className="goodsCardDescription">IMAGE: {image_url}</h2>
-              <button
-                className="goodsCardButton btn btn-secondary"
-                onClick={handleCommentButtonClick}
-              >
-                Comment
-              </button>
-
-              {isCommentFormVisible && (
-                <div>
-                  <textarea
-                    rows="3"
-                    placeholder="Enter your comment..."
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                  <button
-                    className="goodsCardButton btn btn-secondary"
-                    onClick={handleCommentSubmit}
-                  >
-                    Submit Comment
-                  </button>
-                </div>
-              )}
-              {/* Render comments here */}
-              <div className="comments">
-                {userFreeStuff
-                  .filter((comment) => comment.freeStuffId === id)
-                  .map((comment) => (
-                    <div key={comment.id}>{comment.text}</div>
-                  ))}
-              </div>
-              <button
-                onClick={handleDelete}
-                className="goodsCardButton btn btn-secondary"
-              >
-                DELETE
-              </button>
-              <button
-                onClick={handleShowEditForm}
-                className="goodsCardButton btn btn-secondary"
-              >
-                EDIT
-              </button>
+  return (
+    <div className="forum-container">
+      <div className="forumBox">
+        <div className="subTitle">
+          <div className="forumName">
+            <h1>
+              <em>{allFreeStuff.name}</em>
+            </h1>
+          </div>
+        </div>
+        <div className="grid-container">
+          <div className="postList">
+            <div className="postGrid">
+              <ul className="forumPosts">{freeStuffPosts}</ul>
             </div>
           </div>
-        )}
+          <div className="newUserForm">
+            {/* Add any content for the newUserForm */}
+          </div>
+        </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-  export default FreeStuffCard;
+export default FreeStuffCardPost;

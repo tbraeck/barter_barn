@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 import GoodsCard from './components/GoodsCard';
 import ServicesCard from './components/ServicesCard'; 
 import { UserContext } from './contexts/UserContext';
-import FreeStuffList from './components/FreeStuffList';
+import FreeStuffList from './components/FreeStuffCard';
 
 
 function App() {
@@ -19,6 +19,7 @@ function App() {
   const [allGoods, setAllGoods] = useState([]);
   const [allServices, setAllServices] = useState([]);
   const [allFreeStuff, setAllFreeStuff] = useState([]);
+  
   // const [userComments, setUserComments] = useState([]);
 
 
@@ -129,7 +130,7 @@ useEffect(()=> {
     </div>
       <Routes>
           <Route exact path="/" element={<Home /> } />  
-          <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices}/> }/>
+          <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices} allFreeStuff={allFreeStuff} setAllFreeStuff={setAllFreeStuff}/> }/>
           {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
           <Route path="/goods/:id" element={<GoodsCard allGoods={allGoods} setAllGoods={setAllGoods} />}/>
           <Route path="/services/:id" element={<ServicesCard allServices={allServices} setAllServices={setAllServices} />}/>

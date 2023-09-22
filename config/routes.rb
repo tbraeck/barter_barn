@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
   resources :forums, only: [:index, :show]
   resources :comments, only: [:index, :show, :create, :update, :destroy]
+  resources :comments do
+    post 'dual_save', on: :collection
+  end
   resources :posts, only: [:index, :show, :create, :update, :destroy]
   resources :users, only: [:index, :show, :create]
 

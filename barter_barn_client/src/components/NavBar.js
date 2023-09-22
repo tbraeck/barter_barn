@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const NavBar = ({user, handleLogout}) => {
+const NavBar = ({user, userComments, setUserComments,handleLogout}) => {
 
   const handleLogoutClick = () => {
     fetch("http://localhost:3000/logout", {
@@ -32,11 +32,11 @@ const NavBar = ({user, handleLogout}) => {
             THINGS TO BARTER
         </button>
       </Link>
-      <Link to="/free_stuffs" className='btn '>
+      {/* <Link to="/free_stuffs" className='btn '>
         <button  type='button' className='btn btn-secondary'>
             FREE STUFF
         </button>
-      </Link>
+      </Link> */}
 
       <div className='btn '>
           <p>Welcome, {user.username}!</p>
