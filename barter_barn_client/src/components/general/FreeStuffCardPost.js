@@ -1,5 +1,5 @@
   import React, { useState } from 'react';
-  import EditFreeStuff from './EditFreeStuff';
+  import EditFreeStuff from './general/EditFreeStuff';
   // import './GoodsCardPost.css'; // Import your custom CSS file for styling
 
   const FreeStuffCard = ({

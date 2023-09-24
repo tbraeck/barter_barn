@@ -7,7 +7,7 @@ import Home from './components/Home';
 import Header from './components/Header';
 import Login from './components/Login';
 import SavedContent from './components/SavedContent';
-import Footer from './components/Footer';
+import Footer from './components/general/Footer';
 import GoodsCard from './components/GoodsCard';
 import ServicesCard from './components/ServicesCard'; 
 import { UserContext } from './contexts/UserContext';

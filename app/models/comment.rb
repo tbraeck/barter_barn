@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
   belongs_to :user
-  belongs_to :free_stuff
+  belongs_to :post
 
 end

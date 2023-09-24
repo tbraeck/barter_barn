@@ -35,6 +35,11 @@ post "/users/:user_id/comments", to: "user_comments#create"
 delete '/users/:user_id/user_comments/:comment_id', to: 'user_comments#destroy'
 patch "/users/:user_id/posts/:comment_id", to: "user_comments#update"
 
+get "/users/:user_id/goods", to: "user_goods#index"
+post "/users/:user_id/goods", to: "user_goods#create"
+delete '/users/:user_id/user_goods/:good_id', to: 'user_goods#destroy'
+patch "/users/:user_id/goods/:good_id", to: "user_goods#update"
+
   # get  "/login", to: "sessions#new" 
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

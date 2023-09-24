@@ -61,9 +61,7 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
       post: Post.all.sample 
     )
   end
-
-
-
+  
   puts "🤡 Seeding Comments..." 
 
   30.times do
