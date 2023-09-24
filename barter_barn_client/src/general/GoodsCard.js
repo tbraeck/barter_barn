@@ -6,15 +6,13 @@ import { useParams } from 'react-router-dom'
 // import EditPost from './EditPost';
 
 const GoodsCard = ({ allGoods }) => {
-    const [goods, setGoods] = useState({
-       
-})
-const [userGoods, setUserGoods] = useState([])
+  const [goods, setGoods] = useState({});
+  const [userGoods, setUserGoods] = useState([])
 
         
     const { user } = useContext(UserContext);
     
-    const {id, userId, goodId} = useParams()
+    const {id, userId, good_id} = useParams()
     
     const parsedUserId = parseInt(userId, 10);
     
@@ -25,31 +23,30 @@ const [userGoods, setUserGoods] = useState([])
       }
     }, [allGoods, id])
     
-    // const handleSaveGoodsToUserProfile = (good) => {
-    //   fetch(`http://localhost:3000/users/${user.id}/goods`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(good),
-    //   })
-    //     .then((response) => {
-    //       if (response.ok) {
-    //         return response.json();
-    //       } else {
-    //         throw new Error('Failed to save good to user profile');
-    //       }
-    //     })
-    //     .then((savedGood) => {
-    //       setUserGoods([...userGoods, savedGood]); 
-    //       handleUpdateSubmit(savedGood); 
-    //       console.log('Good saved to user profile:', savedGood);
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error saving post:', error);
-    //     });
-    // };
-    
+    const handleSaveGoodToUserProfile = (good) => {
+      fetch(`http://localhost:3000/users/${user.id}/goods`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(good),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to save good to user profile');
+          }
+        })
+        .then((savedGood) => {
+          setUserGoods([...userGoods, savedGood]); 
+          handleUpdateSubmit(savedGood); 
+          console.log('Good saved to user profile:', savedGood);
+        })
+        .catch((error) => {
+          console.error('Error saving post:', error);
+        });
+    };
     
     const handleDeleteClick = (user_id, good_id) => {
       fetch(`http://localhost:3000/users/${user_id}/goods/${good_id}`, {
@@ -59,15 +56,15 @@ const [userGoods, setUserGoods] = useState([])
         }
       })
       .then(() => {
-        const deleteGood = allGoods.filter(g => g.id !== id)
-        const updatedGoods = allGoods.map( g => g.id === goods.id ? {...g, goods: deleteGood} : g)
+        const deleteGood = allGoods.filter(g => g.id !== good_id)
+        const updatedGoods = allGoods.map( g => g.id === id ? {...g, goods: deleteGood} : g)
         setGoods(updatedGoods)
         handleUpdateSubmit(id, deleteGood)
       })
       }
      
       const handleUpdateSubmit = (good_id, updatedGood) => {
-        fetch(`http://localhost:3000/users/${user.id}/user_goods/${good_id}`, {
+        fetch(`http://localhost:3000/users/${user.id}/goods/${good_id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -76,9 +73,8 @@ const [userGoods, setUserGoods] = useState([])
         })
           .then(r => r.json())
           .then(savedGood => {
-            console.log(savedGood)
             const updatedUserGoods = userGoods.map(good =>
-              good.id === goodId ? savedGood : good
+              good.id === good_id ? savedGood : good
             );
             setUserGoods(updatedUserGoods);
           });
@@ -89,13 +85,11 @@ const [userGoods, setUserGoods] = useState([])
       <div key={good.id}>
         <GoodsCardPost
           good={good}
-          user={{ id: parsedUserId }}
-          // forum={forum}
-          // allForum={allForum}
+          user={user}
           handleDeleteClick={handleDeleteClick}
           handleUpdateSubmit={handleUpdateSubmit}
-          // handleSavePostToUserProfile={handleSavePostsToUserProfile}
-        />
+          handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
+         />
       </div>
     ))
     

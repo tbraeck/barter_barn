@@ -1,7 +1,7 @@
 import React from 'react';
-import ServicesList from './ServicesList';
-import GoodsList from './GoodsList';
-import FreeStuffList from './FreeStuffCard';
+import ServicesList from './general/ServicesList';
+import GoodsList from './general/GoodsList';
+import FreeStuffList from './general/FreeStuffList';
 
 const FullPageContainer = ({ allFreeStuff, setAllFreeStuff, allForum, setAllForum, allGoods, setAllGoods, allServices, setAllServices }) => {
   return (

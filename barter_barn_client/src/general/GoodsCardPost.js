@@ -10,8 +10,10 @@ const GoodsCardPost = ({
   user,
   handleUpdateSubmit,
   handleUpdateUserGoods,
-  handleDeleteClick,
+  handleSaveGoodToUserProfile,
+  handleDeleteClick
 }) => {
+console.log(user)
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const { id, title, description, image_url, good_or_service } = good;
   const capitalizedTitle = title.toUpperCase();
@@ -19,6 +21,10 @@ const GoodsCardPost = ({
   const handleShowEditForm = () => {
     setIsEditFormVisible(true);
   };
+
+  const handleSave = () => {
+    handleSaveGoodToUserProfile(good);
+  };  
 
   const handleDelete = () => {
     handleDeleteClick(id);
@@ -51,7 +57,7 @@ const GoodsCardPost = ({
             <h2 className="goodsCardDescription">DESCRIPTION: {description}</h2>
             <h2 className="goodsCardDescription">IMAGE: {image_url}</h2>
             <h2 className="goodsCardDescription">SERVICE NEEDED: {good_or_service}</h2>
-            <button className="goodsCardButton btn btn-secondary">SAVE</button>
+            <button onClick={handleSave}  className="goodsCardButton btn btn-secondary">SAVE</button>
             <button onClick={handleDelete} className="goodsCardButton btn btn-secondary">
               DELETE
             </button>

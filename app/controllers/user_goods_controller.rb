@@ -1,6 +1,6 @@
 class UserGoodsController < ApplicationController
     before_action :set_user
-    before_action :set_user_goods, only: [:show, :update, :destroy]
+    before_action :set_user_goods, only: [:show, :edit, :update, :destroy]
     skip_before_action :authorize
 
     def index
@@ -13,7 +13,7 @@ class UserGoodsController < ApplicationController
     end
     
     def create
-      @user_goods = @user.user_goods.create(user_good_params)
+      @user_good = @user.user_goods.create!(user_good_params)
       if @user_good.save
         render json: @user_good, status: :created
       else
@@ -22,8 +22,10 @@ class UserGoodsController < ApplicationController
     end
     
     def update
-      if @user_goods.update(user_good_params)
-        render json: @user_goods
+      @user_good = @user.user_goods.find_by(id: params[:good_id])
+
+      if @user_good.update(user_good_params)
+        render json: @user_good
       else
         render json: @user_good.errors, status: :unprocessable_entity
       end
@@ -39,12 +41,13 @@ class UserGoodsController < ApplicationController
     def set_user
       @user = User.find(params[:user_id])
     end
-    
-    def set_user_good
+
+    def set_user_goods
       @user_good = @user.user_goods.find(params[:id])
     end
     
-    def user_goods_params
-      params.require(:user_good).permit(:title, :description, :image_url, :good_or_service )
+    def user_good_params
+      params.require(:user_good).permit(:title, :description, :image_url, :good_or_service, :forum_id, :datetime, :good_id)
     end
+    
   end

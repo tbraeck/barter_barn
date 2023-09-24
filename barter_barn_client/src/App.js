@@ -2,16 +2,16 @@
 import React, {useState, useEffect, useContext} from 'react'; 
 import './main.css';
 import {Routes, Route} from 'react-router-dom';
-import FullPageContainer from './components/FullPageContainer';
-import Home from './components/Home';
-import Header from './components/Header';
-import Login from './components/Login';
-import SavedContent from './components/SavedContent';
-import Footer from './components/general/Footer';
-import GoodsCard from './components/GoodsCard';
-import ServicesCard from './components/ServicesCard'; 
+import FullPageContainer from './FullPageContainer';
+import Home from './general/Home';
+import Header from './general/Header';
+import Login from './general/Login';
+import ServicesCard from './general/ServicesCard';
+import Footer from './general/Footer';
+import GoodsCard from './general/GoodsCard';
+import SavedContent from './general/SavedContent';
 import { UserContext } from './contexts/UserContext';
-import FreeStuffList from './components/FreeStuffCard';
+import FreeStuffList from './general/FreeStuffList';
 
 
 function App() {

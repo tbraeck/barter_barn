@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :create]
 
   resources :users do 
+    resources :goods, controller: 'user_goods'
+
     resources :user_posts
     resources :user_comments
     resources :user_free_stuff
@@ -37,10 +39,9 @@ patch "/users/:user_id/posts/:comment_id", to: "user_comments#update"
 
 get "/users/:user_id/goods", to: "user_goods#index"
 post "/users/:user_id/goods", to: "user_goods#create"
-delete '/users/:user_id/user_goods/:good_id', to: 'user_goods#destroy'
+delete '/users/:user_id/goods/:good_id', to: 'user_goods#destroy'
 patch "/users/:user_id/goods/:good_id", to: "user_goods#update"
 
-  # get  "/login", to: "sessions#new" 
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
