@@ -36,6 +36,7 @@ class GoodsController < ApplicationController
   # DELETE /goods/1
   def destroy
     @good.destroy
+    head :no_content
   end
 
   private
@@ -46,6 +47,6 @@ class GoodsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def good_params
-      params.require(:good).permit(:title, :description, :image_url, :good_or_service, :forum_id, :user_id)
+      params.require(:good).permit(:title, :description, :image_url, :good_or_service)
     end
 end

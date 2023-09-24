@@ -5,23 +5,26 @@ import { useParams } from 'react-router-dom'
 
 // import EditPost from './EditPost';
 
-const GoodsCard = ({ allGoods }) => {
-  const [goods, setGoods] = useState({});
+const GoodsCard = ({ allGoods, allForum }) => {
+  const [forum, setForum] = useState({
+    goods: []
+  });
   const [userGoods, setUserGoods] = useState([])
+console.log(forum)
 
         
     const { user } = useContext(UserContext);
     
     const {id, userId, good_id} = useParams()
     
-    const parsedUserId = parseInt(userId, 10);
+    // const parsedUserId = parseInt(userId, 10);
     
     useEffect(() => {
-      const selectedGood = allGoods.find(good => good.id === parseInt(id));
-      if(selectedGood) {
-        setGoods(selectedGood)
+      const selectedForum = allForum.find(forum => forum.id === parseInt(id));
+      if(selectedForum) {
+        setForum(selectedForum)
       }
-    }, [allGoods, id])
+    }, [allForum, id])
     
     const handleSaveGoodToUserProfile = (good) => {
       fetch(`http://localhost:3000/users/${user.id}/goods`, {
@@ -48,23 +51,23 @@ const GoodsCard = ({ allGoods }) => {
         });
     };
     
-    const handleDeleteClick = (user_id, good_id) => {
-      fetch(`http://localhost:3000/users/${user_id}/goods/${good_id}`, {
+    const handleDeleteClick = (user_id, id) => {
+      fetch(`http://localhost:3000/users/${user_id}/goods/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": 'application/json'
         }
       })
       .then(() => {
-        const deleteGood = allGoods.filter(g => g.id !== good_id)
-        const updatedGoods = allGoods.map( g => g.id === id ? {...g, goods: deleteGood} : g)
-        setGoods(updatedGoods)
+        const deleteGood = forum.goods.filter(g => g.id !== good_id)
+        const updatedGoods = allForum.map(f => f.id === forum.id ? {...f, goods: deleteGood} : f)
+        setForum(updatedGoods)
         handleUpdateSubmit(id, deleteGood)
       })
       }
      
       const handleUpdateSubmit = (good_id, updatedGood) => {
-        fetch(`http://localhost:3000/users/${user.id}/goods/${good_id}`, {
+        fetch(`http://localhost:3000/users/${user.id}/user_goods/${good_id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -73,6 +76,7 @@ const GoodsCard = ({ allGoods }) => {
         })
           .then(r => r.json())
           .then(savedGood => {
+            console.log(savedGood)
             const updatedUserGoods = userGoods.map(good =>
               good.id === good_id ? savedGood : good
             );
@@ -86,6 +90,7 @@ const GoodsCard = ({ allGoods }) => {
         <GoodsCardPost
           good={good}
           user={user}
+          allForum={allForum}
           handleDeleteClick={handleDeleteClick}
           handleUpdateSubmit={handleUpdateSubmit}
           handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
@@ -99,7 +104,7 @@ const GoodsCard = ({ allGoods }) => {
               <div className="subTitle">
                 <div className="forumName">
                   <h1>
-                    <em>{goods.name}</em>
+                    <em>{forum.name}</em>
                   </h1>
                 </div>
               </div>

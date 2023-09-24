@@ -22,7 +22,7 @@ class UserGoodsController < ApplicationController
     end
     
     def update
-      @user_good = @user.user_goods.find_by(id: params[:good_id])
+      # @user_good = @user.user_goods.find_by(id: params[:good_id])
 
       if @user_good.update(user_good_params)
         render json: @user_good
@@ -47,7 +47,7 @@ class UserGoodsController < ApplicationController
     end
     
     def user_good_params
-      params.require(:user_good).permit(:title, :description, :image_url, :good_or_service, :forum_id, :datetime, :good_id)
+      params.require(:user_good).permit(:title, :description, :image_url, :good_or_service)
     end
-    
+
   end

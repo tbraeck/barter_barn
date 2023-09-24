@@ -23,33 +23,30 @@ puts "🥷👩‍🦰 Seeding users..."
   puts "🥷👩‍🦰 Seeding forum categories..."
 
     Forum.create!([
-      {name: "Will trade carpentry Work"},
-      {name: "Will trade house cleaning Work"},
-      {name: "Will trade plumbing Work"},
-      {name: "Will trade sewing Work"},
-      {name: "Will trade painting Work"},
-      {name: "Will trade lawnwork"},
-      {name: "Will trade accounting Work"}
+      {name: "Goods to Trade"},
+      {name: "Services to Trade"},
+      {name: "Free Stuff"},
+      
     ])
   
   # Fetch all users and forums
-  users = User.all
-  forums = Forum.all
+  # users = User.all
+  # forums = Forum.all
 
-puts "🤡🤠👽🤖 Seeding Forum Categories..." 
+# puts "🤡🤠👽🤖 Seeding Forum Categories..." 
 
-20.times do
-    user = User.all.sample  # Get a random user
-    forum = Forum.all.sample 
+# 20.times do
+#     user = User.all.sample  # Get a random user
+#     forum = Forum.all.sample 
 
-    Post.create!(
-      title: Faker::Lorem.sentence,
-      body: Faker::Lorem.paragraphs.join('\n'),
-      user: User.all.sample,  # Assign a random user to the post
-      forum: Forum.all.sample  # Assign a random forum to the post
+#     Post.create!(
+#       title: Faker::Lorem.sentence,
+#       body: Faker::Lorem.paragraphs.join('\n'),
+#       user: User.all.sample,  # Assign a random user to the post
+#       forum: Forum.all.sample  # Assign a random forum to the post
      
-    )
-  end
+#     )
+#   end
   
   puts "🤖 Seeding Free Stuff..." 
 
@@ -58,8 +55,8 @@ puts "🤡🤠👽🤖 Seeding Forum Categories..."
       body: Faker::Appliance.equipment,
       image_url: Faker::Internet.url,
       user: User.all.sample,  
-      post: Post.all.sample 
-    )
+      forum: Forum.all.sample 
+        )
   end
   
   puts "🤡 Seeding Comments..." 

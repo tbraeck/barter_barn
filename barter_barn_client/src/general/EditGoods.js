@@ -7,9 +7,9 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
         image_url: good.image_url,
         good_or_service: good.good_or_service,
        good_id: good.good_id,
-       forum_id: good.forum_id
     })
-   console.log(user)
+    
+   console.log(good)
     const {title, description, image_url, good_or_service} = goodBody;
 
     const handleGoodChange = (e) => {

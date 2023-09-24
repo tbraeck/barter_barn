@@ -1,5 +1,7 @@
 class Comment < ApplicationRecord
   belongs_to :user
-  belongs_to :post
+  belongs_to :goods
+  belongs_to :services  
+  belongs_to :free_stuffs
 
 end

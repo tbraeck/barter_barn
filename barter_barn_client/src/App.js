@@ -33,6 +33,7 @@ function App() {
       .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
+  console.log(allForum)
 
   useEffect(()=> {
     fetch("http://localhost:3000/goods")
@@ -132,7 +133,7 @@ useEffect(()=> {
           <Route exact path="/" element={<Home /> } />  
           <Route path="/forums"  element={<FullPageContainer allForum={allForum} setAllForum={setAllForum} allGoods={allGoods} setAllGoods={setAllGoods} allServices={allServices} setAllServices={setAllServices} allFreeStuff={allFreeStuff} setAllFreeStuff={setAllFreeStuff}/> }/>
           {/* <Route path="/forums/:id" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/> */}
-          <Route path="/goods/:id" element={<GoodsCard allGoods={allGoods} setAllGoods={setAllGoods} />}/>
+          <Route path="/goods/:id" element={<GoodsCard allGoods={allGoods} setAllGoods={setAllGoods} allForum={allForum} setAllForum={setAllForum} />}/>
           <Route path="/services/:id" element={<ServicesCard allServices={allServices} setAllServices={setAllServices} />}/>
           <Route path="/free_stuffs"  element={<FreeStuffList allFreeStuff={allFreeStuff} setAllFreeStuff={setAllFreeStuff} /> }/>
           <Route path="/forums/:id/edit" />

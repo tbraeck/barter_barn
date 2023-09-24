@@ -2,7 +2,7 @@ class ForumsController < ApplicationController
   skip_before_action :authorize
 
   def index
-    forums = Forum.includes(:posts).all
+    forums = Forum.includes(:goods, :services, :free_stuffs).all
     render json: forums, status: :ok
   end
 

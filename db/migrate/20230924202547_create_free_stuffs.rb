@@ -4,7 +4,7 @@ class CreateFreeStuffs < ActiveRecord::Migration[7.0]
       t.text :body
       t.string :image_url
       t.references :user, null: false, foreign_key: true
-      t.references :post, null: false, foreign_key: true
+      t.references :forum, null: false, foreign_key: true
 
       t.timestamps
     end

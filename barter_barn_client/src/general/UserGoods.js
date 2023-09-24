@@ -49,6 +49,7 @@ const handleUpdateUserGoods = (updatedGood) => {
     const updatedUserGoods = prevUserGoods.map((good) =>
       good.id === updatedGood.id ? updatedGood : good
     );
+    console.log("updatedUSerGoods:", updatedUserGoods)
     return updatedUserGoods;
   });
 };

@@ -6,6 +6,7 @@ const GoodsCardPost = ({
   good,
   userGoods,
   allGoods,
+  allForum,
   setUserGoods,
   user,
   handleUpdateSubmit,
@@ -37,7 +38,7 @@ console.log(user)
         setIsEditFormVisible((isEditFormVisible) => !isEditFormVisible)
       }
     >
-      {isEditFormVisible ? (
+      {isEditFormVisible ? 
         <EditGoods
           user={user}
           allGoods={allGoods}
@@ -48,9 +49,8 @@ console.log(user)
           handleUpdateSubmit={handleUpdateSubmit}
           isEditFormVisible={isEditFormVisible}
           setIsEditFormVisible={setIsEditFormVisible}
-          handleUpdateUserGoods={handleUpdateUserGoods}
-        />
-      ) : (
+          handleUpdateUserGoods={handleUpdateUserGoods}/>
+       : (
         <div className="goodsCardContainer">
           <div className="goodsCardContent">
             <h1 className="goodsCardTitle">WHAT I OFFER: {capitalizedTitle}</h1>
@@ -61,10 +61,7 @@ console.log(user)
             <button onClick={handleDelete} className="goodsCardButton btn btn-secondary">
               DELETE
             </button>
-            <button
-              onClick={handleShowEditForm}
-              className="goodsCardButton btn btn-secondary"
-            >
+            <button onClick={handleShowEditForm} className="goodsCardButton btn btn-secondary">
               EDIT
             </button>
           </div>
