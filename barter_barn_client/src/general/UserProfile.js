@@ -11,13 +11,18 @@ const UserProfile = ({ user, handleSaveGood, handleSavePost, handleSaveComment})
 
   return (
     <div className="userProfile">
-        <h1 className='userNameTitle'> {user.username}'s Comments</h1>
-        <UserComments user={user} user_id={user_id}  handleSaveComment={handleSaveComment}  />
-        <h1 className='userNameTitle'> {user.username}'s Comments</h1>
-        <UserSavedPosts user={user} user_id={user_id}  handleSavePost={handleSavePost}  />
-        <h1 className='userNameTitle'> {user.username}'s Comments</h1>
-
-        <UserGoods user={user} user_id={user_id}  handleSaveGood={handleSaveGood}  />
+      <div>
+          <h1 className='userNameTitle'> {user.username}'s Comments</h1>
+          <UserComments user={user} user_id={user_id}  handleSaveComment={handleSaveComment}  />
+      </div>
+       <div>
+          <h1 className='userNameTitle'> {user.username}'s Comments</h1>
+          <UserSavedPosts user={user} user_id={user_id}  handleSavePost={handleSavePost}  />
+       </div>
+        <div>
+          <h1 className='userNameTitle'> {user.username}'s Comments</h1>
+          <UserGoods user={user} user_id={user_id}  handleSaveGood={handleSaveGood}  />
+        </div>
     </div>
   );
 };

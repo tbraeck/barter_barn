@@ -8,6 +8,15 @@
 require 'faker'
 require 'bcrypt'
 
+puts "🥷👩‍🦰 Seeding forum categories..."
+
+    Forum.create!([
+      {name: "Goods to Trade"},
+      {name: "Services to Trade"},
+      {name: "Free Stuff"},
+      
+    ])
+
 puts "🥷👩‍🦰 Seeding users..."
 
 20.times do
@@ -20,52 +29,16 @@ puts "🥷👩‍🦰 Seeding users..."
     )
   end
   
-  puts "🥷👩‍🦰 Seeding forum categories..."
-
-    Forum.create!([
-      {name: "Goods to Trade"},
-      {name: "Services to Trade"},
-      {name: "Free Stuff"},
-      
-    ])
   
-  # Fetch all users and forums
-  # users = User.all
-  # forums = Forum.all
-
-# puts "🤡🤠👽🤖 Seeding Forum Categories..." 
-
-# 20.times do
-#     user = User.all.sample  # Get a random user
-#     forum = Forum.all.sample 
-
-#     Post.create!(
-#       title: Faker::Lorem.sentence,
-#       body: Faker::Lorem.paragraphs.join('\n'),
-#       user: User.all.sample,  # Assign a random user to the post
-#       forum: Forum.all.sample  # Assign a random forum to the post
-     
-#     )
-#   end
   
   puts "🤖 Seeding Free Stuff..." 
 
-  20.times do 
-    FreeStuff.create!(
+  20.times do
+    free_stuff = FreeStuff.create!(
       body: Faker::Appliance.equipment,
       image_url: Faker::Internet.url,
-      user: User.all.sample,  
-      forum: Forum.all.sample 
-        )
-  end
-  
-  puts "🤡 Seeding Comments..." 
-
-  30.times do
-    Comment.create!(
-      body: Faker::Lorem.sentence,
-      user: User.all.sample, 
-      post: Post.all.sample  
+      user: User.all.sample,
+      forum: Forum.all.sample
     )
   end
 
@@ -94,3 +67,14 @@ puts "🥷👩‍🦰 Seeding users..."
       forum: Forum.all.sample 
     )
   end
+
+
+  puts "🤡 Seeding Comments..."
+  
+  30.times do
+    comment = Comment.new(
+      body: Faker::Lorem.sentence,
+      user: User.all.sample,
+    )
+  end
+  

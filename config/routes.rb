@@ -7,11 +7,13 @@ Rails.application.routes.draw do
   resources :comments, only: [:index, :show, :create, :update, :destroy]
   resources :comments do
     post 'dual_save', on: :collection
-  end
+  end 
   resources :users, only: [:index, :show, :create]
 
   resources :users do 
+    # resources :goods
     resources :goods, controller: 'user_goods'
+
     resources :user_comments
     resources :user_free_stuff
     resources :user_services
@@ -34,6 +36,11 @@ get "/users/:user_id/goods", to: "user_goods#index"
 post "/users/:user_id/goods", to: "user_goods#create"
 delete '/users/:user_id/goods/:good_id', to: 'user_goods#destroy'
 patch "/users/:user_id/goods/:good_id", to: "user_goods#update"
+
+get "/users/:user_id/services", to: "user_services#index"
+post "/users/:user_id/services", to: "user_services#create"
+delete '/users/:user_id/services/:service_id', to: 'user_services#destroy'
+patch "/users/:user_id/services/:service_id", to: "user_services#update"
 
 get "/users/:user_id/free_stuffs", to: "user_free_stuffs#index"
 post "/users/:user_id/free_stuffs", to: "user_free_stuffs#create"

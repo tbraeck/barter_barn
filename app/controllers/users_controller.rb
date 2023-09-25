@@ -3,14 +3,16 @@ class UsersController < ApplicationController
 
 
   def index 
-    users = User.includes(:posts).all
-    render json: users, status: :ok
+    users = User.includes(:goods, :services, :free_stuffs).all
+    render json: users, include: [:goods, :services, :free_stuffs], status: :ok
   end
   
+  
   def show
-    @current_user = User.find(params[:id])
-    render json: @current_user
+    @current_user = User.includes(:goods, :services, :free_stuffs).find(params[:id])
+    render json: @current_user, include: [:goods, :services, :free_stuffs]
   end
+  
 
   # POST /users
   def create
