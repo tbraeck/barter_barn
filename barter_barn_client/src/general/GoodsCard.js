@@ -5,18 +5,17 @@ import { useParams } from 'react-router-dom'
 
 // import EditPost from './EditPost';
 
-const GoodsCard = ({ allGoods, allForum }) => {
-  const [forum, setForum] = useState({
-    goods: []
-  });
+const GoodsCard = ({ setAllForum, allForum }) => {
+  const [forum, setForum] = useState([]);
   const [userGoods, setUserGoods] = useState([])
 console.log(forum)
+
 
         
     const { user } = useContext(UserContext);
     
-    const {id, userId, good_id} = useParams()
-    
+    const {id} = useParams()
+
     // const parsedUserId = parseInt(userId, 10);
     
     useEffect(() => {
@@ -51,8 +50,12 @@ console.log(forum)
         });
     };
     
-    const handleDeleteClick = (user_id, id) => {
-      fetch(`http://localhost:3000/users/${user_id}/goods/${id}`, {
+    console.log(forum)
+
+    const handleDeleteClick = (user_id, good_id) => {
+      console.log(`User ID: ${user_id}`);
+      console.log(`Good ID: ${good_id}`);
+      fetch(`http://localhost:3000/users/${user_id}/goods/${good_id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": 'application/json'
@@ -62,7 +65,7 @@ console.log(forum)
         const deleteGood = forum.goods.filter(g => g.id !== good_id)
         const updatedGoods = allForum.map(f => f.id === forum.id ? {...f, goods: deleteGood} : f)
         setForum(updatedGoods)
-        handleUpdateSubmit(id, deleteGood)
+        handleUpdateSubmit(good_id, deleteGood  )
       })
       }
      
@@ -84,8 +87,8 @@ console.log(forum)
           });
       };
 
-
-      const goodsPosts = allGoods.map((good) => (
+console.log(forum.goods)
+      const goodsPosts = allForum.goods.map((good) => (
       <div key={good.id}>
         <GoodsCardPost
           good={good}

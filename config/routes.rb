@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :services, only: [:index, :show, :create, :update, :destroy]
   resources :goods, only: [:index, :show, :create, :update, :destroy]
   resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
-  resources :forums, only: [:index, :show, :create, :update, :destroy]
+      resources :forums, only: [:index, :show, :create, :update, :destroy]
   resources :comments, only: [:index, :show, :create, :update, :destroy]
   resources :comments do
     post 'dual_save', on: :collection
@@ -47,6 +47,8 @@ post "/users/:user_id/free_stuffs", to: "user_free_stuffs#create"
 delete '/users/:user_id/user_free_stuffs/:free_stuffs_id', to: 'user_free_stuffs#destroy'
 patch "/users/:user_id/user_free_stuffs/:free_stuffs_id", to: "user_free_stuffs#update"
 
+
+# get "/users_goods/:n", to: "users#users_goods"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 

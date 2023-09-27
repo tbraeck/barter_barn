@@ -1,7 +1,7 @@
 class UserGood < ApplicationRecord
   belongs_to :user
-belongs_to :forum
+  belongs_to :forum
 
-has_many :comments
+  has_many :comments
 
 end

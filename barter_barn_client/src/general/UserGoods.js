@@ -23,7 +23,7 @@ const UserGoods = ({ user, handleSaveGoodToUserProfile }) => {
   }, [user.id]);
 
   const handleDelete = (goodId) => {
-    fetch(`http://localhost:3000/users/${user.id}/user_goods/${goodId}`, {
+    fetch(`http://localhost:3000/users/${user.id}/goods/${goodId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

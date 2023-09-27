@@ -13,6 +13,10 @@ class UsersController < ApplicationController
     render json: @current_user, include: [:goods, :services, :free_stuffs]
   end
   
+  def users_drawings
+    users_drawings = User.all.filter{|user| user.goods.length >= params[:n].to_i}
+    render json: users_drawings
+  end
 
   # POST /users
   def create
