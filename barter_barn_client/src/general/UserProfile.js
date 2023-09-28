@@ -1,7 +1,4 @@
 import React from 'react';
-import UserComments from './UserComments';
-import UserGoods from './UserGoods';
-import UserSavedPosts from './UserSavedPosts';
 import { useParams } from 'react-router-dom';
 
 // import './styles/UserProfile.css';

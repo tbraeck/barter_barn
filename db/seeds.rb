@@ -29,8 +29,6 @@ puts "🥷👩‍🦰 Seeding users..."
     )
   end
   
-  
-  
   puts "🤖 Seeding Free Stuff..." 
 
   20.times do

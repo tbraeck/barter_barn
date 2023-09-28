@@ -93,53 +93,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_011033) do
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
-  create_table "user_comments", force: :cascade do |t|
-    t.string "body"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_user_comments_on_user_id"
-  end
-
-  create_table "user_free_stuffs", force: :cascade do |t|
-    t.text "body"
-    t.string "image_url"
-    t.integer "user_id", null: false
-    t.integer "forum_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["forum_id"], name: "index_user_free_stuffs_on_forum_id"
-    t.index ["user_id"], name: "index_user_free_stuffs_on_user_id"
-  end
-
-  create_table "user_goods", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.string "image_url"
-    t.string "good_or_service"
-    t.integer "user_id"
-    t.integer "forum_id"
-    t.datetime "datetime"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["forum_id"], name: "index_user_goods_on_forum_id"
-    t.index ["user_id"], name: "index_user_goods_on_user_id"
-  end
-
-  create_table "user_services", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.string "image_url"
-    t.string "good_or_service"
-    t.integer "user_id"
-    t.integer "forum_id"
-    t.datetime "datetime"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["forum_id"], name: "index_user_services_on_forum_id"
-    t.index ["user_id"], name: "index_user_services_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
@@ -157,7 +110,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_011033) do
   add_foreign_key "goods", "users"
   add_foreign_key "services", "forums"
   add_foreign_key "services", "users"
-  add_foreign_key "user_comments", "users"
-  add_foreign_key "user_free_stuffs", "forums"
-  add_foreign_key "user_free_stuffs", "users"
 end

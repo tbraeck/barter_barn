@@ -3,16 +3,15 @@ import React, {useState, useEffect, useContext} from 'react';
 import './main.css';
 import {Routes, Route} from 'react-router-dom';
 import FullPageContainer from './FullPageContainer';
+import FreeStuffList from './general/FreeStuffList';
 import Home from './general/Home';
 import Header from './general/Header';
 import Login from './general/Login';
 import ServicesCard from './general/ServicesCard';
 import Footer from './general/Footer';
 import GoodsCard from './general/GoodsCard';
-import SavedContent from './general/SavedContent';
+import UserProfile from './general/UserProfile';
 import { UserContext } from './contexts/UserContext';
-import FreeStuffList from './general/FreeStuffList';
-
 
 function App() {
   const [allForum, setAllForum] = useState([]);
@@ -35,29 +34,6 @@ function App() {
   }, [])
   console.log(allForum)
 
-  useEffect(()=> {
-    fetch("http://localhost:3000/goods")
-      .then((res)=> res.json())
-      .then((data) => setAllGoods(data))
-      .catch((error) => console.error('Error fetching goods:', error));
-
-  }, [])
-
-useEffect(()=> {
-  fetch("http://localhost:3000/services")
-    .then((res)=> res.json())
-    .then((data) => setAllServices(data))
-    .catch((error) => console.error('Error fetching services:', error));
-
-}, [])
-
-useEffect(()=> {
-  fetch("http://localhost:3000/free_stuffs")
-    .then((res)=> res.json())
-    .then((data) => setAllFreeStuff(data))
-    .catch((error) => console.error('Error fetching free stuff:', error));
-
-}, [])
 
 // const handleSaveCommentsToUserProfile = (comment) => {
 //   fetch(`http://localhost:3000/users/${user.id}/comments`, {
@@ -101,25 +77,25 @@ useEffect(()=> {
 //       setUserDrawings(updatedUserDrawings);
 //     });
 // };
-// const handleAdd = (newPost) => {
-  //   const newPostArray = [...allForum, newPost]
-  //   setAllForum(newPostArray)
-  //   }
+const handleAddGood = (newGood) => {
+    const newGoodArray = [...allForum, newGood]
+    setAllForum(newGoodArray)
+    }
 
     const handleLogout = ()=> {
       setUser(null)
     }
 
-    // const handleUpdatePosts = (updatedPost) => {
-    //   const editedPost = allForum.posts.map((post) => {
-    //     if (post.id === editedPost.id) {
-    //       return editedPost
-    //     } else {
-    //       return post;
-    //     } 
-    //   });
-    //   setAllForum(editedPost)
-    // }
+    const handleUpdateGoods = (updatedGood) => {
+      const editedGood = allForum.posts.map((good) => {
+        if (good.id === editedGood.id) {
+          return editedGood
+        } else {
+          return good;
+        } 
+      });
+      setAllForum(editedGood)
+    }
 
     if(!user) return <Login  />
 
@@ -138,7 +114,7 @@ useEffect(()=> {
           <Route path="/free_stuffs"  element={<FreeStuffList allFreeStuff={allFreeStuff} setAllFreeStuff={setAllFreeStuff} /> }/>
           <Route path="/forums/:id/edit" />
           <Route path="/users/:user_id/comments/:comment_id"  />
-          <Route path="/user-profile"  element={<SavedContent />} />
+          <Route path="/user-profile"  element={<UserProfile />} />
       </Routes>
     {/* </div> */}
   </div>
