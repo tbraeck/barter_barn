@@ -10,6 +10,18 @@ html, body {
   flex-direction: column;
 }
 
+.forum-page {
+  display: flex;
+  justify-content: space-between; /* Adjust as needed */
+  gap: 20px; /* Adjust spacing between columns */
+}
+
+.forum-column {
+  flex: 1; /* Each column takes equal space */
+  border: 1px solid #ccc; /* Add borders or styling as needed */
+  padding: 10px; /* Add padding as needed */
+}
+
 .footer {
   background-color: #333; /* Customize background color */
   color: #fff; /* Customize text color */

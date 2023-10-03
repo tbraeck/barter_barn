@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function EditServices({  user, post, handleUpdateUserPosts, isEditFormVisible, setIsEditFormVisible }) {
+function EditFreeStuff({  user, post, handleUpdateUserPosts, isEditFormVisible, setIsEditFormVisible }) {
   const [postBody, setPostBody] = useState({
         title: post.title,
         body: post.body,
@@ -62,5 +62,5 @@ function EditServices({  user, post, handleUpdateUserPosts, isEditFormVisible, s
 );
 };
 
-export default EditServices;
+export default EditFreeStuff;
 

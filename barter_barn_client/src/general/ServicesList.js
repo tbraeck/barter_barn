@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 
-const ServicesList = ({allServices}) => {
+const ServicesList = ({allForum, forum, }) => {
 
   const serviceItems = allServices.map((service) => (
     <div key={service.id}>

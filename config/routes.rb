@@ -9,6 +9,13 @@ Rails.application.routes.draw do
     post 'dual_save', on: :collection
   end 
 
+  resources :forums do
+    resources :services
+    resources :goods
+    resources :free_stuffs
+end
+
+# get '/forums/:forum_id/goods', to: ""
   resources :users do 
     resources :forums
     resources :goods

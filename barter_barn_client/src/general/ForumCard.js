@@ -1,165 +1,192 @@
-import React, {useEffect, useState, useContext} from 'react'
-import PostCard from './PostCard'
-// import NewUserDrawing from './NewUserDrawing'
-import { useParams } from 'react-router-dom'
+
+
+import React, { useEffect, useState, useContext } from 'react'; 
+import GoodsCard from './GoodsCard';
+// import ServicesCard from './ServicesCard';
+// import FreeStuffCard from './FreeStuffCard'
+import { useParams } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 
-const ForumCard = ({allForum, setAllForum, handleAdd}) => {
+const ForumCard = ({ allForum, setAllForum, handleAdd }) => {
   const [forum, setForum] = useState({
-    posts: [],
-    comments: []
-})
-const [userPosts, setUserPosts] = useState([])
-// const [userComments, setUserComments] = useState([])
+    goods: [],
+    services: [],
+    free_stuffs: [],
+  });
+  // const [userDrawings, setUserDrawings] = useState([])
 
-// console.log(allForum)
 console.log(forum)
+console.log(allForum)
 
+  const { user } = useContext(UserContext);
+  const { id } = useParams();
 
-// console.log( "UserPosts:", userPosts)
+// const isUserProfile = user.username !== forum.name;
 
-const { user } = useContext(UserContext);
-
-const {id, userId, postId} = useParams()
-
-const parsedUserId = parseInt(userId, 10);
 
 useEffect(() => {
-  const selectedForum = allForum.find(forum => forum.id === parseInt(id));
+  const selectedForum = allForum.find(f => f.id === parseInt(id));
   if(selectedForum) {
     setForum(selectedForum)
   }
 }, [allForum, id])
 
-const handleSavePostsToUserProfile = (post) => {
-  fetch(`http://localhost:3000/users/${user.id}/posts`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(post),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to save post to user profile');
-      }
-    })
-    .then((savedPost) => {
-      setUserPosts([...userPosts, savedPost]); 
-      handleUpdateSubmit(savedPost); 
-      console.log('Post saved to user profile:', savedPost);
-    })
-    .catch((error) => {
-      console.error('Error saving post:', error);
-    });
-};
+// const handleSaveDrawingToUserProfile = (drawing) => {
+//   if (!isUserProfile) {
+//     return {
+//       success: false,
+//       message: "Saving drawings is not allowed in your profile.",
+//     };
+//   }
 
-// const handleSaveCommentsToUserProfile = (comment) => {
-//   fetch(`http://localhost:3000/users/${user.id}/comments`, {
+//   return fetch(`/users/${user.id}/user_drawings`, {
 //     method: 'POST',
 //     headers: {
 //       'Content-Type': 'application/json',
 //     },
-//     body: JSON.stringify(comment),
+//     body: JSON.stringify(drawing),
 //   })
 //     .then((response) => {
 //       if (response.ok) {
-//         return response.json();
+//         return response.json().then((savedDrawing) => {
+//           setUserDrawings([...userDrawings, savedDrawing]);
+//           return {
+//             success: true,
+//             message: 'Drawing saved to profile!',
+//           };
+//         });
 //       } else {
-//         throw new Error('Failed to save comment to user profile');
+//         throw new Error('Failed to save drawing to user profile');
 //       }
 //     })
-//     .then((savedComment) => {
-//       setUserPosts([...userComments, savedComment]); 
-//       handleUpdateSubmit(savedComment); 
-//       console.log('Comment saved to user profile:', savedComment);
-//     })
 //     .catch((error) => {
-//       console.error('Error saving post:', error);
+//       console.error('Error saving drawing:', error);
+//       return {
+//         success: false,
+//         message: error.message,
+//       };
 //     });
 // };
 
-const handleDeleteClick = (user_id, post_id) => {
-  fetch(`http://localhost:3000/users/${user_id}/drawings/${post_id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": 'application/json'
-    }
-  })
-  .then(() => {
-    const deletePost = forum.posts.filter(p => p.id !== id)
-    const updatedPosts = allForum.map( f => f.id === forum.id ? {...f, posts: deletePost} : f)
-    setAllForum(updatedPosts)
-    handleUpdateSubmit(id, deletePost)
-  })
-  }
- 
-  const handleUpdateSubmit = (post_id, updatedPost) => {
-    fetch(`http://localhost:3000/users/${user.id}/user_posts/${post_id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedPost),
-    })
-      .then(r => r.json())
-      .then(savedPost => {
-        console.log(savedPost)
-        const updatedUserPosts = userPosts.map(post =>
-          post.id === postId ? savedPost : post
-        );
-        setUserPosts(updatedUserPosts);
-      });
-  };
+// const handleDeleteClick = (user_id, drawing_id) => {
+//   fetch(`/users/${user_id}/user_drawings/${drawing_id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": 'application/json',
+//     },
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error('Failed to delete drawing');
+//       }
+//       return response.json();
+//     })
+//     .then(() => {
+//       const deleteDrawing = category.drawings.filter(r => r.id !== drawing_id);
+//       const updatedDrawings = categories.map(c => c.id === category.id ? { ...c, drawings: deleteDrawing } : c);
+//       setCategories(updatedDrawings);
+//       handleUpdateSubmit(drawing_id, deleteDrawing);
+//     })
+//     .catch((error) => {
+//       console.error('Error deleting drawing:', error);
+//     });
+// };
 
-const forumPosts = forum.posts && forum.posts.map((post) => (
-  <div key={post.id}>
-    <PostCard
-      post={post}
-      user={{ id: parsedUserId }}
-      userPosts={userPosts}
-      setUserPosts={setUserPosts}
-      allForum={allForum}
-      handleDeleteClick={handleDeleteClick}
-      handleUpdateSubmit={handleUpdateSubmit}
-      // handleUpdateUserPosts={handleUpdateUserPosts}
-      handleSavePostToUserProfile={handleSavePostsToUserProfile}
+// const handleUpdateSubmit = (drawing_id, updatedDrawing) => {
+//   fetch(`/users/${user.id}/user_drawings/${drawing_id}`, {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(updatedDrawing),
+//   })
+//     .then(r => r.json())
+//     .then(savedDrawing => {
+//       console.log(savedDrawing);
+//       const updatedUserDrawings = userDrawings.map(drawing =>
+//         drawing.id === drawing_id ? savedDrawing : drawing
+//       );
+//       setUserDrawings(updatedUserDrawings);
+//     })
+//     .catch((error) => {
+//       console.error('Error updating drawing:', error);
+//     });
+// };
+
+const catGoods = forum.goods.map((good) => (
+  <div key={good.id}>
+    <GoodsCard
+     good={good}
+     user={user}
+     forum={forum}
+     allForum={allForum}
+    //  handleDeleteClick={handleDeleteClick}
+    //  isUserProfile={isUserProfile}
+    //  handleUpdateSubmit={handleUpdateSubmit}
+    //  handleSaveDrawingToUserProfile={handleSaveDrawingToUserProfile}
     />
   </div>
 ))
 
+// const catServices = forum.services.map((service) => (
+//   <div key={service.id}>
+//     <ServicesCard
+//      service={service}
+//      user={user}
+//      forum={forum}
+//      allForum={allForum}
+//      handleDeleteClick={handleDeleteClick}
+//      isUserProfile={isUserProfile}
+//      handleUpdateSubmit={handleUpdateSubmit}
+//      handleSaveDrawingToUserProfile={handleSaveDrawingToUserProfile}
+//     />
+//   </div>
+// ))
+
+// const catFreeStuff = forum.free_stuffs.map((stuff) => (
+//   <div key={stuff.id}>
+//     <FreeStuffCard
+//      stuff={stuff}
+//      user={user}
+//      forum={forum}
+//      allForum={allForum}
+//      handleDeleteClick={handleDeleteClick}
+//      isUserProfile={isUserProfile}
+//      handleUpdateSubmit={handleUpdateSubmit}
+//      handleSaveDrawingToUserProfile={handleSaveDrawingToUserProfile}
+//     />
+//   </div>
+// ))
+
 return(
-  <div className="forum-container">
-        <div className="forumBox">
+  <div className="category-container">
+        <div className="categoryBox">
           <div className="subTitle">
-            <div className="forumName">
+            <div className="catName">
               <h1>
                 <em>{forum.name}</em>
               </h1>
             </div>
           </div>
           <div className="grid-container">
-            <div className="postList">
-              <div className="postGrid">
-                <ul className="forumPosts">{forumPosts}</ul> 
+            <div className="drawingList">
+              <div className="drawingGrid">
+                <ul className="catDrawings">{catGoods}</ul> 
               </div>
             </div>
-            <div className="newUserForm">
-              {/* <NewUserDrawing
+            {/* <div className="newUserForm">
+              <NewUserDrawing
                 categories={categories}
                 setCategories={setCategories}
                 category={category}
                 handleAdd={handleAdd}
                 user={user}
-              /> */}
-            </div>
-          </div>
+              />
+            </div> */}
+           </div>
         </div>
       </div>
-);
-};
+)}
 
 export default ForumCard;
 
