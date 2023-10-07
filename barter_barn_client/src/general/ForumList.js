@@ -1,24 +1,31 @@
-import React from 'react';
+import React from 'react'
 import { Link } from 'react-router-dom';
 
-const ForumList = ({ allForum }) => {
-  const forumItems = allForum.map((forum) => (
-    <div key={forum.id} className="forum-column">
+const ForumList = ({allForum}) => {
+   console.log(allForum)
+
+   const forumItems = allForum.map((forum) => (
+    <div key={forum.id} className="forum-item">
       <h1>
-          <Link to={`/forums/${forum.id}`}>{forum.name}</Link>
+        <Link to={`/forums/${forum.id}`} className="link">
+            {forum.title}
+        </Link>
       </h1>
     </div>
   ));
 
   return (
-    <div className='forum-page'>
-      <div className='forums'>
-        <h1>THINGS TO BARTER</h1>
-        <br></br>
+    <div className="forum-page">
+      <div className="forums-box">
+        <div className="forums">
+          <h1>BARTER FORUMS</h1>
+        </div>
+        <div className="forum-links">
+          <ul className="forum-list">{forumItems}</ul>
+        </div>
       </div>
-      <div className='forumLinks'>{forumItems}</div>
     </div>
   );
 };
 
-export default ForumList;
+export default ForumList

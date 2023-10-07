@@ -22,14 +22,20 @@ const NavBar = ({user, userComments, setUserComments,handleLogout}) => {
             HOME
         </button>
       </Link>
-      <Link to="/user-profile" className='btn '>
-        <button  type='button' className='btn btn-secondary'>
-            USER PROFILE
-        </button>
-      </Link>
+     
       <Link to="/forums" className='btn '>
         <button  type='button' className='btn btn-secondary'>
             THINGS TO BARTER
+        </button>
+      </Link>
+      <Link to="/featured" className='btn '>
+        <button  type='button' className='btn btn-secondary'>
+             DAILY FEATURED  
+        </button>
+      </Link>
+      <Link to="/user-profile" className='btn '>
+        <button  type='button' className='btn btn-secondary'>
+            USER PROFILE
         </button>
       </Link>
       {/* <Link to="/free_stuffs" className='btn '>

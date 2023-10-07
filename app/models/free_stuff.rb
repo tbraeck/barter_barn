@@ -1,6 +1,9 @@
 class FreeStuff < ApplicationRecord
-    belongs_to :user
     belongs_to :forum
-    has_many :comments 
-    # has_many :user_comments
+    belongs_to :user
+    # has_many :comments
+    
+    validates :body, presence: true
+    validates :image_url, presence: true
+
 end

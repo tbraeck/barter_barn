@@ -8,71 +8,350 @@
 require 'faker'
 require 'bcrypt'
 
-puts "🥷👩‍🦰 Seeding forum categories..."
-
-    Forum.create!([
-      {name: "Goods to Trade"},
-      {name: "Services to Trade"},
-      {name: "Free Stuff"},
-      
-    ])
-
 puts "🥷👩‍🦰 Seeding users..."
 
-20.times do
-    password = Faker::Internet.password(min_length: 8)
-    User.create!(
+ User.create!([
+    {
+      username: "Tate",
+      email: "tatebraeckel@gmail.com",
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
       username: Faker::Name.name,
       email: Faker::Internet.email,
-      password: password,
-      password_confirmation: password
-    )
-  end
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
+      username: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
+      username: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
+      username: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
+      username: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
+      username: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: "iscool",
+      password_confirmation: "iscool"
+    },
+    {
+      username: Faker::Name.name,
+      email: Faker::Internet.email,
+      password: "iscool",
+      password_confirmation: "iscool"
+    }
+ ])
   
-  puts "🤖 Seeding Free Stuff..." 
 
-  20.times do
-    free_stuff = FreeStuff.create!(
-      body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
-      user: User.all.sample,
-      forum: Forum.all.sample
-    )
-  end
+puts "🥷👩‍🦰 Seeding forum categories..."
 
-  puts "🤖 Seeding Services..." 
+Forum.create!([
+  { title: "Goods to Trade" },
+  { title: "Services to Trade" },
+  { title: "Free Stuff" }
+])
 
-  10.times do 
-    Service.create!(
+puts "🤖 Seeding Goods..."
+
+
+  Good.create!([
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 1,
+        forum_id: 1
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 2,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 3,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 4,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 5,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 6,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 7,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 8,
+        forum_id: 1
+
+      },
+      {
+        title: Faker::House.furniture,
+        description: Faker::Construction.material,
+        image_url: Faker::Internet.url,
+        good_or_service: Faker::Construction.trade,
+        user_id: 1,
+        forum_id: 1
+
+      }
+])
+
+
+puts "🤖 Seeding Services..."
+
+  Service.create!([
+    {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
       image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
-      user: User.all.sample,  
-      forum: Forum.all.sample 
-    )
-  end
-
-  puts "🤖 Seeding Goods..." 
-
-  10.times do 
-    Good.create!(
-      title: Faker::House.furniture,
-      description: Faker::Construction.material,
+      user_id: 7,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
       image_url: Faker::Internet.url,
-      good_or_service: Faker::Construction.trade,
-      user: User.all.sample,  
-      forum: Forum.all.sample 
-    )
-  end
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 8,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 1,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 8,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 7,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 6,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 5,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 4,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 3,
+      forum_id: 2
+    },
+    {
+      title: Faker::Hobby.activity,
+      description: Faker::Job.key_skill,
+      image_url: Faker::Internet.url,
+      good_or_service: Faker::Appliance.equipment,
+      user_id: 2,
+      forum_id: 2
+    }
+  ])
 
-
-  puts "🤡 Seeding Comments..."
+puts "🤖 Seeding Free Stuff..."
   
-  30.times do
-    comment = Comment.new(
+FreeStuff.create!([
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 3,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 2,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 4,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 1,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 1,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 4,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 5,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 6,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 7,
+      forum_id: 3
+    },
+    {
+      body: Faker::Appliance.equipment,
+      image_url: Faker::Internet.url,
+      user_id: 8,
+      forum_id: 3
+    }
+  ])
+
+puts "🤡 Seeding Comments..."
+
+  Comment.create!([
+    {
       body: Faker::Lorem.sentence,
-      user: User.all.sample,
-    )
-  end
-  
+      user_id: 3
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 2
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 1
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 8
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 7
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 6
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 5
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 1
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 4
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 3
+    },
+    {
+      body: Faker::Lorem.sentence,
+      user_id: 2
+    }
+])

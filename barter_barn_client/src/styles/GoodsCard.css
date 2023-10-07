@@ -1,0 +1,127 @@
+/* GoodsCard.css */
+
+.goods-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: transform 0.2s ease-in-out;
+    max-width: 500px; /* Limit the card width */
+  }
+  
+  .goods-card.editing {
+    transform: scale(1.02);
+  }
+  
+  .goods-card-content {
+    text-align: left;
+  }
+  
+  .goods-card h1 {
+    font-size: 20px;
+    margin: 0;
+  }
+  
+  .goods-card p {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+  
+  .goods-card p:last-child {
+    font-weight: bold;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+  }
+  
+  .crud-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-button {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .delete-button {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  .edit-button {
+    background-color: #2196f3;
+    color: #fff;
+  }
+  
+  .save-info {
+    font-size: 12px;
+    color: #888;
+    margin-left: 8px;
+  }
+  
+  .save-success {
+    font-size: 16px;
+    color: #4caf50;
+    margin-left: 8px;
+  }
+  
+  .error-messages {
+    margin-top: 16px;
+  }
+  
+  .error-message {
+    color: #f44336;
+  }
+  
+  /* Comment form styles */
+  .comment-form {
+    margin-top: 16px;
+  }
+  
+  .comment-form label {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+  }
+  
+  .comment-form input[type="text"],
+  .comment-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .comment-form button.comment-button {
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-top: 16px;
+    cursor: pointer;
+  }
+  
+  /* Comment styles */
+  .comments {
+    margin-top: 16px;
+  }
+  
+  .comment {
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin-top: 8px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  

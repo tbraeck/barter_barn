@@ -1,8 +1,10 @@
 class Forum < ApplicationRecord
-    has_many :goods, dependent: :destroy
-    has_many :services, dependent: :destroy
-    has_many :free_stuffs, dependent: :destroy
-    has_many :users
-    
-end
+    has_many :goods
+    has_many :services
+    has_many :free_stuffs
+    has_many :users, through: [:goods, :services, :free_stuffs]
+    has_many :user_items
+    # validates :forum, presence: true
+  end
+  
     

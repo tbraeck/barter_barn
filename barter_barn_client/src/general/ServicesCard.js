@@ -1,135 +1,180 @@
-// import React, {useState, useEffect, useContext} from 'react';
-// import ServicesCardPost from './ServicesCardPost';
-// import { UserContext } from '../contexts/UserContext';
-// import { useParams } from 'react-router-dom'
+import React, { useState } from 'react';
+import EditServices from './EditServices';
+import Comments from './Comments';
+import UserItems from './UserItems';
+// import './GoodsCard.css'; // Import the CSS file
 
-// const ServicesCard = ({ allForum, service, user }) => {
-//   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-//   // const { id, title, description, image_url, good_or_service } = good;
-//   const capitalizedTitle = title.toUpperCase();
-      
-//       useEffect(() => {
-//         const selectedService = allServices.find(service => service.id === parseInt(id));
-//         if(selectedService) {
-//           setServices(selectedService)
-//         }
-//       }, [allServices, id])
-      
-//       const handleShowEditForm = () => {
-//         setIsEditFormVisible(true);
-//       };
-      
-//       const handleSave = () => {
-//         handleSaveGoodToUserProfile(good);
-//       };  
-    
-//       const handleDelete = () => {
-//         handleDeleteClick(id);
-//       };
-//       // const handleSaveGoodsToUserProfile = (good) => {
-//       //   fetch(`http://localhost:3000/users/${user.id}/goods`, {
-//       //     method: 'POST',
-//       //     headers: {
-//       //       'Content-Type': 'application/json',
-//       //     },
-//       //     body: JSON.stringify(good),
-//       //   })
-//       //     .then((response) => {
-//       //       if (response.ok) {
-//       //         return response.json();
-//       //       } else {
-//       //         throw new Error('Failed to save good to user profile');
-//       //       }
-//       //     })
-//       //     .then((savedGood) => {
-//       //       setUserGoods([...userGoods, savedGood]); 
-//       //       handleUpdateSubmit(savedGood); 
-//       //       console.log('Good saved to user profile:', savedGood);
-//       //     })
-//       //     .catch((error) => {
-//       //       console.error('Error saving post:', error);
-//       //     });
-//       // };
-      
-      
-//       // const handleDeleteClick = (user_id, service_id) => {
-//       //   fetch(`http://localhost:3000/users/${user_id}/services/${service_id}`, {
-//       //     method: "DELETE",
-//       //     headers: {
-//       //       "Content-Type": 'application/json'
-//       //     }
-//       //   })
-//       //   .then(() => {
-//       //     const deleteService = allServices.filter(s => s.id !== id)
-//       //     const updatedServices = allServices.map( s => s.id === services.id ? {...s, services: deleteService} : s)
-//       //     setServices(updatedServices)
-//       //     handleUpdateSubmit(id, deleteService)
-//       //   })
-//       //   }
-       
-//       //   const handleUpdateSubmit = (service_id, updatedService) => {
-//       //     fetch(`http://localhost:3000/users/${user.id}/user_services/${service_id}`, {
-//       //       method: 'PATCH',
-//       //       headers: {
-//       //         'Content-Type': 'application/json',
-//       //       },
-//       //       body: JSON.stringify(updatedService),
-//       //     })
-//       //       .then(r => r.json())
-//       //       .then(savedService => {
-//       //         console.log(savedService)
-//       //         const updatedUserServices = userServices.map(service =>
-//       //           service.id === serviceId ? savedService : service
-//       //         );
-//       //         setUserServices(updatedUserServices);
-//       //       });
-//       //   };
-  
-  
-//       //   const servicesPosts = allServices.map((service) => (
-//       //   <div key={service.id}>
-//       //     <ServicesCardPost
-//       //       service={service}
-//       //       user={{ id: parsedUserId }}
-//       //       // forum={forum}
-//       //       // allForum={allForum}
-//       //       // handleDeleteClick={handleDeleteClick}
-//       //       // handleUpdateSubmit={handleUpdateSubmit}
-//       //       // handleSavePostToUserProfile={handleSavePostsToUserProfile}
-//       //     />
-//       //   </div>
-//       // ))
-      
-//       return(
-//         <div className="forum-container">
-//               <div className="forumBox">
-//                 <div className="subTitle">
-//                   <div className="forumName">
-//                     <h1>
-//                       <em>{services.name}</em>
-//                     </h1>
-//                   </div>
-//                 </div>
-//                 <div className="grid-container">
-//                   <div className="postList">
-//                     <div className="postGrid">
-//                       <ul className="forumPosts">{servicesPosts}</ul> 
-//                     </div>
-//                   </div>
-//                   <div className="newUserForm">
-//                     {/* <NewUserDrawing
-//                       categories={categories}
-//                       setCategories={setCategories}
-//                       category={category}
-//                       handleAdd={handleAdd}
-//                       user={user}
-//                     /> */}
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//       );
-//       };
+const ServicesCard = ({ service, userServices, setUserItems, userItems, user, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveServiceToUserProfile }) => {
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isCommentFormVisible, setIsCommentFormVisible] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [commentData, setCommentData] = useState({
+    name: '',
+    contactInfo: '',
+    availableTimes: '',
+  });
 
-// export default ServicesCard;
+  const { title, description, image_url, good_or_service } = service;
 
+  const timeOptions = [
+    'Morning (9:00 AM - 12:00 PM)',
+    'Afternoon (12:00 PM - 3:00 PM)',
+    'Evening (3:00 PM - 6:00 PM)',
+    'Night (6:00 PM - 9:00 PM)',
+  ];
+  const handleShowEditForm = () => {
+    if (isUserProfile) {
+      setErrors(["You can only edit services in your profile."]);
+      return;
+    }
+    setIsEditFormVisible(true);
+  };
+
+  const handleSave = () => {
+    const saveResult = handleSaveServiceToUserProfile(service);
+    if (saveResult.success) {
+      setIsSaved(true);
+      setErrors([]);
+    } else {
+      setErrors([saveResult.message]);
+    }
+  };
+
+  const handleDelete = () => {
+    if (isUserProfile) {
+      setErrors(["You can only delete services in your profile."]);
+      return;
+    }
+
+    handleDeleteClick(service.id);
+  };
+
+  const handleCommentButtonClick = () => {
+    setIsCommentFormVisible(true);
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    // Handle comment submission logic here, e.g., sending data to the server
+    // You can access the comment data in the commentData state
+    // Reset the comment form and hide it when done
+    setIsCommentFormVisible(false);
+    setCommentData({
+      name: '',
+      contactInfo: '',
+      availableTimes: '',
+    });
+  };
+
+  return (
+    <div className='goodEdit cards-container' onDoubleClick={() => setIsEditFormVisible(!isEditFormVisible)}>
+      {isEditFormVisible ? (
+        <EditServices
+          user={user}
+          allForum={allForum}
+          service={service}
+          handleShowEditForm={handleShowEditForm}
+          UserItems={UserItems}
+          setUserItems={setUserItems}
+          handleUpdateSubmit={handleUpdateSubmit}
+          isEditFormVisible={isEditFormVisible}
+          setIsEditFormVisible={setIsEditFormVisible}
+          handleUpdateUserItems={handleUpdateUserItems}
+        />
+      ) : (
+        <div className="goodCardContainer">
+          <div className='goodCard'>
+            <h2 className='goodTitle'>{title}</h2>
+            <p className='goodDescription'>{description}</p>
+            <p className='goodInfo'><strong>Image URL:</strong> {image_url}</p>
+            <p className='goodInfo'><strong>Good(s) needed:</strong> {good_or_service}</p>
+            <div className='buttonContainer'>
+            {!isSaved && !isUserProfile && (
+                <button onClick={handleSave} className='crudButton saveButton'>
+                  SAVE
+                </button>
+              )}
+              {isSaved && !isUserProfile && (
+                  <>
+                    <button onClick={handleDelete} className='crudButton deleteButton'>
+                      DELETE
+                    </button>
+                    <button onClick={handleShowEditForm} className='crudButton editButton'>
+                      EDIT
+                    </button>
+                  </>
+                )}
+
+              <button onClick={handleCommentButtonClick} className='crudButton commentButton'>
+                COMMENT
+              </button>
+            </div>
+            {isSaved && <p className='saveMessage'>Item has been saved to your profile!</p>}
+            {errors.length > 0 && (
+              <div className="error-messages">
+                {errors.map((error, index) => (
+                  <p key={index} className="error-message">
+                    {error}
+                  </p>
+                ))}
+              </div>
+            )}
+            {isCommentFormVisible && (
+              <form onSubmit={handleCommentSubmit} className='commentForm'>
+                <h3 className='commentTitle'>Leave a Comment</h3>
+                <div className='formField'>
+                  <label htmlFor='name'>Name:</label>
+                  <input
+                    type='text'
+                    id='name'
+                    name='name'
+                    value={commentData.name}
+                    onChange={(e) => setCommentData({ ...commentData, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className='formField'>
+                  <label htmlFor='contactInfo'>Contact Information:</label>
+                  <input
+                    type='text'
+                    id='contactInfo'
+                    name='contactInfo'
+                    value={commentData.contactInfo}
+                    onChange={(e) => setCommentData({ ...commentData, contactInfo: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className='formField'>
+  <label htmlFor='availableTimes'>Available Times:</label>
+  <select
+    id='availableTimes'
+    name='availableTimes'
+    value={commentData.availableTimes}
+    onChange={(e) => setCommentData({ ...commentData, availableTimes: e.target.value })}
+    required
+  >
+    <option value=''>Select a time...</option>
+    {timeOptions.map((time, index) => (
+      <option key={index} value={time}>
+        {time}
+      </option>
+    ))}
+  </select>
+</div>
+
+                <button type='submit' className='crudButton submitButton'>
+                  SUBMIT COMMENT
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+            {/* <Comments good={good} user={user} isUserProfile={isUserProfile} /> */}
+
+    </div>
+  );
+};
+
+export default ServicesCard;

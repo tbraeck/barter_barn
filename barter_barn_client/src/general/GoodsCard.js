@@ -1,12 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import EditGoods from './EditGoods';
+import Comments from './Comments';
+// import './GoodsCard.css'; // Import the CSS file
 
-const GoodsCard = ({ good, userGoods, setUserGoods, user, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserGoods, handleDeleteClick,  handleSaveGoodToUserProfile }) => {
+const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveGoodToUserProfile }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [isCommentFormVisible, setIsCommentFormVisible] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [commentData, setCommentData] = useState({
+    name: '',
+    contactInfo: '',
+    availableTimes: '',
+  });
+
+  if (!good || !good.title) {
+    return <div>Loading...</div>;
+  }
 
   const { title, description, image_url, good_or_service } = good;
+
+  const timeOptions = [
+    'Morning (9:00 AM - 12:00 PM)',
+    'Afternoon (12:00 PM - 3:00 PM)',
+    'Evening (3:00 PM - 6:00 PM)',
+    'Night (6:00 PM - 9:00 PM)',
+  ];
 
   const handleShowEditForm = () => {
     if (isUserProfile) {
@@ -21,76 +40,144 @@ const GoodsCard = ({ good, userGoods, setUserGoods, user, allForum, isUserProfil
     if (saveResult.success) {
       setIsSaved(true);
       setErrors([]);
-} else {
+    } else {
       setErrors([saveResult.message]);
     }
   };
-  
-  
-  const handleDelete = (id) => {
+
+  const handleDelete = () => {
     if (isUserProfile) {
       setErrors(["You can only delete goods in your profile."]);
       return;
     }
-  
-    handleDeleteClick(id);
+    handleDeleteClick(good.id);
+  };
+
+  const handleCommentButtonClick = () => {
+    setIsCommentFormVisible(true);
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    // Handle comment submission logic here, e.g., sending data to the server
+    // You can access the comment data in the commentData state
+    // Reset the comment form and hide it when done
+    setIsCommentFormVisible(false);
+    setCommentData({
+      name: '',
+      contactInfo: '',
+      availableTimes: '',
+    });
   };
 
   return (
+    <div className='goodEdit' onDoubleClick={() => setIsEditFormVisible(!isEditFormVisible)}>
+      {isEditFormVisible ? (
+        <EditGoods
+          user={user}
+          allForum={allForum}
+          good={good}
+          handleShowEditForm={handleShowEditForm}
+          userItems={userItems}
+          setUserItems={setUserItems}
+          handleUpdateSubmit={handleUpdateSubmit}
+          isEditFormVisible={isEditFormVisible}
+          setIsEditFormVisible={setIsEditFormVisible}
+          handleUpdateUserItems={handleUpdateUserItems}
+        />
+      ) : (
+        <div className="goodCardContainer">
+          <div className='goodCard'>
+            <h2 className='goodTitle'>{title}</h2>
+            <p className='goodDescription'>{description}</p>
+            <p className='goodInfo'><strong>Image URL:</strong>{image_url}</p>
+            <p className='goodInfo'><strong>Service needed:</strong> {good_or_service}</p>
+            <div className='buttonContainer'>
+            {!isSaved && !isUserProfile && (
+                <button onClick={handleSave} className='crudButton saveButton'>
+                  SAVE
+                </button>
+              )}
+              {isSaved && !isUserProfile && (
+                  <>
+                    <button onClick={handleDelete} className='crudButton deleteButton'>
+                      DELETE
+                    </button>
+                    <button onClick={handleShowEditForm} className='crudButton editButton'>
+                      EDIT
+                    </button>
+                  </>
+                )}
 
-    <div className='goodEdit' onDoubleClick={()=> setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
-    {isEditFormVisible ? 
-      <EditGoods 
-      user={user} 
-      allForum={allForum} 
-      good={good} 
-      handleShowEditForm={handleShowEditForm} 
-      userGoods={userGoods} 
-      setUserGoods={setUserGoods}   
-      handleUpdateSubmit={handleUpdateSubmit} 
-      isEditFormVisible={isEditFormVisible} 
-      setIsEditFormVisible={setIsEditFormVisible} 
-      handleUpdateUserGoods={handleUpdateUserGoods}
-      /> :
-
-    (<div className="drawingCardContainer">
-      <div className='drawingCard'>
-        <h1>{title}</h1>
-        <h2>{description}</h2>
-        <h2>{image_url}</h2>
-        <h2>{good_or_service}</h2>
-          <div>
-            {isUserProfile && ( 
-              <button onClick={handleSave} className='crudButton'>
-                SAVE
+              <button onClick={handleCommentButtonClick} className='crudButton commentButton'>
+                COMMENT
               </button>
+            </div>
+            {isSaved && <p className='saveMessage'>Item has been saved to your profile!</p>}
+            {errors.length > 0 && (
+              <div className="error-messages">
+                {errors.map((error, index) => (
+                  <p key={index} className="error-message">
+                    {error}
+                  </p>
+                ))}
+              </div>
             )}
-            {isSaved && <p>Item has been saved to your profile!</p>}
-          </div>
-        {!isUserProfile && (
-                <>
-                  <button onClick={handleDelete} className='crudButton'>
-                    DELETE
-                  </button>
-                  <button onClick={handleShowEditForm} className='crudButton'>
-                    EDIT
-                  </button>
-                </>
-              )}
-              {errors.length > 0 && (
-                <div className="error-messages">
-                  {errors.map((error, index) => (
-                    <p key={index} className="error-message">
-                      {error}
-                    </p>
-                  ))}
+            {isCommentFormVisible && (
+              <form onSubmit={handleCommentSubmit} className='commentForm'>
+                <h3 className='commentTitle'>Leave a Comment</h3>
+                <div className='formField'>
+                  <label htmlFor='name'>Name:</label>
+                  <input
+                    type='text'
+                    id='name'
+                    name='name'
+                    value={commentData.name}
+                    onChange={(e) => setCommentData({ ...commentData, name: e.target.value })}
+                    required
+                  />
                 </div>
-              )}
-      </div>
-    </div>)}
+                <div className='formField'>
+                  <label htmlFor='contactInfo'>Contact Information:</label>
+                  <input
+                    type='text'
+                    id='contactInfo'
+                    name='contactInfo'
+                    value={commentData.contactInfo}
+                    onChange={(e) => setCommentData({ ...commentData, contactInfo: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className='formField'>
+  <label htmlFor='availableTimes'>Available Times:</label>
+  <select
+    id='availableTimes'
+    name='availableTimes'
+    value={commentData.availableTimes}
+    onChange={(e) => setCommentData({ ...commentData, availableTimes: e.target.value })}
+    required
+  >
+    <option value=''>Select a time...</option>
+    {timeOptions.map((time, index) => (
+      <option key={index} value={time}>
+        {time}
+      </option>
+    ))}
+  </select>
+</div>
+
+                <button type='submit' className='crudButton submitButton'>
+                  SUBMIT COMMENT
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+            {/* <Comments good={good} user={user} isUserProfile={isUserProfile} /> */}
+
     </div>
   );
 };
 
 export default GoodsCard;
-

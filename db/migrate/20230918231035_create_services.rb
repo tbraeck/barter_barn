@@ -4,9 +4,8 @@ class CreateServices < ActiveRecord::Migration[7.0]
       t.string :title
       t.text :description
       t.string :image_url
-      t.references :user, null: false, foreign_key: true
-      t.references :forum, null: false, foreign_key: true
-
+      t.integer :user_id
+      t.integer :forum_id
       t.timestamps
     end
   end

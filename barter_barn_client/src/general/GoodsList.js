@@ -1,32 +1,38 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
 
+const GoodsList = ({ forumGoods, forumId }) => {
+  if (!forumGoods) {
+    return <div>Loading...</div>;
+  }
 
-const GoodsList = ({allForum, forum}) => {
-console.log(allForum, "All forum")
-  const goodItems = forum.goods.map((good) => (
-    <div key={good.id}>
-        <h1>
+  const goodItems = forumGoods.map((good) => (
+    <div key={good.id} className="goods-card">
+      <ul>
+        <li>
+          <h1>
             <Link to={`/goods/${good.id}`}>
-                {good.title}
+              <div className="good-title">{good.title}</div>
+              <div className="good-description">{good.description}</div>
             </Link>
-        </h1>
+          </h1>
+        </li>
+      </ul>
     </div>
-))
+  ));
 
   return (
-    <div className='forum-page'>
-      <h1>GOODS</h1>
-        {/* <div className='forumList'>
-            <div className='forums'>
-            <h1>GOODS</h1>
-            </div>
-            <div className='forumLinks'>
-              {goodItems}
-            </div>
-        </div> */}
+    <div className="forum-page ">
+      <div className="forumList">
+        <div className="forums">
+          <h1>GOODS</h1>
+        </div>
+        <div className="forumLinks">
+          <ul>{goodItems}</ul>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default GoodsList
+export default GoodsList;

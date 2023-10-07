@@ -1,77 +1,177 @@
-// import React, { useEffect, useState, useContext } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { UserContext } from '../contexts/UserContext';
+import React, { useState } from 'react';
+import EditFreeStuff from './EditFreeStuff';
+import Comments from './Comments';
+// import './GoodsCard.css'; // Import the CSS file
 
-// const FreeStuffCard = ({ allFreeStuff, setAllFreeStuff, handleAdd }) => {
-//   // const [freeStuff, setFreeStuff] = useState({});
-//   const [userFreeStuff, setUserFreeStuff] = useState([]);
-//   const { user } = useContext(UserContext);
-//   const { id } = useParams();
+const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveFreeStuffToUserProfile }) => {
+  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isCommentFormVisible, setIsCommentFormVisible] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [commentData, setCommentData] = useState({
+    name: '',
+    contactInfo: '',
+    availableTimes: '',
+  });
 
-//   useEffect(() => {
-//     const selectedFreeStuff = allFreeStuff.find((stuff) => stuff.id === parseInt(id));
-//     if (selectedFreeStuff) {
-//       setAllFreeStuff(selectedFreeStuff);
-//     }
-//   }, [allFreeStuff, setAllFreeStuff, id]);
+  const { body, image_url } = stuff;
 
-//   // const handleSaveComment = (comment) => {
-//   //   fetch(`http://localhost:3000/comments`, {
-//   //     method: 'POST',
-//   //     headers: {
-//   //       'Content-Type': 'application/json',
-//   //     },
-//   //     body: JSON.stringify(comment),
-//   //   })
-//   //     .then((response) => response.json())
-//   //     .then((savedComment) => {
-//   //       setUserFreeStuff([...userFreeStuff, savedComment]);
-//   //     })
-//   //     .catch((error) => {
-//   //       console.error('Error saving comment:', error);
-//   //     });
-//   // };
-  
-//   // In your FreeStuffCard component, you can call this function when a comment is submitted:
-  
+  const timeOptions = [
+    'Morning (9:00 AM - 12:00 PM)',
+    'Afternoon (12:00 PM - 3:00 PM)',
+    'Evening (3:00 PM - 6:00 PM)',
+    'Night (6:00 PM - 9:00 PM)',
+  ];
+  const handleShowEditForm = () => {
+    if (isUserProfile) {
+      setErrors(["You can only edit free stuff in your profile."]);
+      return;
+    }
+    setIsEditFormVisible(true);
+  };
 
-//   const freeStuffPosts = allFreeStuff.map((stuff) => (
-//     <div key={stuff.id}>
-//       <FreeStuffCard
-//         stuff={stuff}
-//         allFreeStuff={allFreeStuff}
-//         userFreeStuff={userFreeStuff}
-//         setUserFreeStuff={setUserFreeStuff}
-//         user={user}
-//         // handleSaveComment={handleSaveComment}
-//         // handleSaveComment={handleSaveComment} // Pass the function to save comments
-//       />
-//     </div>
-//   ));
+  const handleSave = () => {
+    const saveResult = handleSaveFreeStuffToUserProfile(stuff);
+    if (saveResult.success) {
+      setIsSaved(true);
+      setErrors([]);
+    } else {
+      setErrors([saveResult.message]);
+    }
+  };
 
-//   return (
-//     <div className="forum-container">
-//       <div className="forumBox">
-//         <div className="subTitle">
-//           <div className="forumName">
-//             <h1>
-//               <em>{allFreeStuff.name}</em>
-//             </h1>
-//           </div>
-//         </div>
-//         <div className="grid-container">
-//           <div className="postList">
-//             <div className="postGrid">
-//               <ul className="forumPosts">{freeStuffPosts}</ul>
-//             </div>
-//           </div>
-//           <div className="newUserForm">
-//             {/* Add any content for the newUserForm */}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+  const handleDelete = () => {
+    if (isUserProfile) {
+      setErrors(["You can only delete free stuff in your profile."]);
+      return;
+    }
 
-// export default FreeStuffCard;
+    handleDeleteClick(stuff.id);
+  };
+
+  const handleCommentButtonClick = () => {
+    setIsCommentFormVisible(true);
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    // Handle comment submission logic here, e.g., sending data to the server
+    // You can access the comment data in the commentData state
+    // Reset the comment form and hide it when done
+    setIsCommentFormVisible(false);
+    setCommentData({
+      name: '',
+      contactInfo: '',
+      availableTimes: '',
+    });
+  };
+
+  return (
+    <div className='goodEdit' onDoubleClick={() => setIsEditFormVisible(!isEditFormVisible)}>
+      {isEditFormVisible ? (
+        <EditFreeStuff
+          user={user}
+          allForum={allForum}
+          stuff={stuff}
+          handleShowEditForm={handleShowEditForm}
+          userItems={userItems}
+          setUserItems={setUserItems}
+          handleUpdateSubmit={handleUpdateSubmit}
+          isEditFormVisible={isEditFormVisible}
+          setIsEditFormVisible={setIsEditFormVisible}
+          handleUpdateUserItems={handleUpdateUserItems}
+        />
+      ) : (
+        <div className="goodCardContainer">
+          <div className='goodCard'>
+            <h2 className='goodTitle'>{body}</h2>
+            <p className='goodInfo'><strong>Image URL:</strong> {image_url}</p>
+            <div className='buttonContainer'>
+            {!isSaved && !isUserProfile && (
+                <button onClick={handleSave} className='crudButton saveButton'>
+                  SAVE
+                </button>
+              )}
+              {isSaved && !isUserProfile && (
+                  <>
+                    <button onClick={handleDelete} className='crudButton deleteButton'>
+                      DELETE
+                    </button>
+                    <button onClick={handleShowEditForm} className='crudButton editButton'>
+                      EDIT
+                    </button>
+                  </>
+                )}
+
+              <button onClick={handleCommentButtonClick} className='crudButton commentButton'>
+                COMMENT
+              </button>
+            </div>
+            {isSaved && <p className='saveMessage'>Item has been saved to your profile!</p>}
+            {errors.length > 0 && (
+              <div className="error-messages">
+                {errors.map((error, index) => (
+                  <p key={index} className="error-message">
+                    {error}
+                  </p>
+                ))}
+              </div>
+            )}
+            {isCommentFormVisible && (
+              <form onSubmit={handleCommentSubmit} className='commentForm'>
+                <h3 className='commentTitle'>Leave a Comment</h3>
+                <div className='formField'>
+                  <label htmlFor='name'>Name:</label>
+                  <input
+                    type='text'
+                    id='name'
+                    name='name'
+                    value={commentData.name}
+                    onChange={(e) => setCommentData({ ...commentData, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className='formField'>
+                  <label htmlFor='contactInfo'>Contact Information:</label>
+                  <input
+                    type='text'
+                    id='contactInfo'
+                    name='contactInfo'
+                    value={commentData.contactInfo}
+                    onChange={(e) => setCommentData({ ...commentData, contactInfo: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className='formField'>
+  <label htmlFor='availableTimes'>Available Times:</label>
+  <select
+    id='availableTimes'
+    name='availableTimes'
+    value={commentData.availableTimes}
+    onChange={(e) => setCommentData({ ...commentData, availableTimes: e.target.value })}
+    required
+  >
+    <option value=''>Select a time...</option>
+    {timeOptions.map((time, index) => (
+      <option key={index} value={time}>
+        {time}
+      </option>
+    ))}
+  </select>
+</div>
+
+                <button type='submit' className='crudButton submitButton'>
+                  SUBMIT COMMENT
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+            {/* <Comments good={good} user={user} isUserProfile={isUserProfile} /> */}
+
+    </div>
+  );
+};
+
+export default FreeStuffCard;

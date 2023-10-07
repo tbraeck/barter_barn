@@ -2,13 +2,19 @@ class ForumsController < ApplicationController
   skip_before_action :authorize
 
   def index
-    forums = Forum.includes(:goods, :services, :free_stuffs).all
+    forums = Forum.all
     render json: forums, status: :ok
   end
 
   def show
     forum = find_forum
     render json: forum
+  end
+
+  def featured
+  @featured_forum = Forum.find_by(featured: true)
+  render json: @featured_forum, status: :ok
+    
   end
 
   def create
@@ -34,6 +40,6 @@ class ForumsController < ApplicationController
     end
 
     def forum_params
-      params.require(:forum).permit(:name)
+      params.permit(:title)
     end
 end

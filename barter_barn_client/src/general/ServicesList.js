@@ -1,31 +1,38 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
 
+const ServicesList = ({ forumServices }) => {
+  if (!forumServices) {
+    return <div>Loading...</div>;
+  }
 
-const ServicesList = ({allForum, forum, }) => {
-
-  const serviceItems = allServices.map((service) => (
-    <div key={service.id}>
-        <h1>
+  const serviceItems = forumServices.map((service) => (
+    <div key={service.id} className="goods-card">
+      <ul>
+        <li>
+          <h1>
             <Link to={`/services/${service.id}`}>
-                {service.title}
+              <div className="good-title">{service.title}</div>
+              <div className="good-description">{service.description}</div>
             </Link>
-        </h1>
+          </h1>
+        </li>
+      </ul>
     </div>
-    ))
+  ));
 
   return (
-    <div className='forum-page'>
-    <div className='forumList'>
-        <div className='forums'>
-        <h1>SERVICES </h1>
+    <div className="forum-page ">
+      <div className="forumList">
+        <div className="forums">
+          <h1>SERVICES</h1>
         </div>
-        <div className='forumLinks'>
-        {serviceItems}
+        <div className="forumLinks">
+          <ul>{serviceItems}</ul>
         </div>
+      </div>
     </div>
-</div>
-  )
-}
+  );
+};
 
-export default ServicesList
+export default ServicesList;

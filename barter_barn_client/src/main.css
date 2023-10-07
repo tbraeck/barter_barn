@@ -186,7 +186,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   :root {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; 
   }
 }
 
@@ -395,31 +395,87 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* min-height: 100vh; */
-  background-color: #f0f0f0; /* Adjust the background color as needed */
+  height: 50vh;
+  margin: 0;
+  padding: 30px;
+}
+
+.forums-box {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.forums {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.forum-links {
+  list-style: none;
+  display: flex; /* Make the list items a flex container */
+  justify-content: center; /* Space evenly between items */
+  align-items: center; /* Center items vertically */
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.forum-item {
+  margin-bottom: 10px;
+}
+.forums-box {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: #77797c; /* Customize link color */
+  border: 1px solid #333; /* Add a border */
+  padding: 5px 20px; 
+  border-radius: 20px;
+  align-items: center;
+  margin-top: 10px;/* Add padding to create some space around the link text */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Add a transition effect for the border and box-shadow */
+}
+
+.link:hover {
+  color: #ff7b00;
+  font-size: 50px;
+  border-color: #666; /* Customize border color on hover */
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .forumList {
   background-color: #fff;
   padding: 30px;
   border-radius: 5px;
+  align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: 800px; /* Adjust the maximum width as needed */
   width: 100%;
 }
 
 .forums h1 {
-  font-size: 34px;
+  font-size: 54px;
   margin-bottom: 20px;
   text-align: center;
 }
 
+.forums {
+  text-align: center;
+  margin-bottom: 20px;
+}
 .forum-container {
   background-color: #fff; /* Adjust the background color as needed */
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 800px; /* Adjust the maximum width as needed */
+  max-width: 100%; /* Adjust the maximum width as needed */
   width: 100%;
   margin-bottom: 20px;
 }
@@ -427,6 +483,8 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 .subTitle {
   text-align: center;
   margin-bottom: 20px;
+  text-transform: uppercase;
+  font-size: 60px;
 }
 
 .forumName {
@@ -446,18 +504,6 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   background-color: #fff;
 }
 
-.goodsCard.editing {
-  /* Add styles for editing mode if needed */
-}
-
-.goodsCardContainer {
-  /* Add styles for the card container */
-}
-
-.goodsCardContent {
-  /* Add styles for the card content */
-}
-
 .goodsCardTitle {
   font-size: 18px;
   font-weight: bold;
@@ -474,64 +520,12 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   margin: 20px;
 }
 
-
-
 .grid-container {
   display: grid;
   grid-template-columns: 2fr 1fr; /* Adjust column widths as needed */
   gap: 20px;
 }
 
-.postList {
-  /* Styles for the post list */
-}
-
-.postGrid {
-  /* Styles for the grid of posts */
-}
-
-.forumPosts {
-  list-style: none;
-  padding: 0;
-}
-
-/* Styles for the new user form, uncomment and modify as needed */
-/* .newUserForm {
-  // Styles for the form
-} */
-
-/* Add styles for forum links or items here */
-.forumLinks {
-  background-color: #f0f0f0; /* Background color */
-  padding: 10px; /* Padding around the content */
-  border: 1px solid #ccc; /* Border */
-  border-radius: 5px; /* Rounded corners */
-  margin: 10px; /* Margin around the element */
-}
-
-/* Style for the headings within the forumLinks element */
-.forumLinks h1 {
-  font-size: 24px; /* Font size */
-  color: #333; /* Text color */
-  margin-bottom: 10px; /* Margin below the heading */
-}
-
-/* Style for the links within the forumLinks element */
-.forumLinks a {
-  display: block; /* Display as block to create a list effect */
-  padding: 5px 0; /* Padding for each link */
-  color: #007bff; /* Link color (blue) */
-  text-decoration: none; /* Remove underline */
-}
-
-/* Hover effect for the links */
-.forumLinks a:hover {
-  background-color: #007bff; /* Background color on hover (blue) */
-  color: #fff; /* Text color on hover (white) */
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
-}
-
-/* Header.css */
 .headerCont {
   height: 250px; /* Adjust the height as needed */
   display: flex;
@@ -539,14 +533,6 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
   background: url('../public/colorBanner.png');
 background-position: right;
 background-size: 50% ;
-
- 
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* margin: 30px; */
   flex-direction: row;
 }
 

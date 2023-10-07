@@ -10,17 +10,7 @@ html, body {
   flex-direction: column;
 }
 
-.forum-page {
-  display: flex;
-  justify-content: space-between; /* Adjust as needed */
-  gap: 20px; /* Adjust spacing between columns */
-}
 
-.forum-column {
-  flex: 1; /* Each column takes equal space */
-  border: 1px solid #ccc; /* Add borders or styling as needed */
-  padding: 10px; /* Add padding as needed */
-}
 
 .footer {
   background-color: #333; /* Customize background color */
@@ -29,6 +19,192 @@ html, body {
   text-align: center;
   margin-top: auto;
 }
+
+.cat-page {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+  justify-content: space-between; /* Adjust as needed */
+  gap: 20px; /* Adjust spacing between columns */
+}
+
+.categoriesBox {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+  gap: 20px; /* Adjust the gap between items as needed */
+  padding: 20px; /* Add padding for spacing */
+  background-color: #f0f0f0; /* Add background color to create a nice box */
+  width: 100%; /* Ensure the box takes full width */
+}
+
+.categoryLinks {
+  flex: 1;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Add more styles as needed */
+/* styles/GoodsCard.css */
+
+/* GoodsCard.css */
+/* FreeStuffCard.css */
+
+/* Style for the outer container to display full-width */
+.freeStuffCard {
+  width: 100%; /* Make it full-width */
+  display: flex;
+  justify-content: center;
+}
+
+/* Style for the card container */
+.goodCardContainer {
+  max-width: 400px; /* Adjust the maximum width as needed */
+  margin: 20px; /* Add margin to create spacing between cards */
+}
+/* 
+.goods-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+  gap: 20px;
+} */
+
+/* CSS for FeaturedCard component */
+.featured-card {
+  background-color: #f5f5f5; /* Background color for the featured card */
+  border: 1px solid #ccc; /* Border for the card */
+  padding: 10px; /* Padding for the card */
+  margin: 10px; /* Margin around the card */
+  border-radius: 5px; /* Rounded corners for the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle lift effect */
+  display: flex; /* Display it as a flex container */
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+}
+
+/* Additional styles for the card content (e.g., title, description, buttons) can be added here */
+
+/* Style for the card itself */
+.goodCard {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for buttons */
+.crudButton {
+  margin-right: 5px; /* Add spacing between buttons */
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.saveButton {
+  background-color: #28a745; /* Customize button styles as needed */
+}
+
+.deleteButton {
+  background-color: #dc3545; /* Customize button styles as needed */
+}
+
+.editButton {
+  background-color: #ffc107; /* Customize button styles as needed */
+}
+
+.commentButton {
+  background-color: #007bff; /* Customize button styles as needed */
+}
+
+/* Style for comment form */
+.commentForm {
+  margin-top: 20px;
+}
+
+.commentTitle {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.formField {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submitButton {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.saveMessage {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.error-messages {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Add any additional styling as needed */
+
+
+/* Comment form */
+.commentForm {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Title for the comment section */
+.commentTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Form field labels */
+.formField label {
+  font-weight: bold;
+}
+
+/* Form input fields */
+.formField input {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+/* Submit button for the comment form */
+.submitButton {
+  background-color: #ffc107;
+  color: black;
+  margin-top: 10px;
+}
+
+.submitButton:hover {
+  background-color: #ffcd38;
+}
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
