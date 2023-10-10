@@ -4,16 +4,16 @@ import './main.css';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import Home from './general/Home';
 import Header from './general/Header';
-import Login from './general/Login';
+import Login from './general/login-components/Login.js';
 import Footer from './general/Footer';
-import GoodsCard from './general/GoodsCard';
-import ServicesCard from './general/ServicesCard';
-import FreeStuffCard from './general/FreeStuffCard';
-import ForumList from './general/ForumList';
+import GoodsCard from './general/goods-components/GoodsCard';
+import ServicesCard from './general/services-components/ServicesCard';
+import FreeStuffCard from './general/free-stuff-components/FreeStuffCard';
+import ForumList from './general/forum-components/ForumList';
 import FeatureCard from './general/FeatureCard';
-import ForumCard from './general/ForumCard';
-import EditGoods from './general/EditGoods';
-import UserProfile from './general/UserProfile';
+import ForumCard from './general/forum-components/ForumCard';
+import EditGoods from './general/editing-components/EditGoods';
+import UserProfile from './general/user-info/UserProfile.js';
 import { UserContext } from './contexts/UserContext';
 
 function App() {
@@ -100,7 +100,8 @@ const handleAddGood = (newGood) => {
     }
 
     if(!user) return <Login  />
-// console.log(allForum)  
+
+
   return (
     <div className='mainContainer'>
         <div className="header">

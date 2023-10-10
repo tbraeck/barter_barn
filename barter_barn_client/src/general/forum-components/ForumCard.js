@@ -1,11 +1,11 @@
 import React, {useEffect, useState, useContext} from 'react'
 // import DrawingCard from './DrawingCard'
-import ServicesCard from './ServicesCard';
-import FreeStuffCard from './FreeStuffCard';
+import ServicesCard from '../services-components/ServicesCard';
+import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
 // import NewUserDrawing from './NewUserDrawing'
 import { useParams } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext';
-import GoodsCard from './GoodsCard';
+import { UserContext } from '../../contexts/UserContext';
+import GoodsCard from '../goods-components/GoodsCard';
 // import './styles/CategoryCard.css';
 
 const ForumCard = ({allForum, SetAllforum, handleAdd}) => {
@@ -16,7 +16,6 @@ const ForumCard = ({allForum, SetAllforum, handleAdd}) => {
 })
 
 console.log(forum)
-const [userItems, setUserItems] = useState([])
 const [userGoods, setUserGoods] = useState([])
 const [userServices, setUserServices] = useState([])
 const [userFreeStuff, setUserFreeStuff] = useState([])
@@ -34,27 +33,30 @@ useEffect(() => {
   }
 }, [allForum, id])
 
-const handleSaveGoodToUserProfile = (item) => {
+const handleSaveGoodToUserProfile = (good) => {
   if (!isUserProfile) {
     return {
       success: false,
-      message: "Saving items is not allowed in your profile.",
+      message: "Saving goods is not allowed in your profile.",
     };
   }
 
-  return fetch(`/users/${user.id}/user_items`, {
+  return fetch(`http://localhost:3000/users/${user.id}/user_goods`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(item),
+    body: JSON.stringify(good),
   })
     .then((res) => {
+      console.log(good)
       if (res.ok) {
-        return res.json().then((savedItem) => {
-          setUserGoods([...userGoods, savedItem]);
+        return res.json().then((savedGood) => {
+          setUserGoods([...userGoods, savedGood]);
+          console.log(savedGood)
+
           return (
-            alert("Item saved to profile!")
+            alert("Good saved to profile!")
         )
           });
       } else {
@@ -66,7 +68,7 @@ const handleSaveGoodToUserProfile = (item) => {
         }
     })
     .catch((error) => {
-      console.error('Error saving item:', error);
+      console.error('Error saving good:', error);
       return {
         success: false,
         message: error.message,
@@ -83,7 +85,7 @@ const handleSaveServiceToUserProfile = (item) => {
     };
   }
 
-  return fetch(`/users/${user.id}/user_items`, {
+  return fetch(`/users/${user.id}/user_services`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -124,7 +126,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     };
   }
 
-  return fetch(`/users/${user.id}/user_items`, {
+  return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -155,30 +157,30 @@ const handleSaveFreeStuffToUserProfile = (item) => {
       };
     });
 };
-console.log(forum)
-// const handleDeleteClick = (user_id, drawing_id) => {
-//   fetch(`/users/${user_id}/user_items/${good_id}`, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": 'application/json',
-//     },
-//   })
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error('Failed to delete drawing');
-//       }
-//       return response.json();
-//     })
-//     .then(() => {
-//       const deleteDrawing = category.drawings.filter(r => r.id !== drawing_id);
-//       const updatedDrawings = categories.map(c => c.id === category.id ? { ...c, drawings: deleteDrawing } : c);
-//       setCategories(updatedDrawings);
-//       handleUpdateSubmit(drawing_id, deleteDrawing);
-//     })
-//     .catch((error) => {
-//       console.error('Error deleting drawing:', error);
-//     });
-// };
+
+const handleDeleteClickGood = (user_id, good_id) => {
+  fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": 'application/json', 
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to delete good');
+      }
+      return response.json();
+    })
+    .then(() => {
+      const deleteGood = forum.goods.filter(g => g.id !== good_id);
+      const updatedGoods = allForum.map(f => f.id === forum.id ? { ...f, goods: deleteGood } : f);
+      SetAllforum(updatedGoods);
+      handleUpdateSubmitGood(good_id, deleteGood);
+    })
+    .catch((error) => {
+      console.error('Error deleting drawing:', error);
+    });
+};
 
 const handleUpdateSubmitGood = (good_id, updatedGood) => {
   fetch(`/users/${user.id}/user_goods/${good_id}`, {
@@ -191,7 +193,7 @@ const handleUpdateSubmitGood = (good_id, updatedGood) => {
     .then(r => r.json())
     .then(savedGood => {
       console.log(savedGood);
-      const updatedUserGoods = userItems.map(good =>
+      const updatedUserGoods = userGoods.map(good =>
         good.id === good_id ? savedGood : good
       );
       setUserGoods(updatedUserGoods);
@@ -209,9 +211,11 @@ const forumGoods = forum.goods.map((good) => (
      forum={forum}
      allForum={allForum}
      id={id}
-    //  handleDeleteClick={handleDeleteClick}
-    //  isUserProfile={isUserProfile}
-    //  handleUpdateSubmit={handleUpdateSubmit}
+     userGoods={userGoods}
+     setUserGoods={setUserGoods}
+     handleDeleteClickGood={handleDeleteClickGood}
+     isUserProfile={isUserProfile}
+     handleUpdateSubmitGood={handleUpdateSubmitGood}
     handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
     />
   </div>

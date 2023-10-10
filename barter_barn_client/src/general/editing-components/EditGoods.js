@@ -6,10 +6,12 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
         description: good.description,
         image_url: good.image_url,
         good_or_service: good.good_or_service,
-       good_id: good.good_id,
+       good_id: good.good_id
     })
-    
-   console.log(good)
+    const [errors, setErrors] = useState([]);
+console.log('User id', user)
+console.log('Good id', good)
+
     const {title, description, image_url, good_or_service} = goodBody;
 
     const handleGoodChange = (e) => {
@@ -24,21 +26,30 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
       let user_id = user.id;
 
       fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
+        // "/users/:user_id/user_goods/:good_id
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(goodBody),
       })
-        .then((response) => response.json())
-        .then((updatedGood) => {
-          console.log(updatedGood)
-          handleUpdateUserGoods(updatedGood);
-          setIsEditFormVisible(!isEditFormVisible);
-        })
-        .catch((error) => {
-          console.error("Error updating good:", error);
-        });
+      .then((r) => {
+        if (r.ok) {
+          r.json().then((updatedGood) => {
+            // setErrors([]);
+            handleUpdateUserGoods(updatedGood);
+            setIsEditFormVisible(!isEditFormVisible);
+          });
+        } else {
+          return r.json().then((error) => {
+            console.error('Error response from server:', error);
+            setErrors(error.errors);
+            setTimeout(() => {
+              setErrors(null);
+            }, 3000);
+          });
+        }
+      });
     };
 
   return (
@@ -77,6 +88,15 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
         placeholder="Enter good or service..."
       />
       <button className='formButton' type="submit">UPDATE</button>
+      {errors && (
+          <div className="error-messages">
+            {errors.map((error, index) => (
+              <p key={index} className="error-message">
+                {error}
+              </p>
+            ))}
+          </div>
+        )}
     </form> 
 );
 };

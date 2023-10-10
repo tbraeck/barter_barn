@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import EditServices from './EditServices';
-import Comments from './Comments';
-import UserItems from './UserItems';
+import EditServices from '../editing-components/EditServices';
+import Comments from '../comment-components/Comments.js'
+import UserItems from '../user-info/UserItems';
 // import './GoodsCard.css'; // Import the CSS file
 
 const ServicesCard = ({ service, userServices, setUserItems, userItems, user, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveServiceToUserProfile }) => {

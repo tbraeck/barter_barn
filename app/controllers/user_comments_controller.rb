@@ -17,8 +17,8 @@ class UserItemsController < ApplicationController
     # POST /users/:user_id/user_items
 
     def create
-      @user_item = @current_user.user_items.create!(user_item_params)
-      render json: @user_item, status: :created
+      @user_good = @current_user.user_goods.create!(user_good_params)
+      render json: @user_good, status: :created
       
     end
     

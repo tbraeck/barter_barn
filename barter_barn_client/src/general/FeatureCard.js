@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GoodsCard from './GoodsCard';
+import GoodsCard from './goods-components/GoodsCard';
 
 const FeaturedCard = ({ allGoods }) => {
   const [randomIndex, setRandomIndex] = useState(0);

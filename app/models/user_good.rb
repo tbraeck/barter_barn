@@ -1,4 +1,4 @@
-class UserItem < ApplicationRecord
+class UserGood < ApplicationRecord
   belongs_to :user
 
   validates :title, presence: true

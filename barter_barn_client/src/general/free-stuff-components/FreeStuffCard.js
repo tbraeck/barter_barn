@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import EditFreeStuff from './EditFreeStuff';
-import Comments from './Comments';
+import EditFreeStuff from '../editing-components/EditFreeStuff';
+import Comments from '../comment-components/Comments.js';
 // import './GoodsCard.css'; // Import the CSS file
 
 const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveFreeStuffToUserProfile }) => {

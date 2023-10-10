@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import EditGoods from './EditGoods';
-import Comments from './Comments';
-// import './GoodsCard.css'; // Import the CSS file
+import EditGoods from '../editing-components/EditGoods';
+import Comments from '../comment-components/Comments.js';// import './GoodsCard.css'; // Import the CSS file
 
-const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveGoodToUserProfile }) => {
+const GoodsCard = ({ good, user, allForum, userGoods, setUserGoods, isUserProfile, handleUpdateSubmitGood, handleUpdateUserGoods, handleDeleteClickGood, handleSaveGoodToUserProfile }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isCommentFormVisible, setIsCommentFormVisible] = useState(false);
@@ -17,6 +16,9 @@ const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, 
   if (!good || !good.title) {
     return <div>Loading...</div>;
   }
+
+  console.log('isSaved:', isSaved);
+console.log('isUserProfile:', isUserProfile);
 
   const { title, description, image_url, good_or_service } = good;
 
@@ -35,27 +37,30 @@ const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, 
     setIsEditFormVisible(true);
   };
 
-  const handleSave = () => {
+  const handleSaveGood = () => {
     const saveResult = handleSaveGoodToUserProfile(good);
     if (saveResult.success) {
       setIsSaved(true);
       setErrors([]);
+      console.log(good)
+
     } else {
       setErrors([saveResult.message]);
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = (good) => {
     if (isUserProfile) {
       setErrors(["You can only delete goods in your profile."]);
       return;
     }
-    handleDeleteClick(good.id);
+    handleDeleteClickGood(good.id);
   };
 
   const handleCommentButtonClick = () => {
     setIsCommentFormVisible(true);
   };
+
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -69,23 +74,24 @@ const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, 
       availableTimes: '',
     });
   };
+  console.log('User:', user);
 
   return (
-    <div className='goodEdit' onDoubleClick={() => setIsEditFormVisible(!isEditFormVisible)}>
-      {isEditFormVisible ? (
+    <div className='goodEdit' onDoubleClick={() => setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
+      {isEditFormVisible ? 
         <EditGoods
           user={user}
           allForum={allForum}
           good={good}
           handleShowEditForm={handleShowEditForm}
-          userItems={userItems}
-          setUserItems={setUserItems}
-          handleUpdateSubmit={handleUpdateSubmit}
+         userGoods={userGoods}
+         setUserGoods={setUserGoods}
+          handleUpdateSubmitGood={handleUpdateSubmitGood}
           isEditFormVisible={isEditFormVisible}
           setIsEditFormVisible={setIsEditFormVisible}
-          handleUpdateUserItems={handleUpdateUserItems}
+          handleUpdateUserGoods={handleUpdateUserGoods}
         />
-      ) : (
+       : (
         <div className="goodCardContainer">
           <div className='goodCard'>
             <h2 className='goodTitle'>{title}</h2>
@@ -93,12 +99,14 @@ const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, 
             <p className='goodInfo'><strong>Image URL:</strong>{image_url}</p>
             <p className='goodInfo'><strong>Service needed:</strong> {good_or_service}</p>
             <div className='buttonContainer'>
-            {!isSaved && !isUserProfile && (
-                <button onClick={handleSave} className='crudButton saveButton'>
+            {isUserProfile && (
+                <button onClick={handleSaveGood} className='crudButton saveButton'>
                   SAVE
                 </button>
               )}
-              {isSaved && !isUserProfile && (
+                {isSaved && <p>Item has been saved to your profile!</p>}
+
+              {!isUserProfile && (
                   <>
                     <button onClick={handleDelete} className='crudButton deleteButton'>
                       DELETE
@@ -108,10 +116,11 @@ const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, 
                     </button>
                   </>
                 )}
-
-              <button onClick={handleCommentButtonClick} className='crudButton commentButton'>
-                COMMENT
-              </button>
+                 {isUserProfile && (
+                <button onClick={handleCommentButtonClick} className='crudButton commentButton'>
+                  COMMENT
+                </button>
+              )}
             </div>
             {isSaved && <p className='saveMessage'>Item has been saved to your profile!</p>}
             {errors.length > 0 && (
@@ -149,32 +158,29 @@ const GoodsCard = ({ good, randomItem, userItems, setUserItems, user, allForum, 
                   />
                 </div>
                 <div className='formField'>
-  <label htmlFor='availableTimes'>Available Times:</label>
-  <select
-    id='availableTimes'
-    name='availableTimes'
-    value={commentData.availableTimes}
-    onChange={(e) => setCommentData({ ...commentData, availableTimes: e.target.value })}
-    required
-  >
-    <option value=''>Select a time...</option>
-    {timeOptions.map((time, index) => (
-      <option key={index} value={time}>
-        {time}
-      </option>
-    ))}
-  </select>
-</div>
-
-                <button type='submit' className='crudButton submitButton'>
-                  SUBMIT COMMENT
-                </button>
+                    <label htmlFor='availableTimes'>Available Times:</label>
+                    <select
+                      id='availableTimes'
+                      name='availableTimes'
+                      value={commentData.availableTimes}
+                      onChange={(e) => setCommentData({ ...commentData, availableTimes: e.target.value })}
+                      required
+                    >
+                      <option value=''>Select a time...</option>
+                      {timeOptions.map((time, index) => (
+                        <option key={index} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                 
               </form>
             )}
+            
           </div>
         </div>
       )}
-            {/* <Comments good={good} user={user} isUserProfile={isUserProfile} /> */}
 
     </div>
   );

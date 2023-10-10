@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
 import LoginForm from './LoginForm';
 import SignUpForm from "./SignUpForm";
-import { UserContext } from '../contexts/UserContext';
-import '../styles/Login.css'; 
-
+import { UserContext } from '../../contexts/UserContext';
+import './Login.css'; 
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
   const { setUser } = useContext(UserContext);
