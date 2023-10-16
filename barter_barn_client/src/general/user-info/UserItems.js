@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import GoodsCard from '../goods-components/GoodsCard';
+import ServicesCard from '../services-components/ServicesCard';
+import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
 // Import other item components and necessary dependencies
 
 const UserItems = ({ user }) => {
@@ -42,7 +44,7 @@ const UserItems = ({ user }) => {
       });
 
     // Fetch user free stuff
-    fetch(`http://localhost:3000/users/${user.id}/user_free_stuff`)
+    fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -96,6 +98,50 @@ const UserItems = ({ user }) => {
     });
   };
 
+  const handleDeleteClickService = (serviceId) => {
+    fetch(`/users/${user.id}/user_services/${serviceId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((response) => {
+      if (response.ok) {
+        const updatedUserServices = userServices.filter(
+          (service) => service.id !== serviceId
+        );
+        setUserServices(updatedUserServices);
+      } else {
+        console.error("Failed to delete service");
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting service:", error);
+    });
+  };
+
+  const handleDeleteClickFreeStuff = (free_stuffs_id) => {
+    fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((response) => {
+      if (response.ok) {
+        const updatedUserFreeStuffs = userFreeStuff.filter(
+          (stuff) => stuff.id !== free_stuffs_id
+        );
+        setUserFreeStuff(updatedUserFreeStuffs);
+      } else {
+        console.error("Failed to delete stuff");
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting stuff:", error);
+    });
+  };
+
   const handleUpdateUserGoods = (updatedGood) => {
     setUserGoods((prevUserGoods) => {
       const updatedUserGoods = prevUserGoods.map((good) =>
@@ -104,6 +150,25 @@ const UserItems = ({ user }) => {
       return updatedUserGoods;
     });
     
+  };
+
+  const handleUpdateUserServices = (updatedService) => {
+    setUserServices((prevUserServices) => {
+      const updatedUserServices = prevUserServices.map((service) =>
+        service.id === updatedService.id ? updatedService : service
+      );
+      return updatedUserServices;
+    });
+    
+  };
+
+  const handleUpdateUserFreeStuffs = (updatedStuff) => {
+    setUserFreeStuff((prevUserFreeStuff) => {
+      const updatedUserFreeStuffs = prevUserFreeStuff.map((stuff) =>
+        stuff.id === updatedStuff.id ? updatedStuff : stuff
+      );
+      return updatedUserFreeStuffs;
+    });
   };
 
   return (
@@ -126,24 +191,30 @@ const UserItems = ({ user }) => {
       <div className='user-column'>
         <h2>Services</h2>
         {userServices.map((service) => (
-          <div key={service.id}>
-            {/* Render Service item with necessary information */}
-            <p>{service.name}</p>
-            <p>{service.description}</p>
-            {/* Add delete and update buttons if needed */}
-          </div>
+          <ServicesCard
+            key={service.id}
+            service={service}
+            user={user}
+            handleUpdateUserServices={handleUpdateUserServices}
+            userServices={userServices}
+            setUserServices={setUserServices}
+            handleDeleteClickService={() => handleDeleteClickService(service.id, 'services')}
+          />
         ))}
       </div>
 
       <div className='user-column'>
         <h2>Free Stuff</h2>
-        {userFreeStuff.map((freeStuff) => (
-          <div key={freeStuff.id}>
-            {/* Render Free Stuff item with necessary information */}
-            <p>{freeStuff.name}</p>
-            <p>{freeStuff.description}</p>
-            {/* Add delete and update buttons if needed */}
-          </div>
+        {userFreeStuff.map((stuff) => (
+          <FreeStuffCard
+            key={stuff.id}
+            stuff={stuff}
+            user={user}
+            handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
+            userFreeStuff={userFreeStuff}
+            setUserFreeStuff={setUserFreeStuff}
+            handleDeleteClickFreeStuff={() => handleDeleteClickFreeStuff(stuff.id, 'stuff')}
+          />
         ))}
       </div>
 

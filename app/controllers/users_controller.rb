@@ -3,8 +3,8 @@ class UsersController < ApplicationController
 
 
   def index 
-    users = User.includes(:goods, :services, :free_stuffs).all
-    render json: users, include: [:goods, :services, :free_stuffs], status: :ok
+    users = User.includes(:goods, :services, :free_stuffs, :comments).all
+    render json: users, include: [:goods, :services, :free_stuffs, :comments], status: :ok
   end
   
  # app/controllers/users_controller.rb
@@ -47,6 +47,7 @@ class UsersController < ApplicationController
 
   private
    
+  
     # def comment_params
     #   params.require(:comment).permit(:text) # Adjust this to match your comment model attributes
     # end

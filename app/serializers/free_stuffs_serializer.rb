@@ -1,5 +1,5 @@
 class FreeStuffsSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :image_url, :good_or_service
+  attributes :id, :body, :image_url
 
   has_one :user
   has_one :forum

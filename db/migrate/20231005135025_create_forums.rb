@@ -5,6 +5,7 @@ class CreateForums < ActiveRecord::Migration[7.0]
       t.string :goods
       t.string :services
       t.string :free_stuffs
+      t.string :comments
       t.timestamps
     end
   end

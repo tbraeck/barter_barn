@@ -2,20 +2,18 @@ import React, {useEffect, useState, useContext} from 'react'
 // import DrawingCard from './DrawingCard'
 import ServicesCard from '../services-components/ServicesCard';
 import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
-// import NewUserDrawing from './NewUserDrawing'
+import NewUserGoods from '../new_forms/NewUserGoods';
 import { useParams } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext';
 import GoodsCard from '../goods-components/GoodsCard';
-// import './styles/CategoryCard.css';
 
-const ForumCard = ({allForum, SetAllforum, handleAdd}) => {
+const ForumCard = ({allForum, setAllForum, handleAdd}) => {
   const [forum, setForum] = useState({
     goods: [],
     services: [],
     free_stuffs: []
 })
 
-console.log(forum)
 const [userGoods, setUserGoods] = useState([])
 const [userServices, setUserServices] = useState([])
 const [userFreeStuff, setUserFreeStuff] = useState([])
@@ -116,7 +114,6 @@ const handleSaveServiceToUserProfile = (item) => {
       };
     });
 };
-console.log(forum)
 
 const handleSaveFreeStuffToUserProfile = (item) => {
   if (!isUserProfile) {
@@ -174,11 +171,59 @@ const handleDeleteClickGood = (user_id, good_id) => {
     .then(() => {
       const deleteGood = forum.goods.filter(g => g.id !== good_id);
       const updatedGoods = allForum.map(f => f.id === forum.id ? { ...f, goods: deleteGood } : f);
-      SetAllforum(updatedGoods);
+      setAllForum(updatedGoods);
       handleUpdateSubmitGood(good_id, deleteGood);
     })
     .catch((error) => {
       console.error('Error deleting drawing:', error);
+    });
+};
+
+const handleDeleteClickService = (user_id, service_id) => {
+  fetch(`http://localhost:3000/users/${user_id}/user_services/${service_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": 'application/json', 
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to delete service');
+      }
+      return response.json();
+    })
+    .then(() => {
+      const deleteService = forum.services.filter(s => s.id !== service_id);
+      const updatedServices = allForum.map(f => f.id === forum.id ? { ...f, services: deleteService } : f);
+      setAllForum(updatedServices);
+      handleUpdateSubmitService(service_id, deleteService);
+    })
+    .catch((error) => {
+      console.error('Error deleting service:', error);
+    });
+};
+
+const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
+  fetch(`http://localhost:3000/users/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": 'application/json', 
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to delete stuff');
+      }
+      return response.json();
+    })
+    .then(() => {
+      const deleteFreeStuff = forum.free_stuffs.filter(s => s.id !== free_stuffs_id);
+      const updatedFreeStuffs = allForum.map(f => f.id === forum.id ? { ...f, free_stuff: deleteFreeStuff } : f);
+      setAllForum(updatedFreeStuffs);
+      handleUpdateSubmitFreeStuff(free_stuffs_id, deleteFreeStuff);
+    })
+    .catch((error) => {
+      console.error('Error deleting stuff:', error);
     });
 };
 
@@ -203,6 +248,48 @@ const handleUpdateSubmitGood = (good_id, updatedGood) => {
     });
 };
 
+const handleUpdateSubmitService = (service_id, updatedService) => {
+  fetch(`/users/${user.id}/user_services/${service_id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedService),
+  })
+    .then(r => r.json())
+    .then(savedService => {
+      console.log(savedService);
+      const updatedUserServices = userServices.map(service =>
+        service.id === service_id ? savedService : service
+      );
+      setUserServices(updatedUserServices);
+    })
+    .catch((error) => {
+      console.error('Error updating items:', error);
+    });
+};
+
+const handleUpdateSubmitFreeStuff = (free_stuffs_id, updatedFreeStuff) => {
+  fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedFreeStuff),
+  })
+    .then(r => r.json())
+    .then(savedFreeStuff => {
+      console.log(savedFreeStuff);
+      const updatedUserFreeStuff = userFreeStuff.map(stuff =>
+        stuff.id === free_stuffs_id ? savedFreeStuff : stuff
+      );
+      setUserFreeStuff(updatedUserFreeStuff);
+    })
+    .catch((error) => {
+      console.error('Error updating items:', error);
+    });
+};
+
 const forumGoods = forum.goods.map((good) => (
   <div key={good.id}>
     <GoodsCard
@@ -220,6 +307,7 @@ const forumGoods = forum.goods.map((good) => (
     />
   </div>
 ))
+
 const forumServices = forum.services.map((service) => (
   <div key={service.id}>
     <ServicesCard
@@ -227,9 +315,12 @@ const forumServices = forum.services.map((service) => (
      user={user}
      forum={forum}
      allForum={allForum}
-    //  handleDeleteClick={handleDeleteClick}
-    //  isUserProfile={isUserProfile}
-    //  handleUpdateSubmit={handleUpdateSubmit}
+     id={id}
+     userServices={userServices}
+     setUserServices={setUserServices}
+     handleDeleteClickService={handleDeleteClickService}
+     isUserProfile={isUserProfile}
+     handleUpdateSubmitService={handleUpdateSubmitService}
     handleSaveServiceToUserProfile={handleSaveServiceToUserProfile}
     />
   </div>
@@ -242,15 +333,16 @@ const forumFreeStuff = forum.free_stuffs.map((stuff) => (
      user={user}
      forum={forum}
      allForum={allForum}
-     forumId={forum.id}
-    //  handleDeleteClick={handleDeleteClick}
-    //  isUserProfile={isUserProfile}
-    //  handleUpdateSubmit={handleUpdateSubmit}
+     id={id}
+     userFreeStuff={userFreeStuff}
+     setUserFreeStuff={setUserFreeStuff}
+     handleDeleteClickFreeStuff={handleDeleteClickFreeStuff}
+     isUserProfile={isUserProfile}
+     handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
     />
   </div>
 ))
-console.log(forum)
 
 return(
   <div className="forum-container">
@@ -276,7 +368,16 @@ return(
           <ul className="catFreeStuff">{forumFreeStuff}</ul> 
         </div>
       </div>
-      {/* Add other grid items as needed */}
+      <div>
+              <NewUserGoods
+                allForum={allForum}
+                setAllForum={setAllForum}
+                forum={forum}
+                handleAdd={handleAdd}
+                user={user}
+              />
+            </div>
+            
       {errors && (
         <div className="error-messages">
           {errors.map((error, index) => (

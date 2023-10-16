@@ -3,41 +3,27 @@ class GoodsController < ApplicationController
 
   # GET /goods
   def index
-    @goods = Good.all
-
-    render json: @goods
+    goods = Good.all
+    render json: goods
   end
 
   # GET /goods/1
   def show
-    render json: @good
+    good = find_good
+    render json: good
   end
 
-  # POST /goods
-  # def create
-  #   @good = Good.new(good_params)
-
-  #   if @good.save
-  #     render json: @good, status: :created, location: @good
-  #   else
-  #     render json: @good.errors, status: :unprocessable_entity
-  #   end
-  # end
-
-
- 
   def create
-    @user_item = @current_user.user_items.create!(good_params)
-    render json: @user_item, status: :created
+    user = User.find(params[:user_id])
+    good = user.goods.create!(good_params)
+    render json: good, status: :created
   end
 
-  # PATCH/PUT /goods/1
   def update
-    if @good.update(good_params)
-      render json: @good
-    else
-      render json: @good.errors, status: :unprocessable_entity
-    end
+    good = find_good
+    good.update!(good_params)
+    render json: good, status: :ok
+   
   end
 
   # DELETE /goods/1
@@ -48,16 +34,11 @@ class GoodsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def find_good
         Good.find(params[:id])
     end
-    def set_good
-      @good = Good.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
     def good_params
-      params.permit(:title, :description, :image_url, :good_or_service)
+      params.require(:good).permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
     end
 end

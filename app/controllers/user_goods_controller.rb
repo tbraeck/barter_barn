@@ -24,13 +24,12 @@ class UserGoodsController < ApplicationController
     
     
     # PATCH/PUT /users/:user_id/user_items/:id
-    def update
-      @user_good = set_user_good
-      @user_good.update!(user_good_params)
-      render json: @user_good, status: :ok
-  
-    end
-    
+ # PATCH/PUT /users/:user_id/user_items/:id
+def update
+  @user_good.update!(user_good_params)
+  render json: @user_good, status: :ok
+end
+
     # DELETE /users/:user_id/user_items/:id
 
     def destroy
@@ -51,7 +50,7 @@ class UserGoodsController < ApplicationController
     end
 
     def user_good_params
-      params.permit(:title,  :description, :image_url, :good_or_service, :user_id, :forum_id)
+      params.permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
     end
 
   end

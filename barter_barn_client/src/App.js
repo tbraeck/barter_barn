@@ -13,12 +13,21 @@ import ForumList from './general/forum-components/ForumList';
 import FeatureCard from './general/FeatureCard';
 import ForumCard from './general/forum-components/ForumCard';
 import EditGoods from './general/editing-components/EditGoods';
+import EditServices from './general/editing-components/EditServices';
+import EditFreeStuffs from './general/editing-components/EditFreeStuff';
+import CommentCard from './general/comment-components/CommentCard';
 import UserProfile from './general/user-info/UserProfile.js';
 import { UserContext } from './contexts/UserContext';
 
 function App() {
   const [allForum, setAllForum] = useState([]);
   const [allGoods, setAllGoods] = useState([])
+  const [allServices, setAllServices] = useState([])
+  const [allFreeStuffs, setAllFreeStuffs] = useState([])
+  const [allComments, setAllComments] = useState([])
+
+
+
   // const [userComments, setUserComments] = useState([]);
   const {user, setUser} = useContext(UserContext);
 
@@ -33,9 +42,22 @@ function App() {
       .then((data) => setAllGoods(data))
       .catch((error) => console.error('Error fetching forums:', error));
 
+      fetch("http://localhost:3000/services")
+      .then((res)=> res.json())
+      .then((data) => setAllServices(data))
+      .catch((error) => console.error('Error fetching forums:', error));
+
+      fetch("http://localhost:3000/free_stuffs")
+      .then((res)=> res.json())
+      .then((data) => setAllFreeStuffs(data))
+      .catch((error) => console.error('Error fetching forums:', error));
+      
+      fetch("http://localhost:3000/comments")
+      .then((res)=> res.json())
+      .then((data) => setAllComments(data))
+      .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
-  console.log(allForum)
 
 // const handleSaveCommentsToUserProfile = (comment) => {
 //   fetch(`http://localhost:3000/users/${user.id}/comments`, {
@@ -84,13 +106,29 @@ const handleAddGood = (newGood) => {
     setAllForum(newGoodArray)
     }
 
+    const handleAddService = (newService) => {
+      const newServiceArray = [...allForum, newService]
+      setAllForum(newServiceArray)
+      }
+
+  const handleAddFreeStuffs = (newStuff) => {
+        const newFreeStuffArray = [...allForum, newStuff]
+        setAllForum(newFreeStuffArray)
+        }
+
+
+  const handleAddComments = (newComment) => {
+    const newCommentArray = [...allForum, newComment]
+    setAllComments(newCommentArray)
+    }
+
     const handleLogout = ()=> {
       setUser(null)
     }
 
     const handleUpdateGoods = (updatedGood) => {
       const editedGood = allGoods.map((good) => {
-        if (good.id === editedGood.id) {
+        if (good.id === updatedGood.id) {
           return editedGood
         } else {
           return good;
@@ -99,6 +137,29 @@ const handleAddGood = (newGood) => {
       setAllForum(editedGood)
     }
 
+    const handleUpdateServices = (updatedService) => {
+      const editedService = allServices.map((service) => {
+        if (service.id === updatedService.id) {
+          return editedService
+        } else {
+          return service;
+        } 
+      });
+      setAllForum(editedService)
+    }
+
+    const handleUpdateFreeStuffs = (updatedFreeStuff) => {
+      const editedFreeStuff = allFreeStuffs.map((stuff) => {
+        if (stuff.id === updatedFreeStuff.id) {
+          return editedFreeStuff
+        } else {
+          return stuff;
+        } 
+      });
+      setAllForum(editedFreeStuff)
+    }
+
+   
     if(!user) return <Login  />
 
 
@@ -112,12 +173,16 @@ const handleAddGood = (newGood) => {
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
                 <Route path="/forums/:id" element={<ForumCard    allForum={allForum} setAllForum={setAllForum} />} />
-                <Route path="/goods/:id" element={<GoodsCard  allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood} />}/> 
-                <Route path="/services/:id" element={<ServicesCard allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood} />}/> 
-                <Route path="/free_stuffs/:id" element={<FreeStuffCard allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood} />}/> 
+                <Route path="/goods/:id" element={<GoodsCard  allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood} allComments={allComments} setAllComments={setAllComments}/>}/> 
+                <Route path="/services/:id" element={<ServicesCard allForum={allForum} setAllForum={setAllForum} handleAddService={handleAddService} />}/> 
+                <Route path="/free_stuffs/:id" element={<FreeStuffCard allForum={allForum} setAllForum={setAllForum} handleAddFreeStuffs={handleAddFreeStuffs} />}/>
+                <Route path="/comments/:id" element={<CommentCard allForum={allForum} setAllForum={setAllForum} handleAddComments={handleAddComments} allComments/>}/> 
                 <Route path="/featured" element={<FeatureCard  allGoods={allGoods}  setAllGoods={setAllGoods}  allForum={allForum} setAllForum={setAllForum}/>} />
                 <Route path="/forums/:id/edit" element={<ForumCard allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood}/>}/>
                 <Route path="/users/:user_id/goods/:good_id" element={<EditGoods user={user} handleUpdateGoods={handleUpdateGoods } allForum={allForum}/>} />
+                <Route path="/users/:user_id/services/:service_id" element={<EditServices user={user} handleUpdateServices={handleUpdateServices } allForum={allForum}/>} />
+                <Route path="/users/:user_id/free_stuffs/:free_stuffs_id" element={<EditFreeStuffs user={user} handleUpdateFreeStuffs={handleUpdateFreeStuffs } allForum={allForum}/>} />
+
                 <Route path="/user-profile"  element={user ? <UserProfile user={user}/> : <Navigate to='/'/>} /> 
                 </Routes>
           </div> 

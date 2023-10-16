@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import EditFreeStuff from '../editing-components/EditFreeStuff';
-import Comments from '../comment-components/Comments.js';
+// import Comments from '../comment-components/CommentCard.js';
 // import './GoodsCard.css'; // Import the CSS file
 
-const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserProfile, handleUpdateSubmit, handleUpdateUserItems, handleDeleteClick, handleSaveFreeStuffToUserProfile }) => {
+const FreeStuffCard = ({ stuff, user, setUserFreeStuff, userFreeStuff, allForum, isUserProfile, handleUpdateSubmitFreeStuff, handleUpdateUserFreeStuff, handleDeleteClickFreeStuff, handleSaveFreeStuffToUserProfile }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isCommentFormVisible, setIsCommentFormVisible] = useState(false);
@@ -46,7 +46,7 @@ const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserP
       return;
     }
 
-    handleDeleteClick(stuff.id);
+    handleDeleteClickFreeStuff(stuff.id);
   };
 
   const handleCommentButtonClick = () => {
@@ -74,12 +74,12 @@ const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserP
           allForum={allForum}
           stuff={stuff}
           handleShowEditForm={handleShowEditForm}
-          userItems={userItems}
-          setUserItems={setUserItems}
-          handleUpdateSubmit={handleUpdateSubmit}
+          userFreeStuff={userFreeStuff}
+          setUserFreeStuff={setUserFreeStuff}
+          handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
           isEditFormVisible={isEditFormVisible}
           setIsEditFormVisible={setIsEditFormVisible}
-          handleUpdateUserItems={handleUpdateUserItems}
+          handleUpdateUserFreeStuff={handleUpdateUserFreeStuff}
         />
       ) : (
         <div className="goodCardContainer">
@@ -87,12 +87,12 @@ const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserP
             <h2 className='goodTitle'>{body}</h2>
             <p className='goodInfo'><strong>Image URL:</strong> {image_url}</p>
             <div className='buttonContainer'>
-            {!isSaved && !isUserProfile && (
+            {isUserProfile && (
                 <button onClick={handleSave} className='crudButton saveButton'>
                   SAVE
                 </button>
               )}
-              {isSaved && !isUserProfile && (
+              {!isUserProfile && (
                   <>
                     <button onClick={handleDelete} className='crudButton deleteButton'>
                       DELETE
@@ -102,10 +102,11 @@ const FreeStuffCard = ({ stuff, user, setUserItems, userItems, allForum, isUserP
                     </button>
                   </>
                 )}
-
+                 {isUserProfile && (
               <button onClick={handleCommentButtonClick} className='crudButton commentButton'>
                 COMMENT
               </button>
+            )}
             </div>
             {isSaved && <p className='saveMessage'>Item has been saved to your profile!</p>}
             {errors.length > 0 && (

@@ -12,7 +12,6 @@ const FeaturedCard = ({ allGoods }) => {
   };
 
   useEffect(() => {
-    // Call handleRandomize to set the initial random item when the component loads
     handleRandomize();
   }, [allGoods]);
 

@@ -1,122 +1,64 @@
-class UserItemsController < ApplicationController
-    before_action :set_user
-    before_action :set_user_item, only: [:index, :show, :create, :update, :destroy]
-    skip_before_action :authorize
+class UserCommentsController < ApplicationController
+  before_action :set_user
+  before_action :set_user_comment, only: [:index, :show, :create, :update, :destroy]
+  skip_before_action :authorize
 
-    # GET /users/:user_id/user_items
-    def index
-      user_items = @current_user.user_items
-      render json: user_items
-    end
+  # GET /goods
+  def index
+    user_comments = @current_user.user_comments
+    render json: user_comments
+  end
+
+  # GET /goods/1
+  def show
+    render json: @user_comment
+  end
+
+  # POST /goods
+  # def create
+  #   @good = Good.new(good_params)
+
+  #   if @good.save
+  #     render json: @good, status: :created, location: @good
+  #   else
+  #     render json: @good.errors, status: :unprocessable_entity
+  #   end
+  # end
+
+
+ 
+  def create
+    @user_comment = @current_user.user_comments.create!(user_comment_params)
+    render json: @user_comment, status: :created
+  end
+
+  # PATCH/PUT /goods/1
+  def update
+    @user_comment = set_user_comment
+    @user_comment.update!(user_comment_params)
+    render json: @user_comment, status: :ok
     
-    # GET /users/:user_id/user_items/:id
-    def show
-      render json: @user_item
-    end
-    
-    # POST /users/:user_id/user_items
+  end
 
-    def create
-      @user_good = @current_user.user_goods.create!(user_good_params)
-      render json: @user_good, status: :created
-      
-    end
-    
-    
-    # PATCH/PUT /users/:user_id/user_items/:id
-    def update
-      @user_item = set_user_item
-      if @user_item.update(user_item_params)
-        render json: @user_item
-      else
-        render json: { errors: @user_item.errors.full_messages }, status: :unprocessable_entity
-      end
-    end
-    
-    # DELETE /users/:user_id/user_items/:id
+  # DELETE /goods/1
+  def destroy
+    @user_comment = set_user_comment
+    @user_comment.destroy
+    head :no_content
+  end
 
-    def destroy
-      @user_item = set_user_item
-      if @user_item
-        @user_item.destroy
-        head :no_content
-      else
-        render json: { error: 'User item not found' }, status: :not_found
-      end
-    end
-    
-    def goods_destroy
-
-    end
-
-def goods_update
-  @user_good = set_user_good
-  @user_good.update!(user_good_params)
-  render json: @user_good, status: :ok
-end
-
-def services_update
-  @user_service = set_user_service
-  @user_service.update!(user_service_params)
-  render json: @user_service, status: :ok
-end
-
-def free_stuffs_update
- @user_free_stuffs = set_user_free_stuffs
-  @user_free_stuffs.update!(user_free_stuffs_params)
-  render json: @user_free_stuffs, status: :ok
-end
-
-def services_destroy
-
-end
-
-def free_stuffs_update
-
-end
-
-def free_stuffs_destroy
-
-end
-
-    private
-    
+  private
+    # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @current_user = User.find(params[:user_id])
+       @current_user = User.find(params[:user_id])
+    end
+
+    def set_user_comment
+      @user_comment = @current_user.user_comments.find_by(id: params[:id])
     end
    
-    def set_user_item
-      @user_item = @current_user.user_items.find_by(id: params[:id])
+    # Only allow a list of trusted parameters through.
+    def user_comment_params
+      params.permit(:name, :comment_text, :contact_info, :available_times)
     end
-
-
-    def set_user_good
-      @user_good = @current_user.user_items.find_by(id: params[:id])
-    end
-
-
-    def set_user_service
-      @user_service = @current_user.user_items.find_by(id: params[:id])
-    end
-
-
-    def set_user_free_stuffs
-      @user_free_stuffs = @current_user.user_items.find_by(id: params[:id])
-    end
-    
-    def user_item_params
-      params.permit(:title, :body, :description, :image_url, :good_or_service)
-    end
-
-    def user_good_params
-      params.permit(:title,  :description, :image_url, :good_or_service)
-    end
-
-    def user_service_params
-      params.permit(:title,  :description, :image_url, :good_or_service)
-    end
-
-    def user_free_stuffs_params
-      params.permit(:body, :image_url)
-    end
-  end
+end

@@ -1,41 +1,53 @@
 import React, { useState } from 'react';
 
-function EditFreeStuff({  user, post, handleUpdateUserPosts, isEditFormVisible, setIsEditFormVisible }) {
-  const [postBody, setPostBody] = useState({
-        title: post.title,
-        body: post.body,
-       post_id: post.post_id
+function EditFreeStuffs({  user, stuff, handleUpdateUserFreeStuffs, isEditFormVisible, setIsEditFormVisible }) {
+  const [stuffBody, setStuffBody] = useState({
+        body: stuff.body,
+        image_url: stuff.image_url,
+        stuff_id: stuff.stuff_id
     })
-   
-    const {title, body} = postBody;
 
-    const handlePostChange = (e) => {
+    const [errors, setErrors] = useState([]);
+
+
+    const {body, image_url} = stuffBody;
+
+    const handleStuffChange = (e) => {
         let name = e.target.name
         let value = e.target.value
-        setPostBody({...postBody, [name]:value})
+        setStuffBody({...stuffBody, [name]:value})
       }
  
     const handleSubmitEdit = (e) => {
       e.preventDefault();
-      let post_id = post.id;
+      let free_stuff_id = stuff.id;
       let user_id = user.id;
 
-      fetch(`http://localhost:3000/users/${user_id}/user_posts/${post_id}`, {
+      fetch(`http://localhost:3000/users/${user_id}/user_free_stuffs/${free_stuff_id}`, {
+        // "/users/:user_id/user_goods/:good_id
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(postBody),
+        body: JSON.stringify(stuffBody),
       })
-        .then((response) => response.json())
-        .then((updatedPost) => {
-          console.log(updatedPost)
-          handleUpdateUserPosts(updatedPost);
-          setIsEditFormVisible(!isEditFormVisible);
-        })
-        .catch((error) => {
-          console.error("Error updating post:", error);
-        });
+      .then((r) => {
+        if (r.ok) {
+          r.json().then((updatedStuff) => {
+            // setErrors([]);
+            handleUpdateUserFreeStuffs(updatedStuff);
+            setIsEditFormVisible(!isEditFormVisible);
+          });
+        } else {
+          return r.json().then((error) => {
+            console.error('Error response from server:', error);
+            setErrors(error.errors);
+            setTimeout(() => {
+              setErrors(null);
+            }, 3000);
+          });
+        }
+      });
     };
 
   return (
@@ -44,23 +56,32 @@ function EditFreeStuff({  user, post, handleUpdateUserPosts, isEditFormVisible, 
       <input
       className='formInput'
         type="text"
-        name='title'
-        value={title}
-        onChange={handlePostChange}
-        placeholder="Enter title..."
-      />
-       <input
-       className='formInput'
-        type="text"
         name='body'
         value={body}
-        onChange={handlePostChange}
+        onChange={handleStuffChange}
         placeholder="Enter body..."
       />
+      <input
+       className='formInput'
+        type="text"
+        name='image_url'
+        value={image_url}
+        onChange={handleStuffChange}
+        placeholder="Enter image url..."
+      />
       <button className='formButton' type="submit">UPDATE</button>
+      {errors && (
+          <div className="error-messages">
+            {errors.map((error, index) => (
+              <p key={index} className="error-message">
+                {error}
+              </p>
+            ))}
+          </div>
+        )}
     </form> 
 );
 };
 
-export default EditFreeStuff;
+export default EditFreeStuffs;
 

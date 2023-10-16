@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import EditGoods from '../editing-components/EditGoods';
-import Comments from '../comment-components/Comments.js';// import './GoodsCard.css'; // Import the CSS file
 
 const GoodsCard = ({ good, user, allForum, userGoods, setUserGoods, isUserProfile, handleUpdateSubmitGood, handleUpdateUserGoods, handleDeleteClickGood, handleSaveGoodToUserProfile }) => {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
@@ -9,6 +8,7 @@ const GoodsCard = ({ good, user, allForum, userGoods, setUserGoods, isUserProfil
   const [errors, setErrors] = useState([]);
   const [commentData, setCommentData] = useState({
     name: '',
+    commentText: '',
     contactInfo: '',
     availableTimes: '',
   });
@@ -17,8 +17,6 @@ const GoodsCard = ({ good, user, allForum, userGoods, setUserGoods, isUserProfil
     return <div>Loading...</div>;
   }
 
-  console.log('isSaved:', isSaved);
-console.log('isUserProfile:', isUserProfile);
 
   const { title, description, image_url, good_or_service } = good;
 
@@ -64,17 +62,44 @@ console.log('isUserProfile:', isUserProfile);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    // Handle comment submission logic here, e.g., sending data to the server
-    // You can access the comment data in the commentData state
-    // Reset the comment form and hide it when done
-    setIsCommentFormVisible(false);
-    setCommentData({
-      name: '',
-      contactInfo: '',
-      availableTimes: '',
-    });
+  
+    // Create a comment object based on the commentData
+    const newComment = {
+      name: commentData.name,
+      commentText: commentData.commentText,
+      contactInfo: commentData.contactInfo,
+      availableTimes: commentData.availableTimes,
+      userId: user.id, // Associate the comment with the current user
+    };
+  
+    // Make a POST request to your backend to save the comment
+    fetch('http://localhost:3000/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newComment),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Reset the comment form and hide it
+          setIsCommentFormVisible(false);
+          setCommentData({
+            name: '',
+            contactInfo: '',
+            availableTimes: '',
+          });
+          // Show a success message
+          window.alert('Comment has been saved to your profile!');
+        } else {
+          // Handle errors if the request fails
+          console.error('Error saving comment');
+        }
+      })
+      .catch((error) => {
+        console.error('Error saving comment:', error);
+      });
   };
-  console.log('User:', user);
 
   return (
     <div className='goodEdit' onDoubleClick={() => setIsEditFormVisible((isEditFormVisible)=>!isEditFormVisible)}>
@@ -147,6 +172,17 @@ console.log('isUserProfile:', isUserProfile);
                   />
                 </div>
                 <div className='formField'>
+                  <label htmlFor='contactInfo'>Comment or Question:</label>
+                  <input
+                    type='text'
+                    id='commentInfo'
+                    name='commentInfo'
+                    value={commentData.commentText}
+                    onChange={(e) => setCommentData({ ...commentData, commentText: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className='formField'>
                   <label htmlFor='contactInfo'>Contact Information:</label>
                   <input
                     type='text'
@@ -174,7 +210,17 @@ console.log('isUserProfile:', isUserProfile);
                       ))}
                     </select>
                   </div>
-                 
+                  <button type="submit" className='crudButton submitButton'>Submit Comment</button>
+                  {isSaved && <p className='saveMessage'>Comment has been saved to your profile!</p>}
+                  {errors.length > 0 && (
+              <div className="error-messages">
+                {errors.map((error, index) => (
+                  <p key={index} className="error-message">
+                    {error}
+                  </p>
+                ))}
+              </div>
+            )}
               </form>
             )}
             
