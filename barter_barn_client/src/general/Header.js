@@ -7,11 +7,10 @@ const Header = ({handleLogout, userComments, setUserComments}) => {
   const {user, setUser} = useContext(UserContext);
 
   return (
-    <div className="headerCont">
+    <div className="header">
       <img src="/barn.gif" alt="Barter Barn Logo" className="logo" />
-      <div className='navbar'>
         <NavBar user={user} setUser={setUser} userComments={userComments} setUserComments={setUserComments} handleLogout={handleLogout} />
-      </div>
+    
     </div>
   )
 }

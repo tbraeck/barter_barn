@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_25_010429) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_193243) do
   create_table "comments", force: :cascade do |t|
     t.integer "good_id"
     t.integer "service_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_25_010429) do
     t.integer "forum_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "claimed"
   end
 
   create_table "goods", force: :cascade do |t|

@@ -1,5 +1,6 @@
 class FreeStuffsController < ApplicationController
   skip_before_action :authorize
+  attr_accessor :claimed
 
   # GET /goods
   def index
@@ -14,17 +15,23 @@ class FreeStuffsController < ApplicationController
     render json: free_stuff
   end
 
-  # POST /goods
-  # def create
-  #   @good = Good.new(good_params)
+  def claim
+    @free_stuff = FreeStuff.find(params[:id])
 
-  #   if @good.save
-  #     render json: @good, status: :created, location: @good
-  #   else
-  #     render json: @good.errors, status: :unprocessable_entity
-  #   end
-  # end
+    if @free_stuff.claimed
+      render json: { success: false, message: "Item is already claimed" }
+    else
+      # Assuming you have a user authentication system, you can set the user_id here.
+      @free_stuff.user_id = current_user.id
+      @free_stuff.claimed = true
 
+      if @free_stuff.save
+        render json: { success: true, message: "Item has been successfully claimed" }
+      else
+        render json: { success: false, message: "Failed to claim the item" }
+      end
+    end
+  
 
  
   def create

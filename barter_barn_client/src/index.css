@@ -10,7 +10,38 @@ html, body {
   flex-direction: column;
 }
 
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.logo {
+  width: 100px; /* Adjust the width as needed */
+  height: auto;
+  margin-right: 20px; /* Add spacing between the logo and the navigation bar */
+}
+
+.welcomeMsg {
+  background: #f0f0f0; /* Background color */
+  padding: 20px;
+  text-align: center;
+}
+
+.welcomeMsgH1 {
+  font-size: 36px; /* Adjust font size as needed */
+  color: #333; /* Text color */
+  margin: 10px 0; /* Top and bottom margin */
+}
+
+.welcomeMsgP {
+  font-size: 18px; /* Adjust font size as needed */
+  color: #666; /* Text color */
+  margin: 10px 0; /* Top and bottom margin */
+}
 
 .footer {
   background-color: #333; /* Customize background color */

@@ -33,20 +33,20 @@ function App() {
       .then((data) => setAllForum(data))
       .catch((error) => console.error('Error fetching forums:', error));
 
-      fetch("http://localhost:3000/goods")
-      .then((res)=> res.json())
-      .then((data) => setAllGoods(data))
-      .catch((error) => console.error('Error fetching forums:', error));
+      // fetch("http://localhost:3000/goods")
+      // .then((res)=> res.json())
+      // .then((data) => setAllGoods(data))
+      // .catch((error) => console.error('Error fetching forums:', error));
 
-      fetch("http://localhost:3000/services")
-      .then((res)=> res.json())
-      .then((data) => setAllServices(data))
-      .catch((error) => console.error('Error fetching forums:', error));
+      // fetch("http://localhost:3000/services")
+      // .then((res)=> res.json())
+      // .then((data) => setAllServices(data))
+      // .catch((error) => console.error('Error fetching forums:', error));
 
-      fetch("http://localhost:3000/free_stuffs")
-      .then((res)=> res.json())
-      .then((data) => setAllFreeStuffs(data))
-      .catch((error) => console.error('Error fetching forums:', error));
+      // fetch("http://localhost:3000/free_stuffs")
+      // .then((res)=> res.json())
+      // .then((data) => setAllFreeStuffs(data))
+      // .catch((error) => console.error('Error fetching forums:', error));
 
   }, [])
   

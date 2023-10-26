@@ -54,22 +54,84 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
+  // const handleClaim = () => {
+  //   if (!isPending && !isClaimed) {
+  //     setIsClaimed(true)
+  //     // Step 1: Remove the claimed item from the forum
+  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  //     setAllForum(updatedForum);
+  
+  //     // Step 2: Add the claimed item to the user's profile
+  //     handleSave( stuff);
+  //     setClaimMessage("Claimed item is in your profile");
+  //     // Step 3: Send a message to the original poster
+  //     sendMessageToOriginalPoster(stuff, user);
+  
+     
+  //   }
+  // };
+
   const handleClaim = () => {
     if (!isPending && !isClaimed) {
-      setIsClaimed(true)
       // Step 1: Remove the claimed item from the forum
       const updatedForum = allForum.filter((item) => item.id !== stuff.id);
       setAllForum(updatedForum);
   
       // Step 2: Add the claimed item to the user's profile
-      handleSave( stuff);
+      handleSave(stuff);
   
       // Step 3: Send a message to the original poster
-      sendMessageToOriginalPoster(stuff, user);
-  
-      setClaimMessage("Claimed item is in your profile");
+      fetch(`/free_stuffs/${stuff.id}/claim`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: user.id }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to send message to original poster');
+          }
+          // Message sent to original poster successfully
+          return response.json();
+        })
+        .then(() => {
+          // Step 4: Send a message to the current user
+          fetch('/messages', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              recipientId: user.id,
+              content: `The claimed item has been added to your profile.`,
+            }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                // Message sent to current user successfully
+                return response.json();
+              } else {
+                throw new Error('Failed to send message to current user');
+              }
+            })
+            .then(() => {
+              // Step 5: Mark the item as claimed and set the claim message
+              setIsClaimed(true);
+              setClaimMessage("Claimed item is in your profile");
+            })
+            .catch((error) => {
+              // Handle any errors in the second message sending process
+              console.error('Error sending message to current user:', error);
+            });
+        })
+        .catch((error) => {
+          // Handle any errors in the first message sending process
+          console.error('Error sending message to original poster:', error);
+        });
     }
   };
+  
   
 
   
