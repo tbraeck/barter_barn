@@ -24,33 +24,27 @@ const FreeStuffCard = ({
   const [claimMessage, setClaimMessage] = useState("");
 
   if (!stuff || !stuff.body) {
-    // If the item is missing data, don't render it.
     return null;
   }
 
   if (isClaimed) {
-    // If the item is claimed, return null to not render it.
     return null;
   }
 
   const { body, image_url } = stuff;
 
-
-//   console.log(isClaimed); // Check if isClaimed changes to true when claimed
-// console.log(claimMessage);
-
   const handleSave = () => {
-    if (!isPending) {
-      // Check if the item is not pending
-      const saveResult = handleSaveFreeStuffToUserProfile(stuff);
-      if (saveResult.success) {
-        setIsSaved(true);
-        setErrors([]);
-      } else {
-        setErrors([saveResult.message]);
-      }
+  if (!isPending) {
+    // Check if the item is not pending
+    const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save'); // Pass 'save' as the buttonClicked parameter
+    if (saveResult.success) {
+      setIsSaved(true);
+      setErrors([]);
+    } else {
+      setErrors([saveResult.message]);
     }
-  };
+  }
+};
 
   const handleDelete = () => {
     if (isUserProfile) {
@@ -60,39 +54,15 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
-
-
-  // const handleUpdateUserFreeStuffs = (updatedStuff) => {
-  //   setUserFreeStuff((prevUserFreeStuff) => {
-  //     // Map through the previous items and update the claimed item
-  //     console.log(updatedStuff)
-  //     const updatedUserFreeStuffs = prevUserFreeStuff.map((item) =>
-  //       item.id === updatedStuff.id ? { ...item, claimed: false } : item
-  //     );
-  
-  //     return updatedUserFreeStuffs;
-  //   });
-  // };
-
-  const handleUpdateUserFreeStuffs = (updatedStuff) => {
-    setUserFreeStuff((prevUserFreeStuff) => {
-      const updatedUserFreeStuffs = prevUserFreeStuff.map((item) =>
-        item.id === updatedStuff.id ? { ...item, claimed: false } : item
-      );
-  
-      return updatedUserFreeStuffs;
-    });
-  };
-console.log(claimMessage)
   const handleClaim = () => {
     if (!isPending && !isClaimed) {
-  setIsClaimed(false)
+      setIsClaimed(true)
       // Step 1: Remove the claimed item from the forum
       const updatedForum = allForum.filter((item) => item.id !== stuff.id);
       setAllForum(updatedForum);
   
       // Step 2: Add the claimed item to the user's profile
-      handleUpdateUserFreeStuffs([...userFreeStuff, stuff]);
+      handleSave( stuff);
   
       // Step 3: Send a message to the original poster
       sendMessageToOriginalPoster(stuff, user);
@@ -100,6 +70,8 @@ console.log(claimMessage)
       setClaimMessage("Claimed item is in your profile");
     }
   };
+  
+
   
 
   return (

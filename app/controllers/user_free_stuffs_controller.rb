@@ -53,7 +53,7 @@ class UserFreeStuffsController < ApplicationController
   end
 
   def user_free_stuff_params
-    params.permit(:body, :image_url, :user_free_stuff, :user_id, :forum_id)
+    params.permit(:body, :image_url, :user_id, :forum_id)
   end
   
   

@@ -307,88 +307,37 @@ FreeStuff.create!([
     }
   ])
 
-puts "🤡 Seeding Comments..."
+  # puts "🤖 Seeding Messages..."
 
-  Comment.create!([
-    {
-      name: "Frank",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 3,
-      forum_id: 2
-
-    },
-    {
-      name: "Fred",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 2,
-      forum_id: 1
-
-    },
-    {
-      name: "Ted",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 1,
-      forum_id: 1
-
-    },
-    {
-      name: "Blake",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 4,
-      forum_id: 3
-
-    },
-    {
-      name: "Sarah",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 5,
-      forum_id: 3
-
-    },
-    {
-      name: "Sarah",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 5,
-      forum_id: 1
-
-    },
-    {
-      name: "Jerry",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 6,
-      forum_id: 1
-
-    },
-    {
-      name: "John",
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 7,
-      forum_id: 2
-
-    },
-    {
-      name: "Jessica", 
-      comment_text: Faker::Lorem.sentence,
-      contact_info: Faker::PhoneNumber.cell_phone,
-      available_times: "9:00AM - 12:00PM",
-      user_id: 8,
-      forum_id: 3
-
-    }
-])
+  # Message.create!([
+  #   {
+  #   sender_id: 2,
+  #   recipient_id: 1,
+  #   content: Faker::Quote.jack_handey
+  #   },
+  #   {
+  #     sender_id: 3,
+  #     recipient_id: 6,
+  #     content: Faker::Quote.jack_handey
+  #     },
+  #     {
+  #       sender_id: 8,
+  #       recipient_id: 7,
+  #       content: Faker::Quote.jack_handey
+  #       },
+  #       {
+  #         sender_id: 6,
+  #         recipient_id: 5,
+  #         content: Faker::Quote.jack_handey
+  #         },
+  #         {
+  #           sender_id: 4,
+  #           recipient_id: 3,
+  #           content: Faker::Quote.jack_handey
+  #           },
+  #           {
+  #             sender_id: 1,
+  #             recipient_id: 2,
+  #             content: Faker::Quote.jack_handey
+  #           }
+  #           ])

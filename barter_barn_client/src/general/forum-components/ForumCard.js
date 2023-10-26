@@ -21,8 +21,7 @@ const ForumCard = (
     services: [],
     free_stuffs: []
 })
-console.log(forum)
-console.log(allForum)
+
 const [userGoods, setUserGoods] = useState([])
 const [userServices, setUserServices] = useState([])
 const [userFreeStuff, setUserFreeStuff] = useState([])
@@ -60,7 +59,6 @@ const handleSaveGoodToUserProfile = (good) => {
       if (res.ok) {
         return res.json().then((savedGood) => {
           setUserGoods([...userGoods, savedGood]);
-          console.log(savedGood)
 
           return (
             alert("Good saved to profile!")
@@ -82,8 +80,7 @@ const handleSaveGoodToUserProfile = (good) => {
       };
     });
 };
-console.log(forum)
-console.log(allForum)
+
 
 const handleSaveServiceToUserProfile = (item) => {
   if (!isUserProfile) {
@@ -296,7 +293,6 @@ const handleUpdateSubmitGood = (good_id, updatedGood) => {
   })
     .then(r => r.json())
     .then(savedGood => {
-      console.log(savedGood);
       const updatedUserGoods = userGoods.map(good =>
         good.id === good_id ? savedGood : good
       );
@@ -317,7 +313,6 @@ const handleUpdateSubmitService = (service_id, updatedService) => {
   })
     .then(r => r.json())
     .then(savedService => {
-      console.log(savedService);
       const updatedUserServices = userServices.map(service =>
         service.id === service_id ? savedService : service
       );
@@ -339,7 +334,6 @@ const handleUpdateSubmitFreeStuff = (free_stuff_id, updatedFreeStuff) => {
   })
     .then(r => r.json())
     .then(savedFreeStuff => {
-      console.log(savedFreeStuff);
       const updatedUserFreeStuff = userFreeStuff.map(stuff =>
         stuff.id === free_stuff_id ? savedFreeStuff : stuff
       );
@@ -409,8 +403,7 @@ const forumGoods = forum.goods.map((good) => (
     />
   </div>
 ))
-console.log(forum)
-console.log(allForum)
+
 const forumServices = forum.services.map((service) => (
   <div key={service.id}>
     <ServicesCard
@@ -429,7 +422,7 @@ const forumServices = forum.services.map((service) => (
     />
   </div>
 ))
-console.log(forum.free_stuffs)
+
 const forumFreeStuff = forum.free_stuffs.map((stuff) => (
   <div key={stuff.id}>
     <FreeStuffCard

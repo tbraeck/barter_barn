@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_235940) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_25_010429) do
   create_table "comments", force: :cascade do |t|
     t.integer "good_id"
     t.integer "service_id"
@@ -35,7 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_235940) do
     t.string "goods"
     t.string "services"
     t.string "free_stuffs"
-    t.string "comments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -58,6 +57,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_235940) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "good_or_service"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_sent"
   end
 
   create_table "services", force: :cascade do |t|
@@ -91,6 +99,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_235940) do
     t.index ["user_id"], name: "index_user_goods_on_user_id"
   end
 
+  create_table "user_services", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "image_url"
+    t.string "good_or_service"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_services_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -106,4 +125,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_235940) do
   add_foreign_key "comments", "users"
   add_foreign_key "user_free_stuffs", "users"
   add_foreign_key "user_goods", "users"
+  add_foreign_key "user_services", "users"
 end
