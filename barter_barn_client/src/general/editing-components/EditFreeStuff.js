@@ -8,8 +8,7 @@ function EditFreeStuffs({  user, stuff, handleUpdateUserFreeStuffs, isEditFormVi
     })
 
     const [errors, setErrors] = useState([]);
-
-
+    
     const {body, image_url} = stuffBody;
 
     const handleStuffChange = (e) => {
@@ -24,8 +23,7 @@ function EditFreeStuffs({  user, stuff, handleUpdateUserFreeStuffs, isEditFormVi
       let user_id = user.id;
 
       fetch(`http://localhost:3000/users/${user_id}/user_free_stuffs/${free_stuff_id}`, {
-        // "/users/:user_id/user_goods/:good_id
-        method: "PATCH",
+      method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,7 +32,8 @@ function EditFreeStuffs({  user, stuff, handleUpdateUserFreeStuffs, isEditFormVi
       .then((r) => {
         if (r.ok) {
           r.json().then((updatedStuff) => {
-            // setErrors([]);
+            console.log(updatedStuff)
+
             handleUpdateUserFreeStuffs(updatedStuff);
             setIsEditFormVisible(!isEditFormVisible);
           });

@@ -8,7 +8,6 @@ const UserItems = ({ user }) => {
   const [userGoods, setUserGoods] = useState([]);
   const [userServices, setUserServices] = useState([]);
   const [userFreeStuff, setUserFreeStuff] = useState([]);
-  const [userComments, setUserComments] = useState([]);
 
   useEffect(() => {
     // Fetch user goods 
@@ -59,21 +58,6 @@ const UserItems = ({ user }) => {
         console.error('Error fetching user free stuff:', error);
       });
 
-    // Fetch user comments
-    fetch(`http://localhost:3000/users/${user.id}/user_comments`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to fetch user comments');
-        }
-      })
-      .then((data) => {
-        setUserComments(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching user comments:', error);
-      });
   }, [user.id]);
 
   const handleDeleteClickGood = (goodId) => {
@@ -142,6 +126,9 @@ const UserItems = ({ user }) => {
     });
   };
 
+
+
+
   const handleUpdateUserGoods = (updatedGood) => {
     setUserGoods((prevUserGoods) => {
       const updatedUserGoods = prevUserGoods.map((good) =>
@@ -166,11 +153,25 @@ const UserItems = ({ user }) => {
     setUserFreeStuff((prevUserFreeStuff) => {
       const updatedUserFreeStuffs = prevUserFreeStuff.map((stuff) =>
         stuff.id === updatedStuff.id ? updatedStuff : stuff
-      );
+      );      console.log(updatedStuff)
+
       return updatedUserFreeStuffs;
     });
   };
 
+  // const handleUpdateUserFreeStuffs = (updatedStuff) => {
+  //   setUserFreeStuff((prevUserFreeStuff) => {
+  //     // Map through the previous items and update the claimed item
+  //     const updatedUserFreeStuffs = prevUserFreeStuff.map((item) =>
+  //       item.id === updatedStuff.id ? { ...item, claimed: true } : item
+  //     );
+  
+  //     return updatedUserFreeStuffs;
+  //   });
+  // };
+
+  
+// console.log(updatedStuff)
   return (
     <div className='user-items-container'>
       <div className='user-column'>
@@ -183,8 +184,8 @@ const UserItems = ({ user }) => {
             handleUpdateUserGoods={handleUpdateUserGoods}
             userGoods={userGoods}
             setUserGoods={setUserGoods}
-            handleDeleteClickGood={() => handleDeleteClickGood(good.id, 'goods')}
-          />
+            handleDeleteClickGood={(good_id) => handleDeleteClickGood(good_id, 'goods')}
+            />
         ))}
       </div>
 
@@ -198,7 +199,7 @@ const UserItems = ({ user }) => {
             handleUpdateUserServices={handleUpdateUserServices}
             userServices={userServices}
             setUserServices={setUserServices}
-            handleDeleteClickService={() => handleDeleteClickService(service.id, 'services')}
+            handleDeleteClickService={ handleDeleteClickService}
           />
         ))}
       </div>
@@ -213,21 +214,12 @@ const UserItems = ({ user }) => {
             handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
             userFreeStuff={userFreeStuff}
             setUserFreeStuff={setUserFreeStuff}
-            handleDeleteClickFreeStuff={() => handleDeleteClickFreeStuff(stuff.id, 'stuff')}
+            handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
           />
         ))}
       </div>
 
-      <div className='user-column'>
-        <h2>Comments</h2>
-        {userComments.map((comment) => (
-          <div key={comment.id}>
-            {/* Render Comment with necessary information */}
-            <p>{comment.text}</p>
-            {/* Add delete and update buttons if needed */}
-          </div>
-        ))}
-      </div>
+      
     </div>
   );
 };

@@ -3,8 +3,8 @@ class UsersController < ApplicationController
 
 
   def index 
-    users = User.includes(:goods, :services, :free_stuffs, :comments).all
-    render json: users, include: [:goods, :services, :free_stuffs, :comments], status: :ok
+    users = User.includes(:goods, :services, :free_stuffs).all
+    render json: users, include: [:goods, :services, :free_stuffs], status: :ok
   end
   
  # app/controllers/users_controller.rb

@@ -47,7 +47,7 @@
 
 
     def set_user_service
-      @user_good = @current_user.user_services.find_by(id: params[:id])
+      @user_service = @current_user.user_services.find_by(id: params[:id])
     end
 
     def user_service_params

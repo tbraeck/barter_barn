@@ -24,6 +24,8 @@ function EditServices({  user, service, handleUpdateUserServices, isEditFormVisi
       let user_id = user.id;
 
       fetch(`http://localhost:3000/users/${user_id}/user_services/${service_id}`, {
+
+
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

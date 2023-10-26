@@ -57,8 +57,8 @@ html, body {
 
 /* Style for the card container */
 .goodCardContainer {
-  max-width: 400px; /* Adjust the maximum width as needed */
-  margin: 20px; /* Add margin to create spacing between cards */
+  max-width: 400px;
+  margin: 20px 10px; /* Add margin to create spacing between cards and move them right */
 }
 /* 
 .goods-list-container {
@@ -79,6 +79,32 @@ html, body {
   justify-content: center; /* Center the content horizontally */
   align-items: center; /* Center the content vertically */
 }
+
+/* Additional styles for the featured card content (e.g., title, description, buttons) can be added here */
+.featured-card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Styles for the buttons in the featured card */
+.featured-card-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.featured-card-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* Additional styles for the buttons as needed */
 
 /* Additional styles for the card content (e.g., title, description, buttons) can be added here */
 
@@ -122,6 +148,10 @@ html, body {
 /* Style for comment form */
 .commentForm {
   margin-top: 20px;
+  max-width: 400px;
+  margin: 20px 10px; /* Add margin to create spacing between cards and move them right */
+  /* display: flex; Set display to flex to justify content */
+  justify-content: space-between; 
 }
 
 .commentTitle {
@@ -179,6 +209,71 @@ select {
   margin-bottom: 10px;
 }
 
+/* CSS for form elements */
+.newPostForm {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.newDrawingForm {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.newDrawingH2 {
+  font-size: 20px;
+  text-align: center;
+}
+.form {
+  margin-top: 20px;
+}
+
+.form-field {
+  margin: 10px 0;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.formButton:hover {
+  background-color: #0056b3;
+}
+
+.error-messages {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: #d84315;
+}
+
 /* Form field labels */
 .formField label {
   font-weight: bold;
@@ -203,8 +298,103 @@ select {
 .submitButton:hover {
   background-color: #ffcd38;
 }
+.newPostForm {
+max-width: 400px;
 
+}
+.newDrawingForm {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 
+.newDrawingH2 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.form {
+  margin-top: 20px;
+}
+
+.form-field {
+  margin: 10px 0;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.formButton:hover {
+  background-color: #0056b3;
+}
+
+.error-messages {
+  margin-top: 10px;
+  padding: 10px;
+  /* background-color: #ff6b6b; */
+  /* border: 1px solid #d84315; */
+  border-radius: 4px;
+}
+
+.error-message {
+  color: #d84315;
+}
+
+/* Additional styles for labels */
+.form-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* CommentCard.css (or your preferred CSS file) */
+
+.comment-card-container {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  max-width: 400px;
+}
+
+.comment-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.comment {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.comment p {
+  margin: 5px 0;
+}
+
+/* Add any additional styles as needed */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

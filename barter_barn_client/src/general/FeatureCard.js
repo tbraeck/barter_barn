@@ -1,26 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import GoodsCard from './goods-components/GoodsCard';
 
-const FeaturedCard = ({ allGoods }) => {
+const FeaturedCard = ({ forum, allForum, user, allGoods }) => {
   const [randomIndex, setRandomIndex] = useState(0);
+  const [isSaved, setIsSaved] = useState(false);
 
-  const handleRandomize = () => {
+  // Define handleRandomize using useCallback
+  const handleRandomize = useCallback(() => {
     if (allGoods.length > 0) {
       const newIndex = Math.floor(Math.random() * allGoods.length);
       setRandomIndex(newIndex);
+      setIsSaved(false);
     }
+  }, [allGoods]);
+
+  const isUserProfile = user.id === (forum?.user_id || null);
+
+  const handleSave = () => {
+    setIsSaved(true);
+    // Perform the save action (e.g., save the item to the user's profile)
   };
 
   useEffect(() => {
     handleRandomize();
-  }, [allGoods]);
+  }, [handleRandomize, allGoods]);
 
   const randomItem = allGoods[randomIndex];
 
   return (
     <div className="featured-card">
-      {/* No button needed */}
-      {randomItem && <GoodsCard good={randomItem} />} {/* Pass randomItem as a prop */}
+      {!isSaved && randomItem ? (
+        <div>
+          <GoodsCard
+            good={randomItem}
+            handleSave={handleSave}
+            isUserProfile={isUserProfile}
+            featured={true}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

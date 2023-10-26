@@ -2,7 +2,7 @@ import React from 'react';
 import UserItems from './UserItems'; 
 import { useParams } from 'react-router-dom';
 
-const UserProfile = ({ user, handleSaveGood, handleSaveGoods, handleSaveComment }) => {
+const UserProfile = ({ user, handleSaveGood, allComments, setAllComments, handleSaveGoods, handleSaveComment }) => {
   const { user_id } = useParams();
 
   return (

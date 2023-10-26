@@ -1,6 +1,7 @@
 class Good < ApplicationRecord
     belongs_to :forum
     belongs_to :user
+    
 
     validates :title, presence: true
     validates :description, presence: true

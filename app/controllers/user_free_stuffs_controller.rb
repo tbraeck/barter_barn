@@ -17,7 +17,7 @@ class UserFreeStuffsController < ApplicationController
   # POST /users/:user_id/user_items
 
   def create
-    @user_free_stuff = @current_user.user_free_stuffs.create!(user_free_stuffs_params)
+    @user_free_stuff = @current_user.user_free_stuffs.create!(user_free_stuff_params)
     render json: @user_free_stuff, status: :created
     
   end
@@ -25,11 +25,15 @@ class UserFreeStuffsController < ApplicationController
   
   # PATCH/PUT /users/:user_id/user_items/:id
   def update
-    @user_free_stuff.update!(user_free_stuffs_params)
-  render json: @user_free_stuff, status: :ok
+    set_user
+    set_user_free_stuffs
 
+    if @user_free_stuff.update(user_free_stuff_params)
+      render json: @user_free_stuff
+    else
+      render json: { error: 'Failed to update the user free stuff' }, status: :unprocessable_entity
+    end
   end
-  
 
   def destroy
     @user_free_stuff = set_user_free_stuffs
@@ -48,8 +52,10 @@ class UserFreeStuffsController < ApplicationController
     @user_free_stuff = @current_user.user_free_stuffs.find_by(id: params[:id])
   end
 
-  def user_free_stuffs_params
-    params.permit(:id, :body, :image_url, :user_id, :forum_id)
+  def user_free_stuff_params
+    params.permit(:body, :image_url, :user_free_stuff, :user_id, :forum_id)
   end
+  
+  
 
 end

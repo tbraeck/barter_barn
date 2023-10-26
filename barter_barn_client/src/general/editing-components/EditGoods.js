@@ -9,8 +9,7 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
        good_id: good.good_id
     })
     const [errors, setErrors] = useState([]);
-console.log('User id', user)
-console.log('Good id', good)
+
 
     const {title, description, image_url, good_or_service} = goodBody;
 
