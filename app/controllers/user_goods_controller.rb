@@ -39,11 +39,11 @@ end
     #     head :no_content
     # end
     def destroy
-      user = User.find(params[:user_id])
-      user_good = user.user_goods.find(params[:good_id])
-      user_good.destroy
+      @user_good = set_user_good
+      @user_good.destroy
       head :no_content
     end
+    
     private
     
     def set_user

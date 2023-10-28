@@ -27,6 +27,7 @@ const GoodsCard = ({
     if (saveResult.success) {
       setIsSaved(true);
       setErrors([]);
+      console.log(good)
     } else {
       setErrors([saveResult.message]);
     }
@@ -37,40 +38,36 @@ const GoodsCard = ({
       setErrors(['You can only delete goods in your profile.']);
       return;
     }
-    console.log(good.id)
-    handleDeleteClickGood(user.id, good.id);
+    handleDeleteClickGood(good.id);
   };
 
-  
   return (      
     <div className="goodCardContainer">
     <div className="goodCard">
       <h2 className="goodTitle">{title}</h2>
       <p className="goodDescription">{description}</p>
-      <p className="goodInfo">
-        <strong>Image URL:</strong>
-        {image_url}
-      </p>
+      <p className="goodInfo"><strong>Image URL:</strong>{image_url}</p>
       <p className="goodInfo">
         <strong>Service needed:</strong> {good_or_service}
       </p>
-      <div className="buttonContainer">
-        {!isUserProfile ? (
-          <button onClick={handleDelete} className="crudButton deleteButton">
-            DELETE
-          </button>
-        ) : (
-          <div>
-            {featured && isSaved ? (
-              <button className="crudButton saveButton">SAVED</button>
-            ) : (
-              <button onClick={handleSaveGood} className="crudButton saveButton">
+      <div className='buttonContainer'>
+            {isUserProfile && (
+              <button onClick={handleSaveGood} className='crudButton saveButton'>
                 SAVE
               </button>
             )}
+            {isSaved && <p>Item has been saved to your profile!</p>}
+            
+            {!isUserProfile && (
+              <>
+                <button onClick={() => handleDelete(good)} className='crudButton deleteButton'>
+                  DELETE
+                </button>
+             
+              </>
+            )}
+
           </div>
-        )}
-      </div>
       {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
       {errors.length > 0 && (
         <div className="error-messages">

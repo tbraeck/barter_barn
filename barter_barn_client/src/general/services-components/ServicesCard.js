@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import EditServices from '../editing-components/EditServices';
 
-const ServicesCard = ({ service, user, allForum, userServices, setUserServices, isUserProfile, handleUpdateSubmitService, handleUpdateUserServices, handleDeleteClickService, handleSaveServiceToUserProfile }) => {
-  const [isEditFormVisible, setIsEditFormVisible] = useState(false);
+const ServicesCard = ({ 
+  service, 
+  user, 
+  allForum, 
+  userServices, 
+  setUserServices, 
+  isUserProfile, 
+  handleUpdateSubmitService, 
+  handleUpdateUserServices, 
+  handleDeleteClickService, 
+  handleSaveServiceToUserProfile 
+}) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
   
@@ -13,16 +22,6 @@ const ServicesCard = ({ service, user, allForum, userServices, setUserServices, 
 
  
   const { title, description, image_url, good_or_service } = service;
-
-  
-
-  const handleShowEditForm = () => {
-    if (isUserProfile) {
-      setErrors(["You can only edit services in your profile."]);
-      return;
-    }
-    setIsEditFormVisible(true);
-  };
 
   const handleSaveService = () => {
     const saveResult = handleSaveServiceToUserProfile(service);
@@ -44,28 +43,8 @@ const ServicesCard = ({ service, user, allForum, userServices, setUserServices, 
     handleDeleteClickService(service.id);
   };
 
- 
-
-
-
-  // ...
-
 return (
-  <div className='goodEdit' >
-    {isEditFormVisible ? (
-      <EditServices
-        user={user}
-        allForum={allForum}
-        service={service}
-        handleShowEditForm={handleShowEditForm}
-        userServices={userServices}
-        setUserServices={setUserServices}
-        handleUpdateSubmitService={handleUpdateSubmitService}
-        isEditFormVisible={isEditFormVisible}
-        setIsEditFormVisible={setIsEditFormVisible}
-        handleUpdateUserServices={handleUpdateUserServices}
-      />
-    ) : (
+ 
       <div className="goodCardContainer">
         <div className='goodCard'>
           <h2 className='goodTitle'>{title}</h2>
@@ -99,10 +78,7 @@ return (
               ))}
             </div>
           )}
-          
-        </div>
       </div>
-    )}
   </div>
 );
 

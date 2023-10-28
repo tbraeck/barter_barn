@@ -1,13 +1,26 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize, only: [:create]
+  skip_before_action :authorize, only: [:create, :show, :index]
 
 
   def index 
     users = User.all
-    render json: users, status: :ok
+    render json: users, include: [:goods, :services, :free_stuffs], status: :ok
   end
   
- 
+ # app/controllers/users_controller.rb
+
+  # ...
+
+  # GET /users/:user_id/user_goods/:good_id/comments
+  # def comments
+  #   user = User.find(params[:user_id])
+  #   good = user.goods.find(params[:good_id])
+  #   comments = good.comments
+
+  #   render json: { comments: comments }
+  # end
+
+  # # POST /users/goods/:good_id/comments
   # def create_comment
   #   user = current_user
   #   good = user.goods.find(params[:good_id])
@@ -35,7 +48,7 @@ class UsersController < ApplicationController
   private
    
   
-    # def comment_params
+    # def comment_paramsP
     #   params.require(:comment).permit(:text) # Adjust this to match your comment model attributes
     # end
 

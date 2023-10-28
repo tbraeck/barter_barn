@@ -18,7 +18,6 @@ const FreeStuffCard = ({
   sendMessageToOriginalPoster
 }) => {
   const [isSaved, setIsSaved] = useState(false);
-  const [isPending, setIsPending] = useState(stuff.pending);
   const [errors, setErrors] = useState([]);
   const [isClaimed, setIsClaimed] = useState(stuff.claimed || false);
   const [claimMessage, setClaimMessage] = useState("");
@@ -28,7 +27,6 @@ const FreeStuffCard = ({
   const { claimed } = useParams();
   const isItemClaimed = claimed === 'true';
   const isItemSaved = isItemClaimed || stuff.claimed;
-
 
   if (!stuff || !stuff.body) {
     return null;
@@ -41,7 +39,6 @@ const FreeStuffCard = ({
   const { body, image_url } = stuff;
 
   const handleSave = () => {
-    if (!isPending) {
       const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
       if (saveResult.success) {
         setIsSaved(true);
@@ -49,13 +46,12 @@ const FreeStuffCard = ({
       } else {
         setErrors([saveResult.message]);
       }
-    }
-  };
+    };
 
   // console.log(handleSave)
 
   const handleSaveClaim = () => {
-    if (!isPending) {
+  
       const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
       if (saveResult.success) {
         setIsSaved(true);
@@ -64,7 +60,7 @@ const FreeStuffCard = ({
         setErrors([saveResult.message]);
       }
     }
-  };
+ 
 
   const handleDeleteSaved = () => {
     if (isUserProfile) {
@@ -101,7 +97,7 @@ const FreeStuffCard = ({
   // };
 
   const handleClaim = () => {
-    if (!isPending && !isClaimed) {
+    if ( !isClaimed) {
       // Step 1: Remove the claimed item from the forum
       const updatedForum = allForum.filter((item) => item.id !== stuff.id);
       setAllForum(updatedForum);
@@ -179,8 +175,8 @@ const FreeStuffCard = ({
                 <button onClick={handleSave} className="crudButton saveButton">
                   SAVE
                 </button>
-                <button onClick={isItemClaimed ? handleDeleteClaimed : handleClaim} className="crudButton claimButton" disabled={isPending}>
-                  {isItemClaimed ? 'UNCLAIM' : 'CLAIM'}
+                <button onClick={handleSaveClaim} className="crudButton claimButton">
+                  CLAIM
                 </button>
               </>
             )}
@@ -189,14 +185,13 @@ const FreeStuffCard = ({
               <button
                 onClick={isItemSaved ? handleDeleteSaved : handleClaim}
                 className="crudButton claimButton"
-                disabled={isPending}
+            
               >
-                {isItemSaved ? 'DELETE' : 'CLAIMED'}
+                {!isItemSaved ? 'DELETE' : 'CLAIMED'}
               </button>
             )}
           </div>
           {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
-          {isPending && <p className="pendingMessage">This item is pending.</p>}
           {errors.length > 0 && (
             <div className="error-messages">
               {errors.map((error, index) => (

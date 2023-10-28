@@ -25,14 +25,9 @@ class UserFreeStuffsController < ApplicationController
   
   # PATCH/PUT /users/:user_id/user_items/:id
   def update
-    set_user
-    set_user_free_stuffs
-
-    if @user_free_stuff.update(user_free_stuff_params)
-      render json: @user_free_stuff
-    else
-      render json: { error: 'Failed to update the user free stuff' }, status: :unprocessable_entity
-    end
+    @user_free_stuff = set_user_free_stuffs
+      @user_free_stuff.update!(user_free_stuff_params)
+      render json: @user_free_stuff, status: :ok
   end
 
   def destroy

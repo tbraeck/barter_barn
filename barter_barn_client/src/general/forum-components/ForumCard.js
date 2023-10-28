@@ -40,28 +40,27 @@ useEffect(() => {
   }
 }, [allForum, id])
 
-const handleSaveGoodToUserProfile = (good) => {
+const handleSaveGoodToUserProfile = (item) => {
   if (!isUserProfile) {
     return {
       success: false,
-      message: "Saving goods is not allowed in your profile.",
+      message: "Saving items is not allowed in your profile.",
     };
   }
 
-  return fetch(`http://localhost:3000/users/${user.id}/goods`, {
+  return fetch(`/users/${user.id}/user_goods`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(good),
+    body: JSON.stringify(item),
   })
     .then((res) => {
       if (res.ok) {
-        return res.json().then((savedGood) => {
-          setUserGoods([...userGoods, savedGood]);
-
+        return res.json().then((savedItem) => {
+          setUserGoods([...userGoods, savedItem]);
           return (
-            alert("Good saved to profile!")
+            alert("Item saved to profile!")
         )
           });
       } else {
@@ -73,7 +72,7 @@ const handleSaveGoodToUserProfile = (good) => {
         }
     })
     .catch((error) => {
-      console.error('Error saving good:', error);
+      console.error('Error saving item:', error);
       return {
         success: false,
         message: error.message,
@@ -129,8 +128,6 @@ const handleSaveFreeStuffToUserProfile = (item) => {
       message: "Saving items is not allowed in your profile.",
     };
   }
-
-
 
   const isItemSaved = userFreeStuff.some((savedItem) => savedItem.id === item.id);
 
@@ -229,9 +226,6 @@ const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
 
 
 
-
-
-
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
     method: "DELETE",
@@ -252,7 +246,7 @@ const handleDeleteClickGood = (user_id, good_id) => {
       handleUpdateSubmitGood(good_id, deleteGood);
     })
     .catch((error) => {
-      console.error('Error deleting drawing:', error);
+      console.error('Error deleting good:', error);
     });
 };
 
@@ -424,7 +418,7 @@ const forumGoods = forum.goods.map((good) => (
      id={id}
      userGoods={userGoods}
      setUserGoods={setUserGoods}
-     handleDeleteClickGood={(good_id) => handleDeleteClickGood(good_id, 'goods')}
+     handleDeleteClickGood={(goodId) => handleDeleteClickGood(goodId, 'goods')}
      isUserProfile={isUserProfile}
      handleUpdateSubmitGood={handleUpdateSubmitGood}
     handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
