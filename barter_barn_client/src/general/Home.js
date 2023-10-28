@@ -1,17 +1,16 @@
-import React from 'react'
-// import NavigationButtons from './NavigationButtons'
+import React from 'react';
+// import './Home.css'; // Import your CSS file for styling
 
 const Home = () => {
   return (
-    <div className='welcomeMsg'>
-      <h1 className='welcomeMsgH1'>WELCOME TO  BARTER BARN.</h1>
-      <br></br>
-      <p className='welcomeMsgP'>A place to build community, 
-        <br></br>exchange goods and services, <br></br>and save a few bucks here and there.</p>
-        {/* <NavigationButtons/> */}
-        
+    <div className="home">
+      <div className="background-image"></div> {/* Background image container */}
+      <div className="content">
+        <h1>Welcome to Barter Barn</h1>
+        <p>Explore and trade with our community</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

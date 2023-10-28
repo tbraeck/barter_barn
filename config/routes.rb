@@ -1,24 +1,24 @@
 Rails.application.routes.draw do
-  # resources :create_free_stuffs
+  resources :forums, only: [:index, :show]
   resources :services, only: [:index, :show, :create, :update, :destroy]
   resources :goods, only: [:index, :show, :create, :update, :destroy]
   resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
   
-  resources :forums, only: [:index, :show]
-  resources :users, only: [:show]
-  resources :messages, only: [:create, :index]
+  # resources :users, only: [:show]
+  resources :users do
+    resources :user_goods
+    resources :user_services
+    resources :user_free_stuffs
+  end
 
-
-resources :users do
-  resources :messages, only: [:index, :create]
-  resources :user_goods
-  resources :user_services
-  resources :user_free_stuffs
-
-end
+  resources :free_stuffs do
+    member do
+      post 'claim'
+      post 'return'
+    end
+  end
 
 get 'forums/featured', to: 'forums#featured', as: 'featured_forum'
-
 
 get "/users/:user_id/user_goods", to: "user_goods#index"
 post "/users/:user_id/user_goods", to: "user_goods#create"

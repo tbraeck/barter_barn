@@ -18,6 +18,7 @@ module BarterBarn
     config.action_dispatch.cookies_same_site_protection = :strict
    
 # config/application.rb
+# config.assets.compile = true
 
     config.session_store :cookie_store, key: '_your_app_session'
 

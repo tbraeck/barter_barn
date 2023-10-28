@@ -46,7 +46,7 @@ const UserItems = ({ user }) => {
     fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`)
       .then((response) => {
         if (response.ok) {
-          return response.json();
+          return response.json(); 
         } else {
           throw Error('Failed to fetch user free stuff');
         }
@@ -60,8 +60,8 @@ const UserItems = ({ user }) => {
 
   }, [user.id]);
 
-  const handleDeleteClickGood = (goodId) => {
-    fetch(`/users/${user.id}/user_goods/${goodId}`, {
+  const handleDeleteClickGood = (good_id) => {
+    fetch(`/users/${user.id}/user_goods/${good_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -70,7 +70,7 @@ const UserItems = ({ user }) => {
     .then((response) => {
       if (response.ok) {
         const updatedUserGoods = userGoods.filter(
-          (good) => good.id !== goodId
+          (good) => good.id !== good_id
         );
         setUserGoods(updatedUserGoods);
       } else {
@@ -104,6 +104,7 @@ const UserItems = ({ user }) => {
     });
   };
 
+
   const handleDeleteClickFreeStuff = (free_stuffs_id) => {
     fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
       method: "DELETE",
@@ -125,9 +126,6 @@ const UserItems = ({ user }) => {
       console.error("Error deleting stuff:", error);
     });
   };
-
-
-
 
   const handleUpdateUserGoods = (updatedGood) => {
     setUserGoods((prevUserGoods) => {
@@ -159,6 +157,30 @@ const UserItems = ({ user }) => {
     });
   };
 
+  const handleClaimFreeStuff = (freeStuffId) => {
+    // Make an API request to claim the free stuff item
+    fetch(`/users/${user.id}/user_free_stuffs/${freeStuffId}/claim`, {
+      method: "POST", // You should define a route and controller action for claiming
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // If the claim was successful, update the claimed property of the item
+          const updatedUserFreeStuffs = userFreeStuff.map((item) =>
+            item.id === freeStuffId ? { ...item, claimed: true } : item
+          );
+          setUserFreeStuff(updatedUserFreeStuffs);
+        } else {
+          console.error("Failed to claim free stuff");
+        }
+      })
+      .catch((error) => {
+        console.error("Error claiming free stuff:", error);
+      });
+  };
+  
   // const handleUpdateUserFreeStuffs = (updatedStuff) => {
   //   setUserFreeStuff((prevUserFreeStuff) => {
   //     // Map through the previous items and update the claimed item
@@ -184,7 +206,7 @@ const UserItems = ({ user }) => {
             handleUpdateUserGoods={handleUpdateUserGoods}
             userGoods={userGoods}
             setUserGoods={setUserGoods}
-            handleDeleteClickGood={(good_id) => handleDeleteClickGood(good_id, 'goods')}
+            handleDeleteClickGood={handleDeleteClickGood}
             />
         ))}
       </div>
@@ -215,6 +237,8 @@ const UserItems = ({ user }) => {
             userFreeStuff={userFreeStuff}
             setUserFreeStuff={setUserFreeStuff}
             handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
+            handleClaimFreeStuff={handleClaimFreeStuff} 
+
           />
         ))}
       </div>

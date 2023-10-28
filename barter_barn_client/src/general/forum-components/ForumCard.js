@@ -29,13 +29,13 @@ const [userFreeStuff, setUserFreeStuff] = useState([])
 
 const [errors, setErrors] = useState([]);
 const { user } = useContext(UserContext);
-const {id} = useParams()
+const {id, claimed} = useParams()
 
 const isUserProfile = user.username !== forum.title;
 
 useEffect(() => {
   const selectedForum = allForum.find(f => f.id === parseInt(id));
-  if(selectedForum) {
+  if(selectedForum) { 
     setForum(selectedForum)
   }
 }, [allForum, id])
@@ -48,7 +48,7 @@ const handleSaveGoodToUserProfile = (good) => {
     };
   }
 
-  return fetch(`http://localhost:3000/users/${user.id}/user_goods`, {
+  return fetch(`http://localhost:3000/users/${user.id}/goods`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -174,33 +174,63 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     });
 };
 
-const sendMessageToOriginalPoster = (claimedItem, claimingUser) => {
-  // You can use a fetch request or any other method to send the message to the original poster.
-  // For this example, let's assume you're using a fetch request to a messaging API.
 
-  const message = `Your item "${claimedItem.body}" has been claimed by ${claimingUser.name}.`;
+const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
+  if (!isUserProfile) {
+    return {
+      success: false,
+      message: "Claiming items is not allowed in your profile.",
+    };
+  }
 
-  fetch('http://localhost:3000/messages', {
+
+  if (isItemClaimed) {
+    return Promise.resolve({
+      success: false,
+      message: "Item already saved to user profile."
+    });
+  }
+
+  return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      recipient: claimedItem.posterId, // Assuming you have a posterId in your data
-      message,
-    }),
+    body: JSON.stringify(item),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Failed to send a message to the original poster.');
+    .then((res) => {
+      if (res.ok) {
+        return res.json().then((claimedItem) => {
+          setUserFreeStuff([...userFreeStuff, claimedItem]);
+          return (
+            alert("Claimed item is now in user profile!")
+          );
+        });
+      } else {
+        res.json().then((error) => setErrors(error.errors));
+        setTimeout(() => {
+          setErrors([]);
+        }, 3000);
+        return {
+          success: false,
+          message: "Error claiming item.",
+        };
       }
-      // Handle successful message sending if needed.
     })
     .catch((error) => {
-      console.error('Error sending a message:', error);
-      // Handle the error case if the message sending fails.
+      console.error('Error claiming item:', error);
+      return {
+        success: false,
+        message: error.message,
+      };
     });
 };
+
+
+
+
+
+
 
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
@@ -282,6 +312,39 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
     });
 };
 
+const handleDeleteClickClaimFreeStuff = (user_id, free_stuffs_id) => {
+  console.log('userFreeStuff:', userFreeStuff);
+  console.log('free_stuffs_id:', free_stuffs_id);
+  fetch(`http://localhost:3000/users/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": 'application/json',
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to delete stuff');
+      }
+      return response.json();
+    })
+    .then(() => {
+      // Remove the item from the user's profile
+      const updatedUserFreeStuffs = userFreeStuff.filter((item) => item.id !== free_stuffs_id);
+      setUserFreeStuff(updatedUserFreeStuffs);
+
+      // Add the item back to the free stuff forum
+      const itemToRestore = userFreeStuff.find((item) => item.id === free_stuffs_id);
+      if (itemToRestore) {
+        const updatedFreeStuffs = [...allForum, itemToRestore];
+        setAllForum(updatedFreeStuffs);
+      }
+
+      handleUpdateSubmitFreeStuff(free_stuffs_id, updatedUserFreeStuffs);
+    })
+    .catch((error) => {
+      console.error('Error deleting stuff:', error);
+    });
+};
 
 const handleUpdateSubmitGood = (good_id, updatedGood) => {
   fetch(`/users/${user.id}/user_goods/${good_id}`, {
@@ -345,43 +408,9 @@ const handleUpdateSubmitFreeStuff = (free_stuff_id, updatedFreeStuff) => {
 };
 
 
-// const setForumGoods = (updatedForumGoods) => {
-//   setAllForum(updatedForumGoods);
-// };
-
 const setUserClaimedGoods = (updatedUserClaimedGoods) => {
   setUserFreeStuff(updatedUserClaimedGoods);
 };
-
-// const sendMessageToOriginalUser = (originalUser, claimingUser, good) => {
-//   const message = {
-//     from: claimingUser,
-//     to: originalUser,
-//     content: `Your good "${good.title}" has been claimed by ${claimingUser.username}.`,
-//   };
-
-//   // Add the message to your messaging system or state
-//   addMessage(message);
-// };
-
-
-
-// const handleClaimFreeStuff = (claimedItem) => {
-//   // Step 1: Remove the claimed item from the forum
-//   const updatedForum = {
-//     ...forum,
-//     free_stuffs: forum.free_stuffs.filter(item => item.id !== claimedItem.id)
-//   };
-//   setAllForum(updatedForum);
-
-//   // Step 2: Add the claimed item to the user's profile
-//   setUserFreeStuff([...userFreeStuff, claimedItem]);
-
-//   // Step 3: Send a message to the original poster
-//   // sendMessageToOriginalPoster(claimedItem);
-
-//   // You might want to handle error cases here.
-// };
 
 
 const forumGoods = forum.goods.map((good) => (
@@ -423,7 +452,9 @@ const forumServices = forum.services.map((service) => (
   </div>
 ))
 
-const forumFreeStuff = forum.free_stuffs.map((stuff) => (
+const forumFreeStuff = forum.free_stuffs
+.filter((stuff) => !stuff.claimed)
+.map((stuff) => (
   <div key={stuff.id}>
     <FreeStuffCard
      stuff={stuff}
@@ -437,68 +468,67 @@ const forumFreeStuff = forum.free_stuffs.map((stuff) => (
      setUserFreeStuff={setUserFreeStuff}
      handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
      isUserProfile={isUserProfile}
-     sendMessageToOriginalPoster={sendMessageToOriginalPoster}
-    //  handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
+     handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
      handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
-    
+    handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
     // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
 
     />
   </div>
 ))
 
-return(
+return (
   <div className="forum-container">
-    
-  <div className="forumBox">
-    <div className="subTitle">
-      <h1>
-          <em>{forum.title}</em>
-        </h1>
+    <div className="forumBox">
+      <div className="subTitle">
+      <div className="title-box">
+          <h1>
+            <em>{forum.title}</em>
+          </h1>
+        </div>
+      </div>
+      <div className="grid-container">
+        <div className="left-content">
+          <div className="goodsList">
+            <div className="goodGrid">
+              <ul className="catGoods">{forumGoods}</ul>
+            </div>
+          </div>
+          <div className="servicesList">
+            <div className="serviceGrid">
+              <ul className="catServices">{forumServices}</ul>
+            </div>
+          </div>
+          <div className="freeStuffList">
+            <div className="freeStuffGrid">
+              <ul className="catFreeStuff">{forumFreeStuff}</ul>
+            </div>
+          </div>
+        </div>
+        <div className="right-content">
+          <NewUserGoods
+            allForum={allForum}
+            setAllForum={setAllForum}
+            forum={forum}
+            handleAddFreeStuffs={handleAddFreeStuffs}
+            handleAddGood={handleAddGood}
+            handleAddService={handleAddService}
+            user={user}
+          />
+        </div>
+      </div>
     </div>
-    <div>
-        <NewUserGoods  
-          allForum={allForum}
-          setAllForum={setAllForum}
-          forum={forum}
-        handleAddFreeStuffs={handleAddFreeStuffs}
-        handleAddGood={handleAddGood}
-        handleAddService={handleAddService}
-        user={user} />
-        </div>
-    <div className="grid-container">
-      <div className="goodsList">
-        <div className="goodGrid">
-          <ul className="catGoods">{forumGoods}</ul> 
-        </div>
+    {errors && (
+      <div className="error-messages">
+        {errors.map((error, index) => (
+          <p key={index} className="error-message">
+            {error}
+          </p>
+        ))}
       </div>
-      <div className="servicesList">
-        <div className="serviceGrid">
-          <ul className="catServices">{forumServices}</ul> 
-        </div>
-      </div>
-      <div className="freeStuffList">
-        <div className="freeStuffGrid">
-          <ul className="catFreeStuff">{forumFreeStuff}</ul> 
-        </div>
-      </div>
-      
-      </div>
-    
-    </div>
-    
-            
-      {errors && (
-        <div className="error-messages">
-          {errors.map((error, index) => (
-            <p key={index} className="error-message">
-              {error}
-            </p>
-          ))}
-        </div>
-      )}
-    </div>
+    )}
+  </div>
 
 );
 };
