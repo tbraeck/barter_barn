@@ -1,26 +1,13 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize
+  skip_before_action :authorize, only: [:create]
 
 
   def index 
-    users = User.includes(:goods, :services, :free_stuffs).all
-    render json: users, include: [:goods, :services, :free_stuffs], status: :ok
+    users = User.all
+    render json: users, status: :ok
   end
   
- # app/controllers/users_controller.rb
-
-  # ...
-
-  # GET /users/:user_id/user_goods/:good_id/comments
-  # def comments
-  #   user = User.find(params[:user_id])
-  #   good = user.goods.find(params[:good_id])
-  #   comments = good.comments
-
-  #   render json: { comments: comments }
-  # end
-
-  # # POST /users/goods/:good_id/comments
+ 
   # def create_comment
   #   user = current_user
   #   good = user.goods.find(params[:good_id])
@@ -34,8 +21,8 @@ class UsersController < ApplicationController
   # end
 
   def show
-    @current_user = User.includes(:goods, :services, :free_stuffs).find(params[:id])
-    render json: @current_user, include: [:goods, :services, :free_stuffs]
+    @current_user = User.find(params[:id])
+    render json: @current_user
   end
   
   # POST /users
@@ -53,6 +40,6 @@ class UsersController < ApplicationController
     # end
 
     def user_params
-      params.permit(:username, :password, :email)
+      params.permit(:id, :username, :password, :email)
     end
 end

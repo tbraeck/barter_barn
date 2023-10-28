@@ -14,7 +14,7 @@ class FreeStuffsController < ApplicationController
     render json: free_stuff
   end
 
-<<<<<<< HEAD
+
   def claim
     # Retrieve the FreeStuff item by ID
     @free_stuff = FreeStuff.find(params[:id])
@@ -29,19 +29,6 @@ class FreeStuffsController < ApplicationController
     end
   end
   
-=======
-  # POST /goods
-  # def create
-  #   @good = Good.new(good_params)
-
-  #   if @good.save
-  #     render json: @good, status: :created, location: @good
-  #   else
-  #     render json: @good.errors, status: :unprocessable_entity
-  #   end
-  # end
-
->>>>>>> parent of 92af9d4 (THursday day)
 
  
   def create

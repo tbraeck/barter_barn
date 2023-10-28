@@ -26,18 +26,24 @@ class UserGoodsController < ApplicationController
     # PATCH/PUT /users/:user_id/user_items/:id
  # PATCH/PUT /users/:user_id/user_items/:id
 def update
+  @user_good = set_user_good
   @user_good.update!(user_good_params)
   render json: @user_good, status: :ok
 end
 
     # DELETE /users/:user_id/user_items/:id
 
+    # def destroy
+    #   @user_good = set_user_good
+    #     @user_good.destroy
+    #     head :no_content
+    # end
     def destroy
-      @user_good = set_user_good
-        @user_good.destroy
-        head :no_content
+      user = User.find(params[:user_id])
+      user_good = user.user_goods.find(params[:good_id])
+      user_good.destroy
+      head :no_content
     end
-  
     private
     
     def set_user

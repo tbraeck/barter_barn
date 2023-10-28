@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   
   # resources :users, only: [:show]
   resources :users do
+    resources :goods
+    resources :services
+    resources :free_stuffs
     resources :user_goods
     resources :user_services
     resources :user_free_stuffs
@@ -23,10 +26,12 @@ get 'forums/featured', to: 'forums#featured', as: 'featured_forum'
 get "/users/:user_id/user_goods", to: "user_goods#index"
 post "/users/:user_id/user_goods", to: "user_goods#create"
 delete "users/:user_id/user_goods/:good_id", to: "user_goods#destroy"
+
 patch "/users/:user_id/user_goods/:good_id", to: "user_goods#update"
 
 get "/users/:user_id/user_services", to: "user_services#index"
 post "/users/:user_id/user_services", to: "user_services#create"
+
 delete "users/:user_id/user_services/:good_id", to: "user_services#destroy"
 patch "/users/:user_id/user_services/:good_id", to: "user_services#update"
 

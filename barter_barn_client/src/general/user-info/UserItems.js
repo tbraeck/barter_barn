@@ -61,7 +61,7 @@ const UserItems = ({ user }) => {
   }, [user.id]);
 
   const handleDeleteClickGood = (good_id) => {
-    fetch(`/users/${user.id}/user_goods/${good_id}`, {
+    fetch(`http://localhost:3000/users/${user.id}/user_goods/${good_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -82,8 +82,8 @@ const UserItems = ({ user }) => {
     });
   };
 
-  const handleDeleteClickService = (serviceId) => {
-    fetch(`/users/${user.id}/user_services/${serviceId}`, {
+  const handleDeleteClickService = (service_id) => {
+    fetch(`http://localhost:3000/users/${user.id}/user_services/${service_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -92,7 +92,7 @@ const UserItems = ({ user }) => {
     .then((response) => {
       if (response.ok) {
         const updatedUserServices = userServices.filter(
-          (service) => service.id !== serviceId
+          (service) => service.id !== service_id
         );
         setUserServices(updatedUserServices);
       } else {
@@ -106,7 +106,7 @@ const UserItems = ({ user }) => {
 
 
   const handleDeleteClickFreeStuff = (free_stuffs_id) => {
-    fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
+    fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
