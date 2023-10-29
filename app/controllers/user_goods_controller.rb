@@ -57,7 +57,11 @@ end
 
     def user_good_params
 <<<<<<< HEAD
+<<<<<<< HEAD
       params.permit(:title, :main_image, :description, :image_url , :main_image, :good_or_service, :user_id, :forum_id)
+=======
+      params.permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
+>>>>>>> parent of 52319ac (saturday night)
 =======
       params.permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
 >>>>>>> parent of 52319ac (saturday night)
