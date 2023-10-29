@@ -11,7 +11,7 @@ const GoodsCard = ({
   handleUpdateUserGoods,
   handleDeleteClickGood,
   handleSaveGoodToUserProfile,
-  featured
+  featured,
 }) => {
    const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
