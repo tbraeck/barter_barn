@@ -5,7 +5,7 @@ class UserFreeStuffsController < ApplicationController
 
   # GET /users/:user_id/user_items
   def index
-    user_free_stuffs = @current_user.user_free_stuffs.with_attached_image
+    user_free_stuffs = @current_user.user_free_stuffs
     render json: user_free_stuffs
   end
   
@@ -48,7 +48,7 @@ class UserFreeStuffsController < ApplicationController
   end
 
   def user_free_stuff_params
-    params.permit(:body, :image_url,  :main_image,:user_id, :forum_id)
+    params.require(:user_free_stuff).permit(:body, :image_url,  :main_image,:user_id, :forum_id)
   end
   
   

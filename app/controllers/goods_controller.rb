@@ -39,6 +39,6 @@ class GoodsController < ApplicationController
     end
 
     def good_params
-      params.permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
+      params.require(:good).permit(:title, :description, :main_image, :image_url, :good_or_service, :user_id, :forum_id)
     end
 end

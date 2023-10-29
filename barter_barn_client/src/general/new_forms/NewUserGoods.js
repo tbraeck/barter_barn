@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SharedImageForm from '../../SharedImageForm';
 
 const NewUserGoods = ({
   forum,
@@ -19,7 +20,10 @@ const NewUserGoods = ({
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
     image_url: '',
+    main_image: ''
   });
+
+  const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
 
@@ -28,6 +32,12 @@ const NewUserGoods = ({
 
   const handleErrors = (error) => {
     setErrors([error.message]); // Assuming error.message contains the error message
+  };
+
+  const handleImageChange = (imageData) => {
+    // Update the image_url in the state
+    setGoodFormData({ ...goodFormData, main_image: imageData });
+    setFreeStuffData({ ...freeStuffData, main_image: imageData });
   };
 
   const handleGoodChange = (e) => {
@@ -85,7 +95,7 @@ const NewUserGoods = ({
       user_id: user.id,
     };
 
-    fetch(`http://localhost:3000/users/${user.id}/user_goods`, {
+    fetch(`http://localhost:3000/goods`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +131,7 @@ const NewUserGoods = ({
       user_id: user.id,
     };
 
-    fetch(`http://localhost:3000/users/${user.id}/free_stuffs`, {
+    fetch(`http://localhost:3000/free_stuffs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -200,9 +210,14 @@ const NewUserGoods = ({
                 required
               />
             </div>
+            <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/>
+            {goodFormData.image_url && ( 
+              <img src={goodFormData.image_url} alt="Image Preview" />
+            )}
             <button className='formButton' type='submit'>
               ADD
             </button>
+
             {errors && errors.length > 0 && (
               <div className='error-messages'>
                 {errors.map((error, index) => (
@@ -242,6 +257,10 @@ const NewUserGoods = ({
                 required
               />
             </div>
+            <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} />
+            {freeStuffData.image_url && ( // Display image preview
+              <img src={freeStuffData.image_url} alt="Image Preview" />
+            )}
             <button className='formButton' type='submit'>
               ADD
             </button>
