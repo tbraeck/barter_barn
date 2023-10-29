@@ -29,7 +29,7 @@ const [userFreeStuff, setUserFreeStuff] = useState([])
 
 const [errors, setErrors] = useState([]);
 const { user } = useContext(UserContext);
-const {id, claimed} = useParams()
+const {id} = useParams()
 
 const isUserProfile = user.username !== forum.title;
 
@@ -172,16 +172,10 @@ const handleSaveFreeStuffToUserProfile = (item) => {
 };
 
 
-const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
-  if (!isUserProfile) {
-    return {
-      success: false,
-      message: "Claiming items is not allowed in your profile.",
-    };
-  }
+const handleSaveClaimFreeStuffToUserProfile = (item, isClaimed) => {
 
 
-  if (isItemClaimed) {
+  if (isClaimed) {
     return Promise.resolve({
       success: false,
       message: "Item already saved to user profile."
@@ -466,8 +460,7 @@ const forumFreeStuff = forum.free_stuffs
      handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
     handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
-    // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
-
+  
     />
   </div>
 ))

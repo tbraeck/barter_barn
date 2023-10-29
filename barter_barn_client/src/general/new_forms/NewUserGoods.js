@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SharedImageForm from '../SharedImageUploadForm';
 
 const NewUserGoods = ({
   forum,
@@ -20,6 +21,7 @@ const NewUserGoods = ({
     body: '',
     image_url: '',
   });
+  const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
 
@@ -200,6 +202,8 @@ const NewUserGoods = ({
                 required
               />
             </div>
+            <SharedImageForm imageData={imageData} setImageData={setImageData} />
+
             <button className='formButton' type='submit'>
               ADD
             </button>

@@ -1,0 +1,21 @@
+<%= form_with(model: @free_stuff, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<%= form_with(model: @good, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<%= form_with(model: @service, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+  </div>
+  <%= f.submit %>
+<% end %>

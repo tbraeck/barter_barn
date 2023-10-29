@@ -56,7 +56,7 @@ end
     end
 
     def user_good_params
-      params.permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
+      params.require(:user_good).permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
     end
 
   end
