@@ -5,7 +5,7 @@
 
     # GET /users/:user_id/user_items
     def index
-      user_services = @current_user.user_services
+      user_services = @current_user.user_services.with_attached_image
       render json: user_services
     end
     
@@ -45,13 +45,12 @@
       @current_user = User.find(params[:user_id])
     end
 
-
     def set_user_service
       @user_service = @current_user.user_services.find_by(id: params[:id])
     end
 
     def user_service_params
-      params.permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
+      params.permit(:title, :description, :main_image, :image_url, :good_or_service, :user_id, :forum_id)
     end
 
   end

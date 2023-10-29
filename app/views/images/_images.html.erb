@@ -19,3 +19,25 @@
   </div>
   <%= f.submit %>
 <% end %>
+
+<%= form_with(model: @user_good, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<%= form_with(model: @user_service, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<%= form_with(model: @user_free_stuff, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+  </div>
+  <%= f.submit %>
+<% end %>

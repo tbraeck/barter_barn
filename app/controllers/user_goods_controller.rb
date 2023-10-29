@@ -5,7 +5,7 @@ class UserGoodsController < ApplicationController
 
     # GET /users/:user_id/user_items
     def index
-      user_goods = @current_user.user_goods
+      user_goods = @current_user.user_goods.with_attached_image
       render json: user_goods
     end
     
@@ -56,7 +56,7 @@ end
     end
 
     def user_good_params
-      params.require(:user_good).permit(:title, :description, :image_url, :good_or_service, :user_id, :forum_id)
+      params.permit(:title, :main_image, :description, :image_url , :main_image, :good_or_service, :user_id, :forum_id)
     end
 
   end

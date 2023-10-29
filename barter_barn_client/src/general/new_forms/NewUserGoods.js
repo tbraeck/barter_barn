@@ -123,7 +123,7 @@ const NewUserGoods = ({
       user_id: user.id,
     };
 
-    fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`, {
+    fetch(`http://localhost:3000/users/${user.id}/free_stuffs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

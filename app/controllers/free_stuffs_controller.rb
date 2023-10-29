@@ -3,7 +3,7 @@ class FreeStuffsController < ApplicationController
 
   # GET /goods
   def index
-    free_stuff = FreeStuff.all
+    free_stuff = FreeStuff.all.with_attached_image
 
     render json: free_stuff
   end
@@ -61,6 +61,6 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.permit(:body, :image_url)
+      params.require(:free_stuff).permit(:body, :image_url, :main_image, :user_id, :forum_id)
     end
 end
