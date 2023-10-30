@@ -34,6 +34,7 @@ class FreeStuffsController < ApplicationController
   def create
     user = User.find(params[:user_id]) 
     free_stuff = user.free_stuffs.create!(free_stuffs_params)
+    
     render json: free_stuff, status: :created
   end
 

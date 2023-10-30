@@ -93,6 +93,7 @@ const NewUserGoods = ({
       ...goodFormData,
       forum_id: forum.id,
       user_id: user.id,
+      main_image: goodFormData.main_image,
     };
 
     fetch(`http://localhost:3000/goods`, {
@@ -257,10 +258,19 @@ const NewUserGoods = ({
                 required
               />
             </div>
+            <div className='form-field'>
+              <label htmlFor='main_image'>Main Image:</label>
+              <input
+                type='file'
+                name='main_image'
+                onChange={handleImageChange}
+                 accept="image/jpeg, image/png" 
+              />
+            </div>
             <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} />
-            {freeStuffData.image_url && ( // Display image preview
+            {/* {freeStuffData.image_url && ( // Display image preview
               <img src={freeStuffData.image_url} alt="Image Preview" />
-            )}
+            )} */}
             <button className='formButton' type='submit'>
               ADD
             </button>

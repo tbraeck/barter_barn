@@ -48,7 +48,7 @@ const handleSaveGoodToUserProfile = (item) => {
     };
   }
 
-  return fetch(`/users/${user.id}/user_goods`, {
+  return fetch(`http://localhost:3000/users/${user.id}/user_goods`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const handleSaveServiceToUserProfile = (item) => {
     };
   }
 
-  return fetch(`/users/${user.id}/user_services`, {
+  return fetch(`http://localhost:3000/users/${user.id}/user_services`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const handleSaveServiceToUserProfile = (item) => {
             setErrors(null);
           }, 3000);
           return;
-        }
+      }
     })
     .catch((error) => {
       console.error('Error saving item:', error);
@@ -138,7 +138,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     });
   }
 
-  return fetch(`/users/${user.id}/user_free_stuffs`, {
+  return fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`, {
 
     method: 'POST',
     headers: {

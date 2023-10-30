@@ -21,7 +21,7 @@ const FreeStuffCard = ({
   const [errors, setErrors] = useState([]);
   const [isClaimed, setIsClaimed] = useState(stuff.claimed || false);
   const [claimMessage, setClaimMessage] = useState("");
-
+const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
 
   const { claimed } = useParams();
@@ -32,7 +32,7 @@ const FreeStuffCard = ({
     return null;
   }
 
-  if (isClaimed) {
+  if (!isClaimed) {
     return null;
   }
 
@@ -48,10 +48,8 @@ const FreeStuffCard = ({
       }
     };
 
-  // console.log(handleSave)
-
   const handleSaveClaim = () => {
-  
+
       const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
       if (saveResult.success) {
         setIsSaved(true);
@@ -70,6 +68,7 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
+  
 
   const handleDeleteClaimed = () => {
     if (isUserProfile) {
@@ -97,13 +96,19 @@ const FreeStuffCard = ({
   // };
 
   const handleClaim = () => {
-    if ( !isClaimed) {
+    if (!isClaimed) {
+      // Ensure that 'allForum' is defined before using the filter method
+      if (allForum) {
+        const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+        setAllForum(updatedForum);
+      }
       // Step 1: Remove the claimed item from the forum
-      const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-      setAllForum(updatedForum);
-  
+  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  //     setAllForum(updatedForum);
+  // console.log(allForum)
+
       // Step 2: Add the claimed item to the user's profile
-      handleSave(stuff);
+      handleSaveClaim(stuff);
   
       // Step 3: Send a message to the original poster
       fetch(`/free_stuffs/${stuff.id}/claim`, {
@@ -154,8 +159,9 @@ const FreeStuffCard = ({
           // Handle any errors in the first message sending process
           console.error('Error sending message to original poster:', error);
         });
-    }
+      }
   };
+  
   
   
 
@@ -187,7 +193,7 @@ const FreeStuffCard = ({
                 className="crudButton claimButton"
             
               >
-                {!isItemSaved ? 'DELETE' : 'CLAIMED'}
+                {isItemSaved ? 'DELETE' : 'CLAIMED'}
               </button>
             )}
           </div>

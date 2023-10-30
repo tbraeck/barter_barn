@@ -48,7 +48,7 @@ class UserFreeStuffsController < ApplicationController
   end
 
   def user_free_stuff_params
-    params.require(:user_free_stuff).permit(:body, :image_url,  :main_image,:user_id, :forum_id)
+    params.require(:user_free_stuff).permit(:body, :image_url,  :main_image, :id, :created_at, :updated_at, :claimed, :user_id, :forum_id)
   end
   
   
