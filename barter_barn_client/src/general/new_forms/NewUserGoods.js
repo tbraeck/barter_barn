@@ -13,14 +13,12 @@ const NewUserGoods = ({
   const [goodFormData, setGoodFormData] = useState({
     title: '',
     description: '',
-    image_url: '',
     good_or_service: '',
     main_image: (null)
   });
 
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
-    image_url: '',
     main_image:  (null)
   });
 
@@ -28,8 +26,8 @@ const NewUserGoods = ({
 
   const [errors, setErrors] = useState([]);
 
-  const { title, description, image_url, good_or_service } = goodFormData;
-  const { body, image_url: stuffImageUrl } = freeStuffData;
+  const { title, description, good_or_service } = goodFormData;
+  const { body } = freeStuffData;
 
   const handleErrors = (error) => {
     setErrors([error.message]); // Assuming error.message contains the error message
@@ -65,7 +63,6 @@ const NewUserGoods = ({
     setGoodFormData({
       title: '',
       description: '',
-      image_url: '',
       good_or_service: '',
     });
   };
@@ -83,7 +80,6 @@ const NewUserGoods = ({
     setAllForum(updatedForums);
     setFreeStuffData({
       body: '',
-      image_url: '',
     });
   };
 
