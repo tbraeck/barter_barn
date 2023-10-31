@@ -1,21 +1,35 @@
-<%= form_with(model: free_stuff, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label :main_image %>
-    <%= f.file_field :main_image %>
-  </div>
-  <%= f.submit %>
-<% end %>
 <%= form_with(model: good, local: true) do |f| %>
   <div class="form-group">
     <%= f.label :main_image %>
     <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    <% if good.main_image.attached? %>
+      <%= image_tag good.main_image %>
+    <% end %>
   </div>
   <%= f.submit %>
 <% end %>
+
 <%= form_with(model: service, local: true) do |f| %>
   <div class="form-group">
     <%= f.label :main_image %>
     <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    <% if service.main_image.attached? %>
+      <%= image_tag service.main_image %>
+    <% end %>
+  </div>
+  <%= f.submit %>
+<% end %>
+
+<%= form_with(model: free_stuff, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :main_image %>
+    <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    <% if free_stuff.main_image.attached? %>
+      <%= image_tag free_stuff.main_image %>
+    <% end %>
   </div>
   <%= f.submit %>
 <% end %>
@@ -24,20 +38,35 @@
   <div class="form-group">
     <%= f.label :main_image %>
     <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    <% if user_good.main_image.attached? %>
+      <%= image_tag user_good.main_image %>
+    <% end %>
   </div>
   <%= f.submit %>
 <% end %>
+
+
 <%= form_with(model: user_service, local: true) do |f| %>
   <div class="form-group">
     <%= f.label :main_image %>
     <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    <% if user_service.main_image.attached? %>
+      <%= image_tag user_service.main_image %>
+    <% end %>
   </div>
   <%= f.submit %>
 <% end %>
+
 <%= form_with(model: user_free_stuff, local: true) do |f| %>
   <div class="form-group">
     <%= f.label :main_image %>
     <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    <% if user_free_stuff.main_image.attached? %>
+      <%= image_tag user_free_stuff.main_image %>
+    <% end %>
   </div>
   <%= f.submit %>
 <% end %>

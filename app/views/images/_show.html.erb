@@ -1,47 +1,41 @@
 <div style="width: 200px; height: auto;">
-  <% if @good.main_image.attached? %>
-    <%= link_to goods_path do %>
-      <%= image_tag good.main_image, style: "100%" %>
-    <% end %>
-  <% end %>
+<% if @good.main_image.attached? %>
+  <%= link_to image_tag (good.main_image, "style: 100%", goods_path) %>
+<% end %>
 </div>
 
 <div style="width: 200px; height: auto;">
-  <% if @service.main_image.attached? %>
-    <%= link_to services_path do %>
-      <%= image_tag service.main_image, style: "100%" %>
-    <% end %>
-  <% end %>
+<% if @service.main_image.attached? %>
+  <%= link_to image_tag @service.main_image, "style: 100%", services_path %>
+<% end %>
 </div>
 
-<div style="width: 200px; height: auto;">
-  <% if @free_stuff.main_image.attached? %>
-    <%= link_to free_stuffs_path do %>
-      <%= image_tag free_stuff.main_image, style: "100%" %>
-    <% end %>
-  <% end %>
-</div>
 
 <div style="width: 200px; height: auto;">
-  <% if @user_good.main_image.attached? %>
-    <%= link_to user_goods_path do %>
-      <%= image_tag user_good.main_image, style: "100%" %>
-    <% end %>
-  <% end %>
+<% if @free_stuff.main_image.attached? %>
+  <%= link_to image_tag(free_stuff.main_image, "style: 100%", free_stuffs_path) %>
+<% end %>
 </div>
 
-<div style="width: 200px; height: auto;">
-  <% if @user_service.main_image.attached? %>
-    <%= link_to user_services_path do %>
-      <%= image_tag user_service.main_image, style: "100%" %>
-    <% end %>
-  <% end %>
-</div>
 
 <div style="width: 200px; height: auto;">
-  <% if @user_free_stuff.main_image.attached? %>
-    <%= link_to user_free_stuffs_path do %>
-      <%= image_tag user_free_stuff.main_image, style: "100%" %>
-    <% end %>
-  <% end %>
+<% if @user_good.main_image.attached? %>
+  <%= link_to image_tag (user_good.main_image, "style: 100%", user_goods_path) %>
+<% end %>
 </div>
+
+
+<div style="width: 200px; height: auto;">
+<% if @user_service.main_image.attached? %>
+  <%= link_to image_tag @user_service.main_image, "style: 100%", user_services_path %>
+<% end %>
+</div>
+
+
+<div style="width: 200px; height: auto;">
+<% if @user_free_stuff.main_image.attached? %>
+  <%= link_to image_tag @user_free_stuff.main_image, "style: 100%", user_free_stuffs_path %>
+<% end %>
+</div>
+
+

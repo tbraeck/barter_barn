@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
 
   # GET /services
   def index
-    @services = Service.all.with_attached_image
+    @services = Service.all
 
     render json: @services
   end
@@ -36,6 +36,7 @@ class ServicesController < ApplicationController
   # DELETE /services/1
   def destroy
     @service.destroy
+    head :no_content
   end
 
   private

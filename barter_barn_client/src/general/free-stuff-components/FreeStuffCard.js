@@ -12,10 +12,8 @@ const FreeStuffCard = ({
   handleDeleteClickClaimFreeStuff,
   handleSaveFreeStuffToUserProfile,
   handleClaimFreeStuff,
-  handleUpdateSubmitFreeStuff,
-  setAllForum,
+
   handleSaveClaimFreeStuffToUserProfile,
-  sendMessageToOriginalPoster
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -29,10 +27,10 @@ const [isPending, setIsPending] = useState(false)
   const isItemSaved = isItemClaimed || stuff.claimed;
 
   if (!stuff || !stuff.body) {
-    return null;
+    return <div>Loading...</div>;
   }
 
-  if (!isClaimed) {
+  if (isClaimed) {
     return null;
   }
 
@@ -68,8 +66,6 @@ const [isPending, setIsPending] = useState(false)
     handleDeleteClickFreeStuff(stuff.id);
   };
 
-  
-
   const handleDeleteClaimed = () => {
     if (isUserProfile) {
       setErrors(["You can only delete free stuff in your profile."]);
@@ -95,80 +91,74 @@ const [isPending, setIsPending] = useState(false)
   //   }
   // };
 
-  const handleClaim = () => {
-    if (!isClaimed) {
-      // Ensure that 'allForum' is defined before using the filter method
-      if (allForum) {
-        const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-        setAllForum(updatedForum);
-      }
-      // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
-  // console.log(allForum)
+  // const handleClaim = () => {
+  //   if (!isClaimed) {
+  //     // Ensure that 'allForum' is defined before using the filter method
+  //     if (allForum) {
+  //       const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  //       setAllForum(updatedForum);
+  //     }
+  //     // Step 1: Remove the claimed item from the forum
+  // //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  // //     setAllForum(updatedForum);
+  // // console.log(allForum)
 
-      // Step 2: Add the claimed item to the user's profile
-      handleSaveClaim(stuff);
+  //     // Step 2: Add the claimed item to the user's profile
+  //     handleSaveClaim(stuff);
   
-      // Step 3: Send a message to the original poster
-      fetch(`/free_stuffs/${stuff.id}/claim`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId: user.id }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to send message to original poster');
-          }
-          // Message sent to original poster successfully
-          return response.json();
-        })
-        .then(() => {
-          // Step 4: Send a message to the current user
-          fetch('/messages', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              recipientId: user.id,
-              content: `The claimed item has been added to your profile.`,
-            }),
-          })
-            .then((response) => {
-              if (response.ok) {
-                // Message sent to current user successfully
-                return response.json();
-              } else {
-                throw new Error('Failed to send message to current user');
-              }
-            })
-            .then(() => {
-              // Step 5: Mark the item as claimed and set the claim message
-              setIsClaimed(true);
-              setClaimMessage("Claimed item is in your profile");
-            })
-            .catch((error) => {
-              // Handle any errors in the second message sending process
-              console.error('Error sending message to current user:', error);
-            });
-        })
-        .catch((error) => {
-          // Handle any errors in the first message sending process
-          console.error('Error sending message to original poster:', error);
-        });
-      }
-  };
+  //     // Step 3: Send a message to the original poster
+  //     fetch(`/free_stuffs/${stuff.id}/claim`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ userId: user.id }),
+  //     })
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error('Failed to send message to original poster');
+  //         }
+  //         // Message sent to original poster successfully
+  //         return response.json();
+  //       })
+  //       .then(() => {
+  //         // Step 4: Send a message to the current user
+  //         fetch('/messages', {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             recipientId: user.id,
+  //             content: `The claimed item has been added to your profile.`,
+  //           }),
+  //         })
+  //           .then((response) => {
+  //             if (response.ok) {
+  //               // Message sent to current user successfully
+  //               return response.json();
+  //             } else {
+  //               throw new Error('Failed to send message to current user');
+  //             }
+  //           })
+  //           .then(() => {
+  //             // Step 5: Mark the item as claimed and set the claim message
+  //             setIsClaimed(true);
+  //             setClaimMessage("Claimed item is in your profile");
+  //           })
+  //           .catch((error) => {
+  //             // Handle any errors in the second message sending process
+  //             console.error('Error sending message to current user:', error);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         // Handle any errors in the first message sending process
+  //         console.error('Error sending message to original poster:', error);
+  //       });
+  //     }
+  // };
   
-  
-  
-
-  
-
   return (
-    <div className="goodEdit">
       <div className="goodCardContainer">
         <div className="goodCard">
           <h2 className="goodTitle">{body}</h2>
@@ -184,17 +174,17 @@ const [isPending, setIsPending] = useState(false)
                 <button onClick={handleSaveClaim} className="crudButton claimButton">
                   CLAIM
                 </button>
-              </>
+              </> 
             )}
-              {claimMessage && <p className="claim-message">{claimMessage}</p>}
+              {isSaved && <p>Item has been saved to your profile!</p>}
+              {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
             {!isUserProfile && (
-              <button
-                onClick={isItemSaved ? handleDeleteSaved : handleClaim}
-                className="crudButton claimButton"
-            
-              >
-                {isItemSaved ? 'DELETE' : 'CLAIMED'}
-              </button>
+             <>
+             <button onClick={() => handleDeleteSaved(stuff)} className='crudButton deleteButton'>
+               DELETE
+             </button>
+          
+           </>
             )}
           </div>
           {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
@@ -209,7 +199,7 @@ const [isPending, setIsPending] = useState(false)
           )}
         </div>
       </div>
-    </div>
+   
   );
 };
 

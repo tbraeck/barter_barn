@@ -8,5 +8,6 @@ class UserService < ApplicationRecord
   validates :description, presence: true
   validates :image_url, presence: true
   validates :good_or_service, presence: true
+  validates :forum, presence: true
 
 end

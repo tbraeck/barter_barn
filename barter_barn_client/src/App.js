@@ -121,7 +121,7 @@ if(!user) return <Login  />
                 <Route path="/forums/:id/edit" element={<ForumCard allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood}/>}/>
                 <Route path="/users/:user_id/goods/:good_id" element={<EditGoods user={user} handleUpdateGoods={handleUpdateGoods } allForum={allForum}/>} />
                 <Route path="/users/:user_id/services/:service_id" element={<EditServices user={user} handleUpdateServices={handleUpdateServices } allForum={allForum}/>} />
-                <Route path="/users/:user_id/free_stuffs/:free_stuffs_id" element={<EditFreeStuffs user={user} handleUpdateFreeStuffs={handleUpdateFreeStuffs } allForum={allForum}/>} />
+                <Route path="/users/:user_id/free_stuffs/:free_ stuffs_id" element={<EditFreeStuffs user={user} handleUpdateFreeStuffs={handleUpdateFreeStuffs } allForum={allForum}/>} />
 
                 <Route path="/user-profile"  element={user ? <UserProfile user={user}/> : <Navigate to='/'/>} /> 
                 </Routes>

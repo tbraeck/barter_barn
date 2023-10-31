@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
 const SharedImageForm = ({  imageData, setImageData,  handleImageChange }) => {
-//   const [imageData, setImageData] = useState(null);
+  // const [imageData, setImageData] = useState(null);
 
   const clearImageData = () => {
     setImageData(null);
-    // Clear the image data
     handleImageChange('');
   };
 
@@ -40,7 +39,9 @@ const SharedImageForm = ({  imageData, setImageData,  handleImageChange }) => {
   return (
     <div className="form-group">
       <label>Main Image:</label>
-      <input type="file" accept="image/*" onChange={handleImageUpload} />
+      <input type="file"                  
+      accept="image/jpeg, image/png, image/webp" 
+      onChange={handleImageUpload} />
       {imageData && (
         <div>
           <img src={imageData} alt="Preview" />

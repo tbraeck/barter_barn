@@ -446,9 +446,9 @@ const forumServices = forum.services.map((service) => (
   </div>
 ))
 
-const forumFreeStuff = forum.free_stuffs
-.filter((stuff) => !stuff.claimed)
-.map((stuff) => (
+const forumFreeStuff = forum.free_stuffs.map((stuff) => (
+  // const claimed = stuff.claimantId
+  // if(!claimed) {
   <div key={stuff.id}>
     <FreeStuffCard
      stuff={stuff}
@@ -467,9 +467,9 @@ const forumFreeStuff = forum.free_stuffs
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
     handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
     // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
-
     />
   </div>
+  // }
 ))
 
 return (

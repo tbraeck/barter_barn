@@ -3,7 +3,7 @@ class GoodsController < ApplicationController
 
   # GET /goods
   def index
-    goods = Good.all.with_attached_image
+    goods = Good.all.with_attached_main_image
     render json: goods
   end
 
@@ -16,6 +16,7 @@ class GoodsController < ApplicationController
   def create
     user = User.find(params[:user_id])
     good = user.goods.create!(good_params)
+    good.main_image.attach(good_params[:main_image])
     render json: good, status: :created
   end
 

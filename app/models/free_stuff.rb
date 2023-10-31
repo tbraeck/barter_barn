@@ -6,5 +6,5 @@ class FreeStuff < ApplicationRecord
     
     validates :body, presence: true
     validates :image_url, presence: true
-
+    validates :forum, presence: true
 end

@@ -20,7 +20,7 @@ const NewUserGoods = ({
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
     image_url: '',
-    main_image: ''
+    // main_image:  ''
   });
 
   const [imageData, setImageData] = useState(null);
@@ -130,6 +130,8 @@ const NewUserGoods = ({
       ...freeStuffData,
       forum_id: forum.id,
       user_id: user.id,
+      main_image: freeStuffData.main_image
+
     };
 
     fetch(`http://localhost:3000/free_stuffs`, {
@@ -177,6 +179,7 @@ const NewUserGoods = ({
                 onChange={handleGoodChange}
                 required
               />
+               
             </div>
             <div className='form-field'>
               <label htmlFor='description'>Description:</label>
@@ -258,15 +261,7 @@ const NewUserGoods = ({
                 required
               />
             </div>
-            <div className='form-field'>
-              <label htmlFor='main_image'>Main Image:</label>
-              <input
-                type='file'
-                name='main_image'
-                onChange={handleImageChange}
-                 accept="image/jpeg, image/png" 
-              />
-            </div>
+           
             <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} />
             {/* {freeStuffData.image_url && ( // Display image preview
               <img src={freeStuffData.image_url} alt="Image Preview" />
