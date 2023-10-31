@@ -34,6 +34,9 @@ class GoodsController < ApplicationController
     head :no_content
   end
 
+  
+  
+
   private
     def find_good
         Good.find(params[:id])

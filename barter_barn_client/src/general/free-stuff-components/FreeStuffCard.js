@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 const FreeStuffCard = ({
   stuff,
@@ -18,13 +18,13 @@ const FreeStuffCard = ({
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
   const [isClaimed, setIsClaimed] = useState(stuff.claimed || false);
-  const [claimMessage, setClaimMessage] = useState("");
-const [isPending, setIsPending] = useState(false)
+  // const [claimMessage, setClaimMessage] = useState("");
+// const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
 
-  const { claimed } = useParams();
-  const isItemClaimed = claimed === 'true';
-  const isItemSaved = isItemClaimed || stuff.claimed;
+  // const { claimed } = useParams();
+  // const isItemClaimed = claimed === 'true';
+  // const isItemSaved = isItemClaimed || stuff.claimed;
 
   if (!stuff || !stuff.body) {
     return <div>Loading...</div>;

@@ -67,6 +67,25 @@ class FreeStuffsController < ApplicationController
     head :no_content
   end
 
+
+  def claim_free_stuff
+    @free_stuff = FreeStuff.find(params[:id])
+  
+    if @free_stuff.claimant_id.present?
+      # Handle the case where the good has already been claimed by another user
+      render json: { error: 'This item has already been claimed.' }, status: :unprocessable_entity
+    else
+      # Attempt to claim the good
+      if @free_stuff.update(claimant_id: current_user.id)
+        # Handle successful claim
+        render json: { message: 'Item claimed successfully.' }
+      else
+        # Handle claim error
+        render json: { error: 'Failed to claim the item.' }, status: :unprocessable_entity
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def find_free_stuff

@@ -29,7 +29,7 @@ const [userFreeStuff, setUserFreeStuff] = useState([])
 
 const [errors, setErrors] = useState([]);
 const { user } = useContext(UserContext);
-const {id, claimed} = useParams()
+const {id} = useParams()
 
 const isUserProfile = user.username !== forum.title;
 
