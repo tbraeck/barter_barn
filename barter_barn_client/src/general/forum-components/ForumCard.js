@@ -48,7 +48,7 @@ const handleSaveGoodToUserProfile = (item) => {
     };
   }
 
-  return fetch(`http://localhost:3000/users/${user.id}/user_goods`, {
+  return fetch(`/users/${user.id}/user_goods`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
