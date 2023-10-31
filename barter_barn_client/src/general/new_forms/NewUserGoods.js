@@ -15,12 +15,13 @@ const NewUserGoods = ({
     description: '',
     image_url: '',
     good_or_service: '',
+    main_image: (null)
   });
 
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
     image_url: '',
-    // main_image:  ''
+    main_image:  (null)
   });
 
   const [imageData, setImageData] = useState(null);
@@ -192,7 +193,7 @@ const NewUserGoods = ({
                 required
               />
             </div>
-            <div className='form-field'>
+            {/* <div className='form-field'>
               <label htmlFor='image_url'>Image URL:</label>
               <input
                 className='formInput'
@@ -202,7 +203,7 @@ const NewUserGoods = ({
                 onChange={handleGoodChange}
                 required
               />
-            </div>
+            </div> */}
             <div className='form-field'>
               <label htmlFor='good_or_service'>Good or Service:</label>
               <input
@@ -250,7 +251,7 @@ const NewUserGoods = ({
                 required
               />
             </div>
-            <div className='form-field'>
+            {/* <div className='form-field'>
               <label htmlFor='image_url'>Image URL:</label>
               <input
                 className='formInput'
@@ -260,7 +261,7 @@ const NewUserGoods = ({
                 onChange={handleFreeStuffChange}
                 required
               />
-            </div>
+            </div> */}
            
             <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} />
             {/* {freeStuffData.image_url && ( // Display image preview

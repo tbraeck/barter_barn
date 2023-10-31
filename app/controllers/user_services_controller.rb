@@ -50,7 +50,7 @@
     end
 
     def user_service_params
-      params.permit(:title, :description, :main_image, :image_url, :good_or_service, :user_id, :forum_id, :created_at, :updated_at)
+      params.permit(:title, :description, :main_image, :good_or_service, :user_id, :forum_id, :created_at, :updated_at)
     end
 
   end

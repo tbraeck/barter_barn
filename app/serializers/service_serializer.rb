@@ -1,5 +1,5 @@
 class ServiceSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :image_url, :good_or_service, :main_image
+  attributes :id, :title, :description, :good_or_service, :main_image
 
   has_one :user
   has_one :forum

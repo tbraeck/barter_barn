@@ -5,6 +5,6 @@ class FreeStuff < ApplicationRecord
     has_one_attached :main_image
     
     validates :body, presence: true
-    validates :image_url, presence: true
+    # validates :image_url, presence: true
     validates :forum, presence: true
 end

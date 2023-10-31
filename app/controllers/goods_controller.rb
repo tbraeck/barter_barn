@@ -3,7 +3,7 @@ class GoodsController < ApplicationController
 
   # GET /goods
   def index
-    goods = Good.all.with_attached_main_image
+    goods = Good.all
     render json: goods
   end
 
@@ -40,6 +40,6 @@ class GoodsController < ApplicationController
     end
 
     def good_params
-      params.require(:good).permit(:title, :description, :main_image, :image_url, :good_or_service, :user_id, :forum_id)
+      params.require(:good).permit(:title, :description, :main_image,  :good_or_service, :user_id, :forum_id)
     end
 end

@@ -38,7 +38,7 @@ const SharedImageForm = ({  imageData, setImageData,  handleImageChange }) => {
 
   return (
     <div className="form-group">
-      <label>Main Image:</label>
+      <label> Image:</label>
       <input type="file"                  
       accept="image/jpeg, image/png, image/webp" 
       onChange={handleImageUpload} />
