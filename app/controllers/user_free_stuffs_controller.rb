@@ -6,6 +6,7 @@ class UserFreeStuffsController < ApplicationController
   # GET /users/:user_id/user_items
   def index
     user_free_stuffs = @current_user.user_free_stuffs
+    
     render json: user_free_stuffs
   end
   

@@ -1,8 +1,10 @@
 class FreeStuff < ApplicationRecord
     belongs_to :forum
     belongs_to :user
-    belongs_to :claimant, class_name: 'User', foreign_key: 'claimant_id', optional: true
-
+    belongs_to :claimant, class_name: 'User', optional: true
+    belongs_to :attachment_record, as: :record, dependent: :destroy
+      
+      
     has_one_attached :main_image
     
     validates :body, presence: true

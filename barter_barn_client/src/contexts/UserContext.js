@@ -1,10 +1,7 @@
-// src/context/user.js
 import React, {useState, useEffect, createContext} from "react";
 
-// create the context
 const UserContext = createContext();
 
-// create a provider component
 function UserProvider({ children }) {
     const [user, setUser] = useState(null);
 

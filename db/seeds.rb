@@ -77,7 +77,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 1,
         forum_id: 1
@@ -85,7 +84,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 2,
         forum_id: 1
@@ -94,7 +92,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 3,
         forum_id: 1
@@ -103,7 +100,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 4,
         forum_id: 1
@@ -112,7 +108,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 5,
         forum_id: 1
@@ -121,7 +116,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 6,
         forum_id: 1
@@ -130,7 +124,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 7,
         forum_id: 1
@@ -139,7 +132,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 8,
         forum_id: 1
@@ -148,7 +140,6 @@ puts "🤖 Seeding Goods..."
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
-        image_url: Faker::Internet.url,
         good_or_service: Faker::Construction.trade,
         user_id: 1,
         forum_id: 1
@@ -163,7 +154,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 7,
       forum_id: 2
@@ -171,7 +161,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 8,
       forum_id: 2
@@ -179,7 +168,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 1,
       forum_id: 2
@@ -187,7 +175,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 8,
       forum_id: 2
@@ -195,7 +182,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 7,
       forum_id: 2
@@ -203,7 +189,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 6,
       forum_id: 2
@@ -211,7 +196,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 5,
       forum_id: 2
@@ -219,7 +203,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 4,
       forum_id: 2
@@ -227,7 +210,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 3,
       forum_id: 2
@@ -235,7 +217,6 @@ puts "🤖 Seeding Services..."
     {
       title: Faker::Hobby.activity,
       description: Faker::Job.key_skill,
-      image_url: Faker::Internet.url,
       good_or_service: Faker::Appliance.equipment,
       user_id: 2,
       forum_id: 2
@@ -247,61 +228,51 @@ puts "🤖 Seeding Free Stuff..."
 FreeStuff.create!([
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 3,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 2,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 4,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 1,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 1,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 4,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 5,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 6,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 7,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      image_url: Faker::Internet.url,
       user_id: 8,
       forum_id: 3
     }

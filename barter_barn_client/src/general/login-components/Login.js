@@ -5,7 +5,7 @@ import { UserContext } from '../../contexts/UserContext';
 import './Login.css'; 
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
-  const { setUser } = useContext(UserContext);
+  const { setUser, user } = useContext(UserContext);
 
   return (
     <div className='login-page'>
@@ -15,7 +15,7 @@ const Login = () => {
       <div className="login-form-container">
         {showLogin ? (
           <div>
-            <LoginForm setUser={setUser} />
+            <LoginForm setUser={setUser} user={user}/>
             <p className="login-account-question">
               Don't have an account?</p> &nbsp;
             <button className="login-toggle-button" onClick={() => setShowLogin(false)}>

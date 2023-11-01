@@ -22,17 +22,14 @@
   <%= f.submit %>
 <% end %>
 
-<%= form_with(model: free_stuff, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label :main_image %>
-    <%= f.file_field :main_image %>
-    <%= f.hidden_field :main_image_cache %>
-    <% if free_stuff.main_image.attached? %>
-      <%= image_tag free_stuff.main_image %>
-    <% end %>
-  </div>
-  <%= f.submit %>
+<%= form_with(model: @free_stuff, local: true) do |form| %>
+  <%= form.label :body %>
+  <%= form.text_area :body %>
+  <%= form.label :image %>
+  <%= form.file_field :image %>
+  <%= form.submit %>
 <% end %>
+
 
 <%= form_with(model: user_good, local: true) do |f| %>
   <div class="form-group">

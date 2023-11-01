@@ -14,10 +14,10 @@ Rails.application.routes.draw do
     resources :user_free_stuffs
   end
 
-  resources :free_stuffs do
+  resources :freestuffs do
     member do
-      post 'claim'
-      post 'return'
+      post 'claim', to: 'freestuffs#claim'
+      post 'return', to: 'freestuffs#return'
     end
   end
 

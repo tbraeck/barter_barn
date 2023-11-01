@@ -13,23 +13,28 @@ class FreeStuffsController < ApplicationController
     # free_stuff = find_free_stuff
     render json: @free_stuff
   end
-
-
-  def claim
-    # Retrieve the FreeStuff item by ID
-    @free_stuff = FreeStuff.find(params[:id])
   
-    # Handle the claiming process here, set the claimed flag, and update the database
-    if @free_stuff.update(claimed: true)
-      # You can return a success response or any necessary data
-      render json: { message: "Item has been successfully claimed." }
+  def claim
+    @free_stuff = Freestuff.find(params[:id])
+    if @free_stuff.claimant_id.nil?
+      @free_stuff.update(claimant_id: current_user.id)
+      render json: @free_stuff, status: :ok
     else
-      # Handle the case where claiming fails
-      render json: { error: "Failed to claim the item." }, status: :unprocessable_entity
+      render json: { error: 'Item has already been claimed' }, status: :unprocessable_entity
     end
   end
-  
 
+
+  def return
+    @free_stuff = Freestuff.find(params[:id])
+    if @free_stuff.claimant_id == current_user.id
+      @free_stuff.update(claimant_id: nil)
+      # Move the item back to the original forum (you may need to implement this logic)
+      render json: @free_stuff, status: :ok
+    else
+      render json: { error: 'You do not have permission to return this item' }, status: :forbidden
+    end
+  end
  
   # def create
   #   user = User.find(params[:user_id]) 
@@ -98,6 +103,6 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.require(:free_stuff).permit(:body, :main_image, :user_id, :forum_id)
+      params.permit(:body, :main_image, :user_id, :forum_id)
     end
 end

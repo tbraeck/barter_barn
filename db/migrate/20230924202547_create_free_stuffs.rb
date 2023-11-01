@@ -6,7 +6,6 @@ class CreateFreeStuffs < ActiveRecord::Migration[7.0]
       t.integer :user_id
       t.integer :forum_id
 
-
       t.timestamps
     end
   end
