@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_01_014355) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_01_041125) do
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,21 +49,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_01_014355) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "attachment_records", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "attachments", force: :cascade do |t|
-    t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.string "name", null: false
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["record_type", "record_id"], name: "index_attachments_on_record"
-  end
-
   create_table "forums", force: :cascade do |t|
     t.string "title"
     t.string "goods"
@@ -70,8 +65,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_01_014355) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "claimant_id"
-    t.integer "attachment_record_id"
-    t.index ["attachment_record_id"], name: "index_free_stuffs_on_attachment_record_id"
     t.index ["claimant_id"], name: "index_free_stuffs_on_claimant_id"
   end
 
@@ -133,7 +126,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_01_014355) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "free_stuffs", "attachment_records"
   add_foreign_key "user_free_stuffs", "users"
   add_foreign_key "user_goods", "users"
   add_foreign_key "user_services", "users"

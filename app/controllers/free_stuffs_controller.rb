@@ -103,6 +103,7 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.require(:free_stuff).permit(:body, :main_image, :user_id, :forum_id)
+      params.require(:free_stuff).permit(:body, :user_id, :forum_id, :main_image) # Adjust as needed
     end
+    
 end

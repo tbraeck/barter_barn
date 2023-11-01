@@ -4,8 +4,7 @@ class FreeStuff < ApplicationRecord
     belongs_to :claimant, class_name: 'User', optional: true
     # belongs_to :attachment_record, as: :record, dependent: :destroy
       
-      
-    has_one_attached :main_image
+    has_one_attached :main_image, dependent: :destroy
     
     validates :body, presence: true
     # validates :image_url, presence: true

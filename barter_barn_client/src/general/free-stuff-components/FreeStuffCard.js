@@ -116,7 +116,7 @@ const FreeStuffCard = ({
           console.error('Error returning item:', error);
           setErrors(['Failed to return item. Please try again.']);
         });
-    }
+    } 
   };
   
   
@@ -124,9 +124,7 @@ const FreeStuffCard = ({
       <div className="goodCardContainer">
         <div className="goodCard">
           <h2 className="goodTitle">{body}</h2>
-          <p className="goodInfo">
-            <strong>Image URL:</strong> {image_url}
-          </p>
+          
           <div className="buttonContainer">
             {isUserProfile && (
               <>

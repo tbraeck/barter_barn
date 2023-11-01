@@ -19,7 +19,7 @@ const NewUserGoods = ({
 
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
-    main_image:  (null)
+    main_image: (null)
   });
 
   const [imageData, setImageData] = useState(null);
@@ -69,7 +69,7 @@ const NewUserGoods = ({
 
   const handleNewFreeStuff = (newStuff) => {
     const updatedForums = allForum.map((oneForum) =>
-      oneForum.id === forum.id
+      oneForum.id === forum.id  
         ? {
             ...oneForum,
             free_stuffs: [...oneForum.free_stuffs, newStuff],
@@ -122,26 +122,20 @@ const NewUserGoods = ({
 
   const handleSubmitStuff = (e) => {
     e.preventDefault();
-
-    const newStuffData = {
-      ...freeStuffData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: freeStuffData.main_image
-
-    };
-
+  
+    const formData = new FormData();
+    formData.append('user_id', user.id);
+    formData.append('forum_id', forum.id);
+    formData.append('body', body);
+    formData.append('main_image', imageData);
+  
     fetch(`http://localhost:3000/free_stuffs`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newStuffData),
+      body: formData, // Remove the 'Content-Type' header and send formData directly
     })
       .then((r) => {
         if (r.ok) {
           r.json().then((newStuff) => {
-            // console.log(newStuff);
             handleNewFreeStuff(newStuff);
           });
           setErrors([]);
@@ -157,6 +151,7 @@ const NewUserGoods = ({
         setErrors(['Error saving stuff']);
       });
   };
+  
 
   return (
     <div>

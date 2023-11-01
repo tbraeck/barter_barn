@@ -19,8 +19,13 @@ class UserFreeStuffsController < ApplicationController
 
   def create
     @user_free_stuff = @current_user.user_free_stuffs.create!(user_free_stuff_params)
+    if @user_free_stuff.save
+      @user_free_stuff.main_image.attach(params[:user_free_stuff][:main_image])
+      
     render json: @user_free_stuff, status: :created
-    
+    else 
+      render json: @user_free_stuff.errors, status: :unprocessable_entity
+    end
   end
   
   
@@ -49,7 +54,7 @@ class UserFreeStuffsController < ApplicationController
   end
 
   def user_free_stuff_params
-    params.permit(:body, :main_image,:created_at, :updated_at, :claimed, :user_id, :forum_id)
+    params.require(:user_free_stuff).permit(:body, :main_image,:created_at, :updated_at, :claimant_id, :user_id, :forum_id, :attachment_record_id,)
   end
   
   
