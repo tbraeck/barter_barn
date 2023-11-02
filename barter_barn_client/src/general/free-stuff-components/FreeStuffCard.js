@@ -12,12 +12,11 @@ const FreeStuffCard = ({
   handleDeleteClickClaimFreeStuff,
   handleSaveFreeStuffToUserProfile,
   handleClaimFreeStuff,
-
   handleSaveClaimFreeStuffToUserProfile,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [isClaimed, setIsClaimed] = useState(stuff.claimed || false);
+  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id || true);
   // const [claimMessage, setClaimMessage] = useState("");
 // const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
@@ -30,7 +29,7 @@ const FreeStuffCard = ({
     return <div>Loading...</div>;
   }
 
-  if (isClaimed) {
+  if (!isClaimed) {
     return null;
   }
 
@@ -47,7 +46,6 @@ const FreeStuffCard = ({
     };
 
   const handleSaveClaim = () => {
-
       const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
       if (saveResult.success) {
         setIsSaved(true);

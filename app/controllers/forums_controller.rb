@@ -8,6 +8,7 @@ class ForumsController < ApplicationController
 
   def show
     forum = find_forum
+
     render json: forum
   end
 
@@ -36,7 +37,7 @@ class ForumsController < ApplicationController
 
   private
     def find_forum
-      Forum.find(params[:id])
+      Forum.find_by(id: params[:id])
     end
 
     def forum_params

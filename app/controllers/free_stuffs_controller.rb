@@ -43,14 +43,16 @@ class FreeStuffsController < ApplicationController
   #   render json: free_stuff, status: :created
   # end
   def create
+    # byebug
     @free_stuff = FreeStuff.new(free_stuffs_params)
-
+  
     if @free_stuff.save
-      render json: @free_stuff, status: :created, location: @free_stuff
+      render json: @free_stuff, status: :created
     else
-      render json: @free_stuff.errors, status: :unprocessable_entity
+      render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
     end
   end
+  
   # PATCH/PUT /goods/1
   # def update
   #  free_stuff = find_free_stuff
@@ -103,7 +105,26 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.require(:free_stuff).permit(:body, :user_id, :forum_id, :main_image) # Adjust as needed
+      params.permit(:body, :user_id, :forum_id, :main_image) # Adjust as needed
     end
     
 end
+
+
+# def claim
+#   free_stuff = FreeStuff.find(params[:id])
+#   claim = Claim.find_by(user: @current_user, likable: comment)
+
+# need a claim model 
+# do object to grab value 
+
+#   if claim
+#     claim.destroy
+#     render json: comment, status: :ok
+#   else
+#     claim = @current_user.likes.create(likable: comment)
+#     render json: comment, status: :created
+#   end
+# end
+
+# in user model user.claimedItems

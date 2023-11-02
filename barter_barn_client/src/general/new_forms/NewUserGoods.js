@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import SharedImageForm from '../../SharedImageForm';
+import React, { useState,useEffect } from 'react';
+// import SharedImageForm from '../../SharedImageForm';
 
 const NewUserGoods = ({
   forum,
@@ -14,30 +14,46 @@ const NewUserGoods = ({
     title: '',
     description: '',
     good_or_service: '',
-    main_image: (null)
+    forum_id: ''
   });
 
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
-    main_image: (null)
-  });
+    forum_id: ''
 
-  const [imageData, setImageData] = useState(null);
+  });
+const [users, setUsers] = useState([])
+const [freeStuffs, setFreeStuffs] = useState([])
+const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
 
   const { title, description, good_or_service } = goodFormData;
   const { body } = freeStuffData;
 
+  useEffect(() => {
+    fetch(`/users`)
+    .then(res => res.json())
+    .then(data => setUsers(data))
+  }, [])
+// console.log(users)
+  useEffect(() => {
+    fetch(`/free_stuffs`)
+    .then(res => res.json())
+    .then(data => setFreeStuffs(data))
+  }, [])
+
+  // console.log(freeStuffs)
+
   const handleErrors = (error) => {
-    setErrors([error.message]); // Assuming error.message contains the error message
+    setErrors([error.message]); 
   };
 
-  const handleImageChange = (imageData) => {
-    // Update the image_url in the state
-    setGoodFormData({ ...goodFormData, main_image: imageData });
-    setFreeStuffData({ ...freeStuffData, main_image: imageData });
-  };
+  // const handleImageChange = (imageData) => {
+  //   setGoodFormData({ ...goodFormData, main_image: imageData });
+  //   setFreeStuffData({ ...freeStuffData, main_image: imageData });
+  //   console.log(imageData)
+  // };
 
   const handleGoodChange = (e) => {
     const { name, value } = e.target;
@@ -90,7 +106,7 @@ const NewUserGoods = ({
       ...goodFormData,
       forum_id: forum.id,
       user_id: user.id,
-      main_image: goodFormData.main_image,
+      main_image: imageData,
     };
 
     fetch(`http://localhost:3000/goods`, {
@@ -120,23 +136,40 @@ const NewUserGoods = ({
       });
   };
 
+
+
+  const clearImageData = () => {
+    setImageData(null);
+    // handleImageChange('');
+  };
+
+  // console.log(imageData)
+
   const handleSubmitStuff = (e) => {
     e.preventDefault();
-  
+    // const newFreeStuffData = {
+    //   ...freeStuffData,
+    //   forum_id: forum.id,
+    //   user_id: user.id,
+    //   main_image: imageData,
+    // };
+    
     const formData = new FormData();
-    formData.append('user_id', user.id);
+    formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
-    formData.append('body', body);
+    formData.append('body', freeStuffData.body);
     formData.append('main_image', imageData);
-  
-    fetch(`http://localhost:3000/free_stuffs`, {
+  // console.log(formData)
+
+    fetch(`/free_stuffs`, {
       method: 'POST',
-      body: formData, // Remove the 'Content-Type' header and send formData directly
+      body: formData, 
     })
       .then((r) => {
         if (r.ok) {
           r.json().then((newStuff) => {
             handleNewFreeStuff(newStuff);
+            // console.log(newStuff)
           });
           setErrors([]);
         } else {
@@ -152,6 +185,7 @@ const NewUserGoods = ({
       });
   };
   
+  // console.log(imageData)
 
   return (
     <div>
@@ -206,7 +240,7 @@ const NewUserGoods = ({
                 required
               />
             </div>
-            <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/>
+            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
             {goodFormData.image_url && ( 
               <img src={goodFormData.image_url} alt="Image Preview" />
             )}
@@ -242,22 +276,25 @@ const NewUserGoods = ({
                 required
               />
             </div>
-            {/* <div className='form-field'>
-              <label htmlFor='image_url'>Image URL:</label>
-              <input
-                className='formInput'
-                type='text'
-                name='image_url'
-                value={stuffImageUrl}
-                onChange={handleFreeStuffChange}
-                required
-              />
-            </div> */}
+            <div className="form-group">
+                <label> Image:</label>
+                <input type="file"                  
+                accept="image/jpeg, image/png, image/webp" 
+                onChange={(e) => setImageData(e.target.files[0])} />
+                {imageData && (
+                  <div>
+                    <img src={imageData} alt="Preview" />
+                    <button onClick={clearImageData}>Clear Image</button>
+                  </div>
+                )}
+              </div>
+             
            
-            <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} />
-            {/* {freeStuffData.image_url && ( // Display image preview
-              <img src={freeStuffData.image_url} alt="Image Preview" />
+            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} /> */}
+            {/* {freeStuffData.main_image && ( 
+              <img src={freeStuffData.main_image} alt="Image Preview" />
             )} */}
+
             <button className='formButton' type='submit'>
               ADD
             </button>
