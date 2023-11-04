@@ -173,20 +173,21 @@ const handleSaveFreeStuffToUserProfile = (item) => {
 
 
 const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
-  if (!isUserProfile) {
+  if (isUserProfile) {
     return {
       success: false,
       message: "Claiming items is not allowed in your profile.",
     };
   }
-
-
-  if (isItemClaimed) {
+  if (!isItemClaimed) {
     return Promise.resolve({
       success: false,
       message: "Item already saved to user profile."
     });
   }
+
+  // Update the item with the claimant_id
+  item.claimant_id = user.id;
 
   return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
@@ -199,9 +200,10 @@ const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
       if (res.ok) {
         return res.json().then((claimedItem) => {
           setUserFreeStuff([...userFreeStuff, claimedItem]);
-          return (
-            alert("Claimed item is now in user profile!")
-          );
+          return {
+            success: true,
+            message: "Claimed item is now in user profile!",
+          };
         });
       } else {
         res.json().then((error) => setErrors(error.errors));
@@ -222,6 +224,7 @@ const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
       };
     });
 };
+
 
 
 
@@ -446,31 +449,35 @@ const forumServices = forum.services.map((service) => (
   </div>
 ))
 
-const forumFreeStuff = forum.free_stuffs.map((stuff) => (
-  // const claimed = stuff.claimantId
-  // if(!claimed) {
-  <div key={stuff.id}>
-    <FreeStuffCard
-     stuff={stuff}
-     user={user}
-     forum={forum}
-     allForum={allForum}
-     setAllForum={setAllForum}
-     id={id}
-     setUserClaimedGoods={setUserClaimedGoods}
-     userFreeStuff={userFreeStuff}
-     setUserFreeStuff={setUserFreeStuff}
-     handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
-     isUserProfile={isUserProfile}
-     handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
-     handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
-    handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
-    handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
-    // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
-    />
-  </div>
-  // }
-))
+const forumFreeStuff = forum.free_stuffs.map((stuff) => {
+  const claimed = stuff.claimantId !== null;
+  
+  if (claimed) {
+    return (
+      <div key={stuff.id}>
+        <FreeStuffCard
+          stuff={stuff}
+          user={user}
+          forum={forum}
+          allForum={allForum}
+          setAllForum={setAllForum}
+          id={id}
+          setUserClaimedGoods={setUserClaimedGoods}
+          userFreeStuff={userFreeStuff}
+          setUserFreeStuff={setUserFreeStuff}
+          handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
+          isUserProfile={isUserProfile}
+          handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
+          handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
+          handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
+          handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
+        />
+      </div>
+    );
+  } else {
+    return null; 
+  }
+  })
 
 return (
   <div className="forum-container">

@@ -20,10 +20,11 @@ const NewUserGoods = ({
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
     forum_id: ''
-
   });
+
 const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
+const [allGoods, setAllGoods] = useState([])
 const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
@@ -41,6 +42,12 @@ const [imageData, setImageData] = useState(null);
     fetch(`/free_stuffs`)
     .then(res => res.json())
     .then(data => setFreeStuffs(data))
+  }, [])
+
+  useEffect(() => {
+    fetch(`/goods`)
+    .then(res => res.json())
+    .then(data => setAllGoods(data))
   }, [])
 
   // console.log(freeStuffs)
@@ -80,8 +87,10 @@ const [imageData, setImageData] = useState(null);
       title: '',
       description: '',
       good_or_service: '',
+      main_image: imageData
     });
   };
+  // console.log(imageData)
 
   const handleNewFreeStuff = (newStuff) => {
     const updatedForums = allForum.map((oneForum) =>
@@ -96,31 +105,30 @@ const [imageData, setImageData] = useState(null);
     setAllForum(updatedForums);
     setFreeStuffData({
       body: '',
+      main_image: imageData
     });
   };
 
   const handleSubmitGood = (e) => {
     e.preventDefault();
-
-    const newGoodData = {
-      ...goodFormData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: imageData,
-    };
-
-    fetch(`http://localhost:3000/goods`, {
+  
+    const formData = new FormData();
+    formData.append('user_id', users[0].id);
+    formData.append('forum_id', forum.id);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('good_or_service', good_or_service); 
+    formData.append('main_image', imageData);
+  
+    fetch(`/goods`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newGoodData),
+      body: formData, 
     })
       .then((r) => {
         if (r.ok) {
           r.json().then((newGood) => {
-            // console.log(newGood);
             handleNewGood(newGood);
+            console.log(newGood)
           });
           setErrors([]);
         } else {
@@ -135,31 +143,19 @@ const [imageData, setImageData] = useState(null);
         setErrors(['Error saving good']);
       });
   };
-
-
-
+  
   const clearImageData = () => {
     setImageData(null);
-    // handleImageChange('');
   };
-
-  // console.log(imageData)
 
   const handleSubmitStuff = (e) => {
     e.preventDefault();
-    // const newFreeStuffData = {
-    //   ...freeStuffData,
-    //   forum_id: forum.id,
-    //   user_id: user.id,
-    //   main_image: imageData,
-    // };
     
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
-    formData.append('body', freeStuffData.body);
+    formData.append('body', body);
     formData.append('main_image', imageData);
-  // console.log(formData)
 
     fetch(`/free_stuffs`, {
       method: 'POST',
@@ -169,7 +165,7 @@ const [imageData, setImageData] = useState(null);
         if (r.ok) {
           r.json().then((newStuff) => {
             handleNewFreeStuff(newStuff);
-            // console.log(newStuff)
+            console.log(newStuff)
           });
           setErrors([]);
         } else {
@@ -185,7 +181,6 @@ const [imageData, setImageData] = useState(null);
       });
   };
   
-  // console.log(imageData)
 
   return (
     <div>
@@ -204,8 +199,7 @@ const [imageData, setImageData] = useState(null);
                 value={title}
                 onChange={handleGoodChange}
                 required
-              />
-               
+              /> 
             </div>
             <div className='form-field'>
               <label htmlFor='description'>Description:</label>
@@ -218,32 +212,33 @@ const [imageData, setImageData] = useState(null);
                 required
               />
             </div>
-            {/* <div className='form-field'>
-              <label htmlFor='image_url'>Image URL:</label>
-              <input
-                className='formInput'
-                type='text'
-                name='image_url'
-                value={image_url}
-                onChange={handleGoodChange}
-                required
-              />
-            </div> */}
             <div className='form-field'>
-              <label htmlFor='good_or_service'>Good or Service:</label>
-              <input
-                className='formInput'
-                type='text'
-                name='good_or_service'
-                value={good_or_service}
-                onChange={handleGoodChange}
-                required
-              />
-            </div>
-            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
-            {goodFormData.image_url && ( 
-              <img src={goodFormData.image_url} alt="Image Preview" />
-            )}
+                  <label htmlFor='good_or_service'>Good or Service:</label>
+                  <input
+                    className='formInput'
+                    type='text'
+                    name='good_or_service' 
+                    value={good_or_service}
+                    onChange={handleGoodChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                <label> Image:</label>
+                <input type="file"                  
+                accept="image/jpeg, image/png, image/webp" 
+                onChange={(e) => setImageData(e.target.files[0])} />
+                {imageData && (
+                  <div>
+                   
+                    <button onClick={clearImageData}>Clear Image</button>
+                    <img src={imageData} alt="Preview" />
+                  </div>
+                  
+                )}
+              </div>
+          
             <button className='formButton' type='submit'>
               ADD
             </button>
@@ -283,18 +278,11 @@ const [imageData, setImageData] = useState(null);
                 onChange={(e) => setImageData(e.target.files[0])} />
                 {imageData && (
                   <div>
-                    <img src={imageData} alt="Preview" />
                     <button onClick={clearImageData}>Clear Image</button>
-                  </div>
+                    <img src={imageData} alt="Preview" />
+                  </div> 
                 )}
               </div>
-             
-           
-            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} /> */}
-            {/* {freeStuffData.main_image && ( 
-              <img src={freeStuffData.main_image} alt="Image Preview" />
-            )} */}
-
             <button className='formButton' type='submit'>
               ADD
             </button>

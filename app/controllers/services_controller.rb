@@ -9,18 +9,23 @@ class ServicesController < ApplicationController
   end
 
   # GET /services/1
-  def show
-    render json: @service
-  end
+  # def show
+  #   render json: @service
+  # end
 
   # POST /services
   def create
+    # byebug
     @service = Service.new(service_params)
-
+    # byebug
     if @service.save
-      render json: @service, status: :created, location: @service
+
+      @service.main_image.attach(params[:main_image])
+      render json: @service
+
+      # redirect_to @free_stuff, notice: 'Free stuff was successfully created.'
     else
-      render json: @service.errors, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -45,6 +50,10 @@ class ServicesController < ApplicationController
       @service = Service.find(params[:id])
     end
 
+
+    def set_goods
+      @good = Good.find(params[:id])
+    end
     # Only allow a list of trusted parameters through.
     def service_params
       params.require(:service).permit(:title, :description, :main_image,  :good_or_service,  :user_id, :forum_id)

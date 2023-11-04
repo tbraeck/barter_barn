@@ -4,15 +4,14 @@ class FreeStuffsController < ApplicationController
   # GET /goods
   def index
     @free_stuff = FreeStuff.all
-
     render json: @free_stuff
   end
 
   # GET /goods/1
-  def show
-    # free_stuff = find_free_stuff
-    render json: @free_stuff
-  end
+  # def show
+  #   free_stuff = find_free_stuff
+  #   render json: @free_stuff
+  # end
   
   def claim
     @free_stuff = Freestuff.find(params[:id])
@@ -42,17 +41,31 @@ class FreeStuffsController < ApplicationController
     
   #   render json: free_stuff, status: :created
   # end
-  def create
-    # byebug
-    @free_stuff = FreeStuff.new(free_stuffs_params)
+  # def create
+  #   # byebug
+  #   @free_stuff = FreeStuff.new(free_stuffs_params)
+  #   # byebug
+  #   if @free_stuff.save
+  #     # byebug
+
+  #     render json: @free_stuff, status: :created
+  #     # byebug
+
+  #   else
+  #     render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
+  #   end
+  # end
   
+
+  def create
+    @free_stuff = FreeStuff.new(free_stuffs_params)
     if @free_stuff.save
-      render json: @free_stuff, status: :created
+      @free_stuff.main_image.attach(params[:main_image])
+      render json: @free_stuff
     else
-      render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
+      render :new
     end
   end
-  
   # PATCH/PUT /goods/1
   # def update
   #  free_stuff = find_free_stuff
@@ -67,14 +80,11 @@ class FreeStuffsController < ApplicationController
     end
   end
 
-  # DELETE /goods/1
   def destroy
-    # free_stuff = find_free_stuff
     @free_stuff.destroy
     head :no_content
   end
-
-
+  
   def claim_free_stuff
     @free_stuff = FreeStuff.find(params[:id])
   
@@ -105,7 +115,7 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.permit(:body, :user_id, :forum_id, :main_image) # Adjust as needed
+      params.permit(:body, :user_id, :forum_id, :main_image, :claimant_id) # Adjust as needed
     end
     
 end

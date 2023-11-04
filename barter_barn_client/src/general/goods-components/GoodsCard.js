@@ -17,7 +17,7 @@ const GoodsCard = ({
     return <div>Loading...</div>;
   }
 
-  const { title, description, image_url, good_or_service } = good;
+  const { title, description, good_or_service } = good;
 
   const handleSaveGood = () => {
     const saveResult = handleSaveGoodToUserProfile(good);
@@ -43,10 +43,11 @@ const GoodsCard = ({
     <div className="goodCard">
       <h2 className="goodTitle">{title}</h2>
       <p className="goodDescription">{description}</p>
-      <p className="goodInfo"><strong>Image URL:</strong>{image_url}</p>
       <p className="goodInfo">
         <strong>Service needed:</strong> {good_or_service}
       </p>
+      <img src={good.image} className='cardImage' alt="  Preview" />    
+
       <div className='buttonContainer'>
             {isUserProfile && (
               <button onClick={handleSaveGood} className='crudButton saveButton'>

@@ -1,10 +1,12 @@
 class GoodSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :good_or_service, :main_image
+  include Rails.application.routes.url_helpers
+
+  attributes :id, :title, :description, :good_or_service, :image
 
   has_one :user
   has_one :forum
 
-  def main_image
+  def image 
     rails_blob_path(object.main_image, only_path: true) if object.main_image.attached?
   end
 end

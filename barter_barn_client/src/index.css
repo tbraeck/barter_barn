@@ -164,6 +164,13 @@ html, body {
   height: 78vh; /* Make the content occupy the full viewport height */
 }
 
+.cardImage {
+  width: 200px; /* Set the width as you need */
+  height: auto; /* Set the height as you need */
+  border: 1px solid #ddd; /* Add a border if desired */
+  /* Add more styles as needed */
+}
+
 /* Additional styles can be added for the forum list if needed */
 /* Add this CSS to your project's stylesheet */
 .forum-container {

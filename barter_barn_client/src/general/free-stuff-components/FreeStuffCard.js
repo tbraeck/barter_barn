@@ -7,16 +7,20 @@ const FreeStuffCard = ({
   setUserFreeStuff,
   userFreeStuff,
   allForum,
+  setAllForum,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleDeleteClickClaimFreeStuff,
   handleSaveFreeStuffToUserProfile,
   handleClaimFreeStuff,
+  handleAddFreeStuffs,
   handleSaveClaimFreeStuffToUserProfile,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id || true);
+  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id !== null);
+  // const isClaimed = !!stuff.claimant_id; 
+
   // const [claimMessage, setClaimMessage] = useState("");
 // const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
@@ -24,16 +28,15 @@ const FreeStuffCard = ({
   // const { claimed } = useParams();
   // const isItemClaimed = claimed === 'true';
   // const isItemSaved = isItemClaimed || stuff.claimed;
-
+// console.log(stuff)
   if (!stuff || !stuff.body) {
     return <div>Loading...</div>;
   }
 
-  if (!isClaimed) {
-    return null;
-  }
-
-  const { body, image_url } = stuff;
+  // if (isClaimed) {
+  //   return null;
+  // }
+  const { body } = stuff;
 
   const handleSave = () => {
       const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
@@ -72,26 +75,30 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
-  // const handleClaim = () => {
-  //   if (!isPending && !isClaimed) {
-  //     setIsClaimed(true)
-  //     // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
+  const handleClaim = () => {
+    if (!isClaimed) {
+      // Step 1: Remove the claimed item from the forum
+      const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+      setAllForum(updatedForum);
   
-  //     // Step 2: Add the claimed item to the user's profile
-  //     handleSave( stuff);
-  //     setClaimMessage("Claimed item is in your profile");
-  //     // Step 3: Send a message to the original poster
-  //     sendMessageToOriginalPoster(stuff, user);
+      // Step 2: Add the claimed item to the user's profile
+      const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, true);
+      if (saveResult.success) {
+        setIsSaved(true);
+        setErrors([]);
+      } else {
+        setErrors([saveResult.message]);
+      }
+      
+      setIsClaimed(true); // Set isClaimed to true when the item is claimed
+    }
+  };
   
-     
-  //   }
-  // };
+  
 
   const handleReturn = () => {
-    if (isClaimed && stuff.claimant_id === user.id) {
-      // Make an API request to the "return" endpoint to handle the return action
+    if (stuff.claimant_id === user.id) {
+      // The user can return the item because they are the claimant
       fetch(`/freestuffs/${stuff.id}/return`, {
         method: 'POST',
         headers: {
@@ -102,8 +109,6 @@ const FreeStuffCard = ({
           if (response.ok) {
             // Update the UI to reflect the changes after a successful return
             setIsClaimed(false);
-            // setClaimMessage('Item has been returned to the forum');
-            // You may need to add logic to move the item back to the original forum
           } else {
             // Handle errors if the return action is not successful
             console.error('Error returning item:', response);
@@ -114,41 +119,48 @@ const FreeStuffCard = ({
           console.error('Error returning item:', error);
           setErrors(['Failed to return item. Please try again.']);
         });
-    } 
-  };
-  
+    } else {
+      // The user cannot return the item because they are not the claimant
+      setErrors(['You can only return items you claimed.']);
+    }
+  };  
   
   return (
-      <div className="goodCardContainer">
+    <div className="goodCardContainer">
+      {isClaimed && (
         <div className="goodCard">
           <h2 className="goodTitle">{body}</h2>
-          
+          <img src={stuff.image} className='cardImage' alt="  Preview" />    
           <div className="buttonContainer">
             {isUserProfile && (
               <>
                 <button onClick={handleSave} className="crudButton saveButton">
                   SAVE
                 </button>
-                <button onClick={handleSaveClaim} className="crudButton claimButton">
+                <button onClick={handleClaim} className="crudButton claimButton">
                   CLAIM
                 </button>
-              </> 
+              </>
             )}
-              {isSaved && <p>Item has been saved to your profile!</p>}
-              {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
+    
+            {isSaved && <p>Item has been saved to your profile!</p>}
+    
             {!isUserProfile && (
-             <>
-             <button onClick={() => handleDeleteSaved(stuff)} className='crudButton deleteButton'>
-               DELETE
-             </button>
-             <button onClick={handleReturn} className="crudButton returnButton">
-                RETURN
-              </button>
-                        
-           </>
+              <>
+                <button onClick={() => handleDeleteSaved(stuff)} className="crudButton deleteButton">
+                  DELETE
+                </button>
+                {!isClaimed && (
+                  <button onClick={handleReturn} className="crudButton returnButton">
+                    RETURN
+                  </button>
+                )}
+              </>
             )}
           </div>
+    
           {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
+    
           {errors.length > 0 && (
             <div className="error-messages">
               {errors.map((error, index) => (
@@ -159,9 +171,11 @@ const FreeStuffCard = ({
             </div>
           )}
         </div>
-      </div>
-   
+      )}
+    </div>
+  
   );
+  
 };
 
 export default FreeStuffCard;

@@ -1,0 +1,94 @@
+<%= form_for @good, html: { multipart: true } do |form| %>
+  <div style="width: 100px; height: auto;">
+    <% if @good.main_image.attached? %>
+      <%= image_tag @good.main_image, style: "width: 100%" %>
+    <% end %>
+
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= form_for @service, html: { multipart: true } do |form| %>
+  <div style="width: 100px; height: auto;">
+    <% if @service.main_image.attached? %>
+      <%= image_tag @service.main_image, style: "width: 100%" %>
+    <% end %>
+
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+
+<%= form_for @free_stuff, html: { multipart: true } do |form| %>
+  <div style="width: 100px; height: auto;">
+    <% if @free_stuff.main_image.attached? %>
+      <%= image_tag @free_stuff.main_image, style: "width: 100%" %>
+    <% end %>
+
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+
+<%= form_for @user_good, html: { multipart: true } do |form| %>
+  <div style="width: 100px; height: auto;">
+    <% if @user_good.main_image.attached? %>
+      <%= image_tag @user_good.main_image, style: "width: 100%" %>
+    <% end %>
+
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<%= form_for @user_service, html: { multipart: true } do |form| %>
+  <div style="width: 100px; height: auto;">
+    <% if @user_service.main_image.attached? %>
+      <%= image_tag @user_service.main_image, style: "width: 100%" %>
+    <% end %>
+
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= form_for @user_free_stuff, html: { multipart: true } do |form| %>
+  <div style="width: 100px; height: auto;">
+    <% if @user_free_stuff.main_image.attached? %>
+      <%= image_tag @user_free_stuff.main_image, style: "width: 100%" %>
+    <% end %>
+
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    
+    <%= form.submit %>
+  </div>
+<% end %>
