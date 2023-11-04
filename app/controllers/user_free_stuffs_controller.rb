@@ -59,6 +59,9 @@ class UserFreeStuffsController < ApplicationController
 =======
   def user_free_stuff_params
     params.require(:user_free_stuff).permit(:body, :main_image,:created_at, :updated_at, :claimant_id, :user_id, :forum_id, :attachment_record_id,)
+<<<<<<< HEAD
+>>>>>>> parent of 5a38c15 (commit saturday morning)
+=======
 >>>>>>> parent of 5a38c15 (commit saturday morning)
   end
   

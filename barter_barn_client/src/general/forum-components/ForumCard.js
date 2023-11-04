@@ -225,10 +225,6 @@ const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 5a38c15 (commit saturday morning)
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
     method: "DELETE",

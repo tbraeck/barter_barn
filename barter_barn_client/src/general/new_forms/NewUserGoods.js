@@ -102,7 +102,7 @@ const [imageData, setImageData] = useState(null);
   const handleSubmitGood = (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
+
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
@@ -115,7 +115,15 @@ const [imageData, setImageData] = useState(null);
     fetch(`http://localhost:3000/goods`, {
       method: 'POST',
       body: JSON.stringify(formData),
-=======
+    const newGoodData = {
+      ...goodFormData,
+      forum_id: forum.id,
+      user_id: user.id,
+      main_image: imageData,
+    };
+
+    fetch(`http://localhost:3000/goods`, {
+      method: 'POST',
     const newGoodData = {
       ...goodFormData,
       forum_id: forum.id,
@@ -129,8 +137,7 @@ const [imageData, setImageData] = useState(null);
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newGoodData),
->>>>>>> parent of 5a38c15 (commit saturday morning)
-    })
+
       .then((r) => {
         if (r.ok) {
           r.json().then((newGood) => {
@@ -255,7 +262,7 @@ const [imageData, setImageData] = useState(null);
                 required
               />
             </div>
-<<<<<<< HEAD
+
             <div className="form-group">
                 <label> Image:</label>
                 <input type="file"                  
@@ -268,12 +275,12 @@ const [imageData, setImageData] = useState(null);
                   </div>
                 )}
               </div>
-=======
+
             {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
             {goodFormData.image_url && ( 
               <img src={goodFormData.image_url} alt="Image Preview" />
             )}
->>>>>>> parent of 5a38c15 (commit saturday morning)
+
             <button className='formButton' type='submit'>
               ADD
             </button>
@@ -314,7 +321,11 @@ const [imageData, setImageData] = useState(null);
                 {imageData && (
                   <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <img src={imageData} alt="Preview" className='imageThumb' />
+=======
+                    <img src={imageData} alt="Preview" />
+>>>>>>> parent of 5a38c15 (commit saturday morning)
 =======
                     <img src={imageData} alt="Preview" />
 >>>>>>> parent of 5a38c15 (commit saturday morning)

@@ -72,7 +72,7 @@ const FreeStuffCard = ({
   //   handleDeleteClickFreeStuff(stuff.id);
   // };
 
-<<<<<<< HEAD
+
   const handleClaim = () => {
     if (!isClaimed) {
       // Step 1: Remove the claimed item from the forum
@@ -98,7 +98,7 @@ const FreeStuffCard = ({
   //     // Step 3: Send a message to the original poster
   //     sendMessageToOriginalPoster(stuff, user);
   
-=======
+
   // const handleClaim = () => {
   //   if (!isPending && !isClaimed) {
   //     setIsClaimed(true)
@@ -112,7 +112,20 @@ const FreeStuffCard = ({
   //     // Step 3: Send a message to the original poster
   //     sendMessageToOriginalPoster(stuff, user);
   
->>>>>>> parent of 5a38c15 (commit saturday morning)
+
+  // const handleClaim = () => {
+  //   if (!isPending && !isClaimed) {
+  //     setIsClaimed(true)
+  //     // Step 1: Remove the claimed item from the forum
+  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  //     setAllForum(updatedForum);
+  
+  //     // Step 2: Add the claimed item to the user's profile
+  //     handleSave( stuff);
+  //     setClaimMessage("Claimed item is in your profile");
+  //     // Step 3: Send a message to the original poster
+  //     sendMessageToOriginalPoster(stuff, user);
+  
      
   //   }
   // };
