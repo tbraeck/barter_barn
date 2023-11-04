@@ -5,6 +5,7 @@ const NewUserGoods = ({
   forum,
   allForum,
   setAllForum,
+  
   user,
   handleAddGood,
   handleAddService,
@@ -24,6 +25,7 @@ const NewUserGoods = ({
   });
 const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
+const [someGoods, setSomeGoods] = useState([])
 const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
@@ -42,6 +44,18 @@ const [imageData, setImageData] = useState(null);
     .then(res => res.json())
     .then(data => setFreeStuffs(data))
   }, [])
+  useEffect(() => {
+    fetch(`/goods`)
+    .then(res => res.json())
+    .then(data => setFreeStuffs(data))
+  }, [])
+
+  useEffect(() => {
+    fetch(`/services`)
+    .then(res => res.json())
+    .then(data => setFreeStuffs(data))
+  }, [])
+
 
   // console.log(freeStuffs)
 
@@ -114,29 +128,8 @@ const [imageData, setImageData] = useState(null);
 
     fetch(`http://localhost:3000/goods`, {
       method: 'POST',
-      body: JSON.stringify(formData),
-    const newGoodData = {
-      ...goodFormData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: imageData,
-    };
-
-    fetch(`http://localhost:3000/goods`, {
-      method: 'POST',
-    const newGoodData = {
-      ...goodFormData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: imageData,
-    };
-
-    fetch(`http://localhost:3000/goods`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newGoodData),
+      body: (formData),
+    })
 
       .then((r) => {
         if (r.ok) {
@@ -169,19 +162,12 @@ const [imageData, setImageData] = useState(null);
 
   const handleSubmitStuff = (e) => {
     e.preventDefault();
-    // const newFreeStuffData = {
-    //   ...freeStuffData,
-    //   forum_id: forum.id,
-    //   user_id: user.id,
-    //   main_image: imageData,
-    // };
-    
+  
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
     formData.append('body', freeStuffData.body);
     formData.append('main_image', imageData);
-  // console.log(formData)
 
     fetch(`/free_stuffs`, {
       method: 'POST',
@@ -207,8 +193,6 @@ const [imageData, setImageData] = useState(null);
       });
   };
   
-  // console.log(imageData)
-
   return (
     <div>
       {forum.id === 1 || forum.id === 2 ? (
@@ -278,7 +262,7 @@ const [imageData, setImageData] = useState(null);
 
             {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
             {goodFormData.image_url && ( 
-              <img src={goodFormData.image_url} alt="Image Preview" />
+              <img src={goodFormData.image_url} alt="Preview" />
             )}
 
             <button className='formButton' type='submit'>
@@ -320,15 +304,7 @@ const [imageData, setImageData] = useState(null);
                 onChange={(e) => setImageData(e.target.files[0])} />
                 {imageData && (
                   <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <img src={imageData} alt="Preview" className='imageThumb' />
-=======
                     <img src={imageData} alt="Preview" />
->>>>>>> parent of 5a38c15 (commit saturday morning)
-=======
-                    <img src={imageData} alt="Preview" />
->>>>>>> parent of 5a38c15 (commit saturday morning)
                     <button onClick={clearImageData}>Clear Image</button>
                   </div>
                 )}

@@ -6,6 +6,7 @@ const FreeStuffCard = ({
   user,
   setUserFreeStuff,
   userFreeStuff,
+  setAllForum,
   allForum,
   isUserProfile,
   handleDeleteClickFreeStuff,
@@ -33,7 +34,7 @@ const FreeStuffCard = ({
     return null;
   }
 
-  const { body, image_url } = stuff;
+  const { body, image } = stuff;
 
   const handleSave = () => {
       const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
@@ -163,14 +164,14 @@ const FreeStuffCard = ({
       <div className="goodCardContainer">
         <div className="goodCard">
           <h2 className="goodTitle">{body}</h2>
-          
+          <img className='thumbImg' src={image} alt="Free Stuff Image" />
           <div className="buttonContainer">
             {isUserProfile && (
               <>
                 <button onClick={handleSave} className="crudButton saveButton">
                   SAVE
                 </button>
-                <button onClick={handleSaveClaim} className="crudButton claimButton">
+                <button onClick={handleSave} className="crudButton claimButton">
                   CLAIM
                 </button>
               </> 

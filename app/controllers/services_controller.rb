@@ -15,12 +15,13 @@ class ServicesController < ApplicationController
 
   # POST /services
   def create
+    # byebug
     @service = Service.new(service_params)
-
+  
     if @service.save
-      render json: @service, status: :created, location: @service
+      render json: @service, status: :created
     else
-      render json: @service.errors, status: :unprocessable_entity
+      render json: { errors: @service.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -47,7 +48,7 @@ class ServicesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def service_params
-      params.require(:service).permit(:title, :description, :main_image,  :good_or_service,  :user_id, :forum_id)
+      params.permit(:title, :description, :main_image,  :good_or_service, :user_id, :forum_id)
     end
     
 end

@@ -14,11 +14,14 @@ class GoodsController < ApplicationController
   end
 
   def create
-    # user = User.find(params[:user_id])
-    user = @current_user
-    good = user.goods.create!(good_params)
-    # good.main_image.attach(good_params[:main_image])
-    render json: good, status: :created
+    # byebug
+    @good = Good.new(good_params)
+  
+    if @good.save
+      render json: @good, status: :created
+    else
+      render json: { errors: @good.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
