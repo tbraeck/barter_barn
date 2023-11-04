@@ -4,7 +4,7 @@ class GoodsController < ApplicationController
   # GET /goods
   def index
     @goods = Good.all
-    render json: goods
+    render json: @goods
   end
 
   # GET /goods/1

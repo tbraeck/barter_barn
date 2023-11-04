@@ -48,15 +48,15 @@ const FreeStuffCard = ({
       }
     };
 
-  const handleSaveClaim = () => {
-      const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
-      if (saveResult.success) {
-        setIsSaved(true);
-        setErrors([]);
-      } else {
-        setErrors([saveResult.message]);
-      }
-    }
+  // const handleSaveClaim = () => {
+  //     const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
+  //     if (saveResult.success) {
+  //       setIsSaved(true);
+  //       setErrors([]);
+  //     } else {
+  //       setErrors([saveResult.message]);
+  //     }
+  //   }
  
 
   const handleDeleteSaved = () => {
@@ -67,13 +67,13 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
-  const handleDeleteClaimed = () => {
-    if (isUserProfile) {
-      setErrors(["You can only delete free stuff in your profile."]);
-      return;
-    }
-    handleDeleteClickFreeStuff(stuff.id);
-  };
+  // const handleDeleteClaimed = () => {
+  //   if (isUserProfile) {
+  //     setErrors(["You can only delete free stuff in your profile."]);
+  //     return;
+  //   }
+  //   handleDeleteClickFreeStuff(stuff.id);
+  // };
 
   const handleClaim = () => {
     if (!isClaimed) {
@@ -82,7 +82,7 @@ const FreeStuffCard = ({
       setAllForum(updatedForum);
   
       // Step 2: Add the claimed item to the user's profile
-      const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, true);
+      const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
       if (saveResult.success) {
         setIsSaved(true);
         setErrors([]);

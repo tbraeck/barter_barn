@@ -14,9 +14,10 @@ class FreeStuffsController < ApplicationController
   # end
   
   def claim
+    # byebug
     @free_stuff = Freestuff.find(params[:id])
     if @free_stuff.claimant_id.nil?
-      @free_stuff.update(claimant_id: current_user.id)
+      @free_stuff.update(claimant_id: @current_user.id)
       render json: @free_stuff, status: :ok
     else
       render json: { error: 'Item has already been claimed' }, status: :unprocessable_entity
@@ -84,7 +85,7 @@ class FreeStuffsController < ApplicationController
     @free_stuff.destroy
     head :no_content
   end
-  
+
   def claim_free_stuff
     @free_stuff = FreeStuff.find(params[:id])
   

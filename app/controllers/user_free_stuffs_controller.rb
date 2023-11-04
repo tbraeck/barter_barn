@@ -18,7 +18,7 @@ class UserFreeStuffsController < ApplicationController
   # POST /users/:user_id/user_items
 
   def create
-    @user_free_stuff = @current_user.user_free_stuffs.create!(user_free_stuff_params)
+    @user_free_stuff = @current_user.user_free_stuffs.create!(user_free_stuffs_params)
     if @user_free_stuff.save
       @user_free_stuff.main_image.attach(params[:user_free_stuff][:main_image])
       
@@ -32,7 +32,7 @@ class UserFreeStuffsController < ApplicationController
   # PATCH/PUT /users/:user_id/user_items/:id
   def update
     @user_free_stuff = set_user_free_stuffs
-      @user_free_stuff.update!(user_free_stuff_params)
+      @user_free_stuff.update!(user_free_stuffs_params)
       render json: @user_free_stuff, status: :ok
   end
 
@@ -50,13 +50,11 @@ class UserFreeStuffsController < ApplicationController
 
 
   def set_user_free_stuffs
-    @user_free_stuff = @current_user.user_free_stuffs.find_by(id: params[:id])
+    @user_free_stuff = @current_user.user_free_stuffs.find(params[:id])
   end
 
-  def user_free_stuff_params
-    params.permit(:body, :user_id, :forum_id, :main_image, :claimant_id) # Adjust as needed
+  def user_free_stuffs_params
+    params.require(:user_free_stuff).permit(:body, :main_image, :claimant_id, :forum_id)
   end
   
-  
-
 end

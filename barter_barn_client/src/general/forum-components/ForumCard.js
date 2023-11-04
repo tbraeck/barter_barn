@@ -226,9 +226,6 @@ const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
 };
 
 
-
-
-
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
     method: "DELETE",
