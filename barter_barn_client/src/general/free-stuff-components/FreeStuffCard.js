@@ -7,6 +7,7 @@ const FreeStuffCard = ({
   setUserFreeStuff,
   userFreeStuff,
   allForum,
+  setAllForum,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleDeleteClickClaimFreeStuff,
@@ -72,7 +73,6 @@ const FreeStuffCard = ({
   //   handleDeleteClickFreeStuff(stuff.id);
   // };
 
-<<<<<<< HEAD
   const handleClaim = () => {
     if (!isClaimed) {
       // Step 1: Remove the claimed item from the forum
@@ -91,15 +91,7 @@ const FreeStuffCard = ({
       setIsClaimed(true); // Set isClaimed to true when the item is claimed
     }
   };
-=======
-  // const handleClaim = () => {
-  //   if (!isPending && !isClaimed) {
-  //     setIsClaimed(true)
-  //     // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
->>>>>>> parent of 5a38c15 (commit saturday morning)
-  
+
   //     // Step 2: Add the claimed item to the user's profile
   //     handleSave( stuff);
   //     setClaimMessage("Claimed item is in your profile");
@@ -150,7 +142,7 @@ const FreeStuffCard = ({
                 <button onClick={handleSave} className="crudButton saveButton">
                   SAVE
                 </button>
-                <button onClick={handleSaveClaim} className="crudButton claimButton">
+                <button onClick={handleClaim} className="crudButton claimButton">
                   CLAIM
                 </button>
               </> 

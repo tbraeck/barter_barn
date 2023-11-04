@@ -75,10 +75,7 @@ class FreeStuffsController < ApplicationController
     head :no_content
   end
 
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of 5a38c15 (commit saturday morning)
   def claim_free_stuff
     @free_stuff = FreeStuff.find(params[:id])
   
