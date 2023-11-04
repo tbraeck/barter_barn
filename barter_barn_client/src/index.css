@@ -200,6 +200,12 @@ html, body {
   background-color: #c0392b; /* Darker red on hover, you can change this */
 }
 
+.thumbImg {
+  max-width: 200px; /* Set the maximum width to 100% of the container */
+  max-height: auto; /* Set the maximum height to your desired value (e.g., 100px) */
+  display: block; /* Ensure the image doesn't affect the surrounding elements */
+  margin: 0 auto; /* Center the image horizontally */
+}
 /* Add more styles as needed */
 
 

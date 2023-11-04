@@ -7,6 +7,7 @@ const FreeStuffCard = ({
   setUserFreeStuff,
   userFreeStuff,
   allForum,
+  setAllForum,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleDeleteClickClaimFreeStuff,
@@ -163,14 +164,14 @@ const FreeStuffCard = ({
       <div className="goodCardContainer">
         <div className="goodCard">
           <h2 className="goodTitle">{body}</h2>
-          
+          <img className='thumbImg' src={stuff.image} alt="Free Stuff Image" />
           <div className="buttonContainer">
             {isUserProfile && (
               <>
                 <button onClick={handleSave} className="crudButton saveButton">
                   SAVE
                 </button>
-                <button onClick={handleSaveClaim} className="crudButton claimButton">
+                <button onClick={handleClaim} className="crudButton claimButton">
                   CLAIM
                 </button>
               </> 

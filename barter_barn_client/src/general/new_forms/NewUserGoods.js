@@ -24,6 +24,7 @@ const NewUserGoods = ({
   });
 const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
+const [allGoods, setAllGoods] = useState([])
 const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
@@ -41,6 +42,18 @@ const [imageData, setImageData] = useState(null);
     fetch(`/free_stuffs`)
     .then(res => res.json())
     .then(data => setFreeStuffs(data))
+  }, [])
+
+  useEffect(() => {
+    fetch(`/goods`)
+    .then(res => res.json())
+    .then(data => setAllGoods(data))
+  }, [])
+
+  useEffect(() => {
+    fetch(`/services`)
+    .then(res => res.json())
+    .then(data => setAllGoods(data))
   }, [])
 
   // console.log(freeStuffs)
@@ -102,7 +115,6 @@ const [imageData, setImageData] = useState(null);
   const handleSubmitGood = (e) => {
     e.preventDefault();
 
-
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
@@ -115,29 +127,7 @@ const [imageData, setImageData] = useState(null);
     fetch(`http://localhost:3000/goods`, {
       method: 'POST',
       body: JSON.stringify(formData),
-    const newGoodData = {
-      ...goodFormData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: imageData,
-    };
-
-    fetch(`http://localhost:3000/goods`, {
-      method: 'POST',
-    const newGoodData = {
-      ...goodFormData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: imageData,
-    };
-
-    fetch(`http://localhost:3000/goods`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newGoodData),
-
+    })
       .then((r) => {
         if (r.ok) {
           r.json().then((newGood) => {
@@ -191,7 +181,7 @@ const [imageData, setImageData] = useState(null);
         if (r.ok) {
           r.json().then((newStuff) => {
             handleNewFreeStuff(newStuff);
-            // console.log(newStuff)
+            console.log(newStuff)
           });
           setErrors([]);
         } else {
@@ -262,7 +252,6 @@ const [imageData, setImageData] = useState(null);
                 required
               />
             </div>
-
             <div className="form-group">
                 <label> Image:</label>
                 <input type="file"                  
@@ -275,12 +264,6 @@ const [imageData, setImageData] = useState(null);
                   </div>
                 )}
               </div>
-
-            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
-            {goodFormData.image_url && ( 
-              <img src={goodFormData.image_url} alt="Image Preview" />
-            )}
-
             <button className='formButton' type='submit'>
               ADD
             </button>
@@ -314,31 +297,26 @@ const [imageData, setImageData] = useState(null);
               />
             </div>
             <div className="form-group">
-                <label> Image:</label>
-                <input type="file"                  
-                accept="image/jpeg, image/png, image/webp" 
-                onChange={(e) => setImageData(e.target.files[0])} />
-                {imageData && (
-                  <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <img src={imageData} alt="Preview" className='imageThumb' />
-=======
-                    <img src={imageData} alt="Preview" />
->>>>>>> parent of 5a38c15 (commit saturday morning)
-=======
-                    <img src={imageData} alt="Preview" />
->>>>>>> parent of 5a38c15 (commit saturday morning)
-                    <button onClick={clearImageData}>Clear Image</button>
-                  </div>
-                )}
-              </div>
-             
-           
-            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} /> */}
-            {/* {freeStuffData.main_image && ( 
-              <img src={freeStuffData.main_image} alt="Image Preview" />
-            )} */}
+  <label>Image:</label>
+  <input
+    type="file"
+    accept="image/jpeg, image/png, image/webp"
+    onChange={(e) => setImageData(e.target.files[0])}
+  />
+  {imageData && (
+    <div className="imageThumbContainer">
+      <img
+        src={URL.createObjectURL(imageData)}
+        alt="Preview"
+        className="imageThumb"
+      />
+      <button onClick={clearImageData} className="clearImageButton">
+        Clear Image
+      </button>
+    </div>
+  )}
+</div>
+
 
             <button className='formButton' type='submit'>
               ADD

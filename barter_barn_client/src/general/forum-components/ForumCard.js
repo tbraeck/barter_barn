@@ -129,14 +129,14 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     };
   }
 
-  const isItemSaved = userFreeStuff.some((savedItem) => savedItem.id === item.id);
+  // const isItemSaved = userFreeStuff.some((savedItem) => savedItem.id === item.id);
 
-  if (isItemSaved) {
-    return Promise.resolve({
-      success: false,
-      message: "Item already saved to user profile."
-    });
-  }
+  // // if (isItemSaved) {
+  // //   return Promise.resolve({
+  // //     success: false,
+  // //     message: "Item already saved to user profile."
+  // //   });
+  // // }
 
   return fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`, {
 
@@ -172,56 +172,56 @@ const handleSaveFreeStuffToUserProfile = (item) => {
 };
 
 
-const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
-  if (!isUserProfile) {
-    return {
-      success: false,
-      message: "Claiming items is not allowed in your profile.",
-    };
-  }
+// const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
+//   if (!isUserProfile) {
+//     return {
+//       success: false,
+//       message: "Claiming items is not allowed in your profile.",
+//     };
+//   }
 
 
-  if (isItemClaimed) {
-    return Promise.resolve({
-      success: false,
-      message: "Item already saved to user profile."
-    });
-  }
+//   if (isItemClaimed) {
+//     return Promise.resolve({
+//       success: false,
+//       message: "Item already saved to user profile."
+//     });
+//   }
 
-  return fetch(`/users/${user.id}/user_free_stuffs`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(item),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json().then((claimedItem) => {
-          setUserFreeStuff([...userFreeStuff, claimedItem]);
-          return (
-            alert("Claimed item is now in user profile!")
-          );
-        });
-      } else {
-        res.json().then((error) => setErrors(error.errors));
-        setTimeout(() => {
-          setErrors([]);
-        }, 3000);
-        return {
-          success: false,
-          message: "Error claiming item.",
-        };
-      }
-    })
-    .catch((error) => {
-      console.error('Error claiming item:', error);
-      return {
-        success: false,
-        message: error.message,
-      };
-    });
-};
+//   return fetch(`/users/${user.id}/user_free_stuffs`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(item),
+//   })
+//     .then((res) => {
+//       if (res.ok) {
+//         return res.json().then((claimedItem) => {
+//           setUserFreeStuff([...userFreeStuff, claimedItem]);
+//           return (
+//             alert("Claimed item is now in user profile!")
+//           );
+//         });
+//       } else {
+//         res.json().then((error) => setErrors(error.errors));
+//         setTimeout(() => {
+//           setErrors([]);
+//         }, 3000);
+//         return {
+//           success: false,
+//           message: "Error claiming item.",
+//         };
+//       }
+//     })
+//     .catch((error) => {
+//       console.error('Error claiming item:', error);
+//       return {
+//         success: false,
+//         message: error.message,
+//       };
+//     });
+// };
 
 
 
@@ -464,7 +464,7 @@ const forumFreeStuff = forum.free_stuffs.map((stuff) => (
      handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
      handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
-    handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
+    // handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
     // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
     />
   </div>

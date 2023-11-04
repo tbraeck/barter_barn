@@ -61,11 +61,10 @@ class FreeStuffsController < ApplicationController
   # end
 
   def update
-    if @free_stuff.update(free_stuffs_params)
-      render json: @free_stuff
-    else
-      render json: @free_stuff.errors, status: :unprocessable_entity
-    end
+    free_stuff = find_free_stuff
+    free_stuff.update!(free_stuffs_params)
+    render json: free_stuff, status: :ok
+   
   end
 
   # DELETE /goods/1
@@ -106,7 +105,7 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.permit(:body, :user_id, :forum_id, :main_image) # Adjust as needed
+      params.permit(:body, :user_id, :forum_id, :main_image, :claimant_id) # Adjust as needed
     end
     
 end
