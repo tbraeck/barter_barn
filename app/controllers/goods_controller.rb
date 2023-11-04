@@ -3,13 +3,8 @@ class GoodsController < ApplicationController
 
   # GET /goods
   def index
-<<<<<<< HEAD
-    @goods = Good.all
-    render json: @goods
-=======
     goods = Good.all
     render json: goods
->>>>>>> parent of 5a38c15 (commit saturday morning)
   end
 
   # GET /goods/1

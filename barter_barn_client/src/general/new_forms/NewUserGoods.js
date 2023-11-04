@@ -24,6 +24,7 @@ const NewUserGoods = ({
   });
 const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
+const [allGoods, setAllGoods] = useState([])
 const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
@@ -41,6 +42,12 @@ const [imageData, setImageData] = useState(null);
     fetch(`/free_stuffs`)
     .then(res => res.json())
     .then(data => setFreeStuffs(data))
+  }, [])
+
+  useEffect(() => {
+    fetch(`/goods`)
+    .then(res => res.json())
+    .then(data => setAllGoods(data))
   }, [])
 
   // console.log(freeStuffs)
@@ -102,19 +109,18 @@ const [imageData, setImageData] = useState(null);
   const handleSubmitGood = (e) => {
     e.preventDefault();
 
-    const newGoodData = {
-      ...goodFormData,
-      forum_id: forum.id,
-      user_id: user.id,
-      main_image: imageData,
-    };
+    const formData = new FormData();
+    formData.append('user_id', users[0].id);
+    formData.append('forum_id', forum.id);
+    formData.append('title', goodFormData.title);
+    formData.append('description', goodFormData.description);
+    formData.append('good_or_service', goodFormData.good_or_service);
+    formData.append('main_image', imageData);
+  
 
     fetch(`http://localhost:3000/goods`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newGoodData),
+      body: JSON.stringify(formData),
     })
       .then((r) => {
         if (r.ok) {
@@ -240,10 +246,18 @@ const [imageData, setImageData] = useState(null);
                 required
               />
             </div>
-            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
-            {goodFormData.image_url && ( 
-              <img src={goodFormData.image_url} alt="Image Preview" />
-            )}
+            <div className="form-group">
+                <label> Image:</label>
+                <input type="file"                  
+                accept="image/jpeg, image/png, image/webp" 
+                onChange={(e) => setImageData(e.target.files[0])} />
+                {imageData && (
+                  <div>
+                    <img src={imageData} alt="Preview" className='imageThumb' />
+                    <button onClick={clearImageData}>Clear Image</button>
+                  </div>
+                )}
+              </div>
             <button className='formButton' type='submit'>
               ADD
             </button>
@@ -283,7 +297,7 @@ const [imageData, setImageData] = useState(null);
                 onChange={(e) => setImageData(e.target.files[0])} />
                 {imageData && (
                   <div>
-                    <img src={imageData} alt="Preview" />
+                    <img src={imageData} alt="Preview" className='imageThumb' />
                     <button onClick={clearImageData}>Clear Image</button>
                   </div>
                 )}

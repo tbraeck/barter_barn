@@ -171,6 +171,39 @@ html, body {
   flex-direction: column;
 }
 
+/* Style for the image preview container */
+.imageThumbContainer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Style for the image preview */
+.imageThumb {
+  max-width: 100%;
+  max-height: 200px;
+  margin: 10px 0;
+}
+
+/* Style for the clear image button */
+.clearImageButton {
+  background-color: #e74c3c; /* Red color, you can change this */
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.clearImageButton:hover {
+  background-color: #c0392b; /* Darker red on hover, you can change this */
+}
+
+/* Add more styles as needed */
+
+
+
 .forumBox {
   display: flex;
 }

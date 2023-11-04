@@ -53,13 +53,8 @@ class UserFreeStuffsController < ApplicationController
     @user_free_stuff = @current_user.user_free_stuffs.find(params[:id])
   end
 
-<<<<<<< HEAD
   def user_free_stuffs_params
     params.require(:user_free_stuff).permit(:body, :main_image, :claimant_id, :forum_id)
-=======
-  def user_free_stuff_params
-    params.require(:user_free_stuff).permit(:body, :main_image,:created_at, :updated_at, :claimant_id, :user_id, :forum_id, :attachment_record_id,)
->>>>>>> parent of 5a38c15 (commit saturday morning)
   end
   
 end
