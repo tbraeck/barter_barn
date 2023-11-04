@@ -42,11 +42,9 @@ class FreeStuffsController < ApplicationController
   #   free_stuff = user.free_stuffs.create!(free_stuffs_params)
     
   #   render json: free_stuff, status: :created
-  # end
+  # end 
   def create
-    # byebug
     @free_stuff = FreeStuff.new(free_stuffs_params)
-  
     if @free_stuff.save
       render json: @free_stuff, status: :created
     else
@@ -106,7 +104,7 @@ class FreeStuffsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def free_stuffs_params
-      params.permit(:body, :user_id, :forum_id, :main_image) # Adjust as needed
+      params.permit(:body, :user_id, :forum_id, :claimant_id, :main_image) # Adjust as needed
     end
     
 end

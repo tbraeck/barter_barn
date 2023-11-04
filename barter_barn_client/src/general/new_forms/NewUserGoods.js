@@ -26,12 +26,13 @@ const NewUserGoods = ({
 const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
 const [someGoods, setSomeGoods] = useState([])
+const [someServices, setSomeServices] = useState([])
 const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
 
   const { title, description, good_or_service } = goodFormData;
-  const { body } = freeStuffData;
+  const { body, claimant_id } = freeStuffData;
 
   useEffect(() => {
     fetch(`/users`)
@@ -44,16 +45,17 @@ const [imageData, setImageData] = useState(null);
     .then(res => res.json())
     .then(data => setFreeStuffs(data))
   }, [])
+
   useEffect(() => {
     fetch(`/goods`)
     .then(res => res.json())
-    .then(data => setFreeStuffs(data))
+    .then(data => setSomeGoods(data))
   }, [])
 
   useEffect(() => {
     fetch(`/services`)
     .then(res => res.json())
-    .then(data => setFreeStuffs(data))
+    .then(data => setSomeServices(data))
   }, [])
 
 
@@ -110,6 +112,7 @@ const [imageData, setImageData] = useState(null);
     setAllForum(updatedForums);
     setFreeStuffData({
       body: '',
+      claimant_id: ''
     });
   };
 
@@ -167,17 +170,18 @@ const [imageData, setImageData] = useState(null);
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
     formData.append('body', freeStuffData.body);
+    formData.append('claimant_id', freeStuffData.claimant_id )
     formData.append('main_image', imageData);
 
     fetch(`/free_stuffs`, {
       method: 'POST',
-      body: formData, 
+      body: (formData), 
     })
       .then((r) => {
         if (r.ok) {
           r.json().then((newStuff) => {
             handleNewFreeStuff(newStuff);
-            // console.log(newStuff)
+            console.log(newStuff)
           });
           setErrors([]);
         } else {
@@ -254,16 +258,16 @@ const [imageData, setImageData] = useState(null);
                 onChange={(e) => setImageData(e.target.files[0])} />
                 {imageData && (
                   <div>
-                    <img src={imageData} alt="Preview" className='imageThumb' />
+                      <img src={imageData ? URL.createObjectURL(imageData) : ''} alt="Preview" className='imageThumb' />
                     <button onClick={clearImageData}>Clear Image</button>
                   </div>
                 )}
               </div>
 
             {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
-            {goodFormData.image_url && ( 
+            {/* {goodFormData.image_url && ( 
               <img src={goodFormData.image_url} alt="Preview" />
-            )}
+            )} */}
 
             <button className='formButton' type='submit'>
               ADD
@@ -304,12 +308,17 @@ const [imageData, setImageData] = useState(null);
                 onChange={(e) => setImageData(e.target.files[0])} />
                 {imageData && (
                   <div>
-                    <img src={imageData} alt="Preview" />
+<img src={imageData ? URL.createObjectURL(imageData) : ''} alt="Preview" className='imageThumb' />
                     <button onClick={clearImageData}>Clear Image</button>
                   </div>
                 )}
               </div>
-             
+
+            {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData}/> */}
+            {/* {freeStuffData.image_url && ( 
+              <img src={freeStuffData.image_url} alt="Preview" />
+            )} */}
+
            
             {/* <SharedImageForm handleImageChange={handleImageChange} imageData={imageData} setImageData={setImageData} /> */}
             {/* {freeStuffData.main_image && ( 

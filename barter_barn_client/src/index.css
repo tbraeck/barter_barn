@@ -201,7 +201,12 @@ html, body {
 }
 
 /* Add more styles as needed */
-
+.thumbImg {
+  max-width: 100%; /* Set the maximum width to 100% of the container */
+  max-height: 100px; /* Set the maximum height to your desired value (e.g., 100px) */
+  display: block; /* Ensure the image doesn't affect the surrounding elements */
+  margin: 0 auto; /* Center the image horizontally */
+}
 
 
 .forumBox {

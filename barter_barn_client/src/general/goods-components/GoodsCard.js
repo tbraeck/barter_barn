@@ -43,10 +43,11 @@ const GoodsCard = ({
     <div className="goodCard">
       <h2 className="goodTitle">{title}</h2>
       <p className="goodDescription">{description}</p>
-      <p className="goodInfo"><strong>Image URL:</strong>{image_url}</p>
       <p className="goodInfo">
         <strong>Service needed:</strong> {good_or_service}
       </p>
+      <img className='thumbImg' src={good.image} alt="Free Stuff Image" />
+    
       <div className='buttonContainer'>
             {isUserProfile && (
               <button onClick={handleSaveGood} className='crudButton saveButton'>

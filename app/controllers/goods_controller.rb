@@ -14,9 +14,8 @@ class GoodsController < ApplicationController
   end
 
   def create
-    # byebug
     @good = Good.new(good_params)
-  
+
     if @good.save
       render json: @good, status: :created
     else

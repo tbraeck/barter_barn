@@ -34,7 +34,7 @@ const FreeStuffCard = ({
     return null;
   }
 
-  const { body, image } = stuff;
+  const { body } = stuff;
 
   const handleSave = () => {
       const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
@@ -159,49 +159,48 @@ const FreeStuffCard = ({
     } 
   };
   
-  
-  return (
-      <div className="goodCardContainer">
-        <div className="goodCard">
-          <h2 className="goodTitle">{body}</h2>
-          <img className='thumbImg' src={image} alt="Free Stuff Image" />
-          <div className="buttonContainer">
-            {isUserProfile && (
-              <>
-                <button onClick={handleSave} className="crudButton saveButton">
-                  SAVE
-                </button>
-                <button onClick={handleSave} className="crudButton claimButton">
-                  CLAIM
-                </button>
-              </> 
-            )}
-              {isSaved && <p>Item has been saved to your profile!</p>}
-              {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
-            {!isUserProfile && (
-             <>
-             <button onClick={() => handleDeleteSaved(stuff)} className='crudButton deleteButton'>
-               DELETE
-             </button>
-             <button onClick={handleReturn} className="crudButton returnButton">
-                RETURN
-              </button>
-                        
-           </>
-            )}
-          </div>
-          {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
-          {errors.length > 0 && (
-            <div className="error-messages">
-              {errors.map((error, index) => (
-                <p key={index} className="error-message">
-                  {error}
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
+  return(
+  <div className="goodCardContainer">
+  <div className="goodCard">
+    <img className='thumbImg' src={stuff.image} alt="Free Stuff Image" />
+    <h2 className="goodTitle">{body}</h2>
+    <div className="buttonContainer">
+      {!isUserProfile && (
+        <>
+          <button onClick={handleSave} className="crudButton saveButton">
+            SAVE
+          </button>
+          <button onClick={handleClaim} className="crudButton claimButton">
+            CLAIM
+          </button>
+        </>
+      )}
+      {isSaved && <p>Item has been saved to your profile!</p>}
+      {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
+      {!isUserProfile && (
+        <>
+          <button onClick={() => handleDeleteSaved(stuff)} className='crudButton deleteButton'>
+            DELETE
+          </button>
+          <button onClick={handleReturn} className="crudButton returnButton">
+            RETURN
+          </button>
+        </>
+      )}
+    </div>
+    {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
+    {errors.length > 0 && (
+      <div className="error-messages">
+        {errors.map((error, index) => (
+          <p key={index} className="error-message">
+            {error}
+          </p>
+        ))}
       </div>
+    )}
+  </div>
+</div>
+
    
   );
 };
