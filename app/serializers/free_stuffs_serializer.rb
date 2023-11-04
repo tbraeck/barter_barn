@@ -1,4 +1,4 @@
-class FreeStuffSerializer < ActiveModel::Serializer
+class FreeStuffsSerializer < ActiveModel::Serializer
 include Rails.application.routes.url_helpers
   attributes :id, :body, :image
 
@@ -8,5 +8,4 @@ include Rails.application.routes.url_helpers
   def image
     rails_blob_path(object.main_image, only_path: true) if object.main_image.attached?
   end
-  
 end

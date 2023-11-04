@@ -46,11 +46,11 @@
     end
 
     def set_user_service
-      @user_service = @current_user.user_services.find(params[:id])
+      @user_service = @current_user.user_services.find_by(id: params[:id])
     end
 
     def user_service_params
-      params.permit(:title, :description, :image, :good_or_service, :user_id, :forum_id)
+      params.permit(:title, :description, :main_image, :good_or_service, :user_id, :forum_id, :created_at, :updated_at)
     end
 
   end

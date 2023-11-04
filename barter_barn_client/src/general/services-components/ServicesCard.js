@@ -21,7 +21,7 @@ const ServicesCard = ({
   }
 
  
-  const { title, description, good_or_service } = service;
+  const { title, description, image_url, good_or_service } = service;
 
   const handleSaveService = () => {
     const saveResult = handleSaveServiceToUserProfile(service);
@@ -49,8 +49,8 @@ return (
         <div className='goodCard'>
           <h2 className='goodTitle'>{title}</h2>
           <p className='goodDescription'>{description}</p>
+          <p className='goodInfo'><strong>Image URL:</strong>{image_url}</p>
           <p className='goodInfo'><strong>Good needed:</strong> {good_or_service}</p>
-          <img src={service.image} className='cardImage' alt="  Preview" />    
           <div className='buttonContainer'>
             {isUserProfile && (
               <button onClick={handleSaveService} className='crudButton saveButton'>
