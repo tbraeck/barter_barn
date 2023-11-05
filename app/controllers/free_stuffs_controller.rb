@@ -14,6 +14,14 @@ class FreeStuffsController < ApplicationController
     render json: @free_stuff
   end
   
+  def create
+    @free_stuff = FreeStuff.new(free_stuffs_params)
+    if @free_stuff.save
+      render json: @free_stuff, status: :created
+    else
+      render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
   def save
     free_stuff = FreeStuff.find(params[:id])
     user_free_stuff = current_user.user_free_stuffs.build(free_stuff: free_stuff)
@@ -49,14 +57,7 @@ def return
     render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
   end
 end
-  def create
-    @free_stuff = FreeStuff.new(free_stuffs_params)
-    if @free_stuff.save
-      render json: @free_stuff, status: :created
-    else
-      render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
+  
 
   def update
     if @free_stuff.update(free_stuffs_params)

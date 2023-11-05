@@ -10,8 +10,6 @@ import GoodsCard from '../goods-components/GoodsCard';
 const ForumCard = (
   {allForum,   
   setAllForum, 
-  allComments, 
-  setAllComments, 
   handleAddGood, 
   handleAddService, 
   handleAddFreeStuffs}) => {
@@ -19,7 +17,7 @@ const ForumCard = (
   const [forum, setForum] = useState({
     goods: [],
     services: [],
-    free_stuffs: []
+    free_stuff: []
 })
 
 const [userGoods, setUserGoods] = useState([])
@@ -405,8 +403,8 @@ const setUserClaimedGoods = (updatedUserClaimedGoods) => {
   setUserFreeStuff(updatedUserClaimedGoods);
 };
 
-
-const forumGoods = forum.goods.map((good) => (
+console.log(allForum)
+const forumGoods = forum.goods ? forum.goods.map((good) => (
   <div key={good.id}>
     <GoodsCard
      good={good}
@@ -424,9 +422,9 @@ const forumGoods = forum.goods.map((good) => (
 
     />
   </div>
-))
+)) : [];
 
-const forumServices = forum.services.map((service) => (
+const forumServices = forum.services ? forum.services.map((service) => (
   <div key={service.id}>
     <ServicesCard
      service={service}
@@ -443,9 +441,10 @@ const forumServices = forum.services.map((service) => (
 
     />
   </div>
-))
+)) : [];
 
-const forumFreeStuff = forum.free_stuffs.map((stuff) => (
+
+ const forumFreeStuff = forum.free_stuffs ? forum.free_stuffs.map((stuff) => (
   // const claimed = stuff.claimantId
   // null to start, click on claim, make patch to change attribute in db  send freestuff back 
   // handle state 
@@ -471,7 +470,7 @@ const forumFreeStuff = forum.free_stuffs.map((stuff) => (
     />
   </div>
   // }
-))
+)) : [];
 
 return (
   <div className="forum-container">

@@ -1,7 +1,7 @@
 class Forum < ApplicationRecord
-    has_many :goods, dependent: :destroy
-    has_many :services, dependent: :destroy
-    has_many :free_stuffs, dependent: :destroy
+  has_many :goods, class_name: 'Good', foreign_key: 'forum_id', dependent: :destroy
+  has_many :services, class_name: 'Service', foreign_key: 'forum_id', dependent: :destroy
+  has_many :free_stuffs, class_name: 'FreeStuff', foreign_key: 'forum_id', dependent: :destroy
 
     has_many :users, through: [:goods, :services, :free_stuffs, :user_goods, :user_services, :user_free_stuffs]
     has_many :user_goods

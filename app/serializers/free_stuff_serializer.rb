@@ -5,7 +5,7 @@ include Rails.application.routes.url_helpers
   belongs_to :claimant, class_name: 'User', optional: true
   has_many :user_free_stuffs
 
-has_one :forum
+# has_one :forum
 
   def image
     rails_blob_path(object.main_image, only_path: true) if object.main_image.attached?

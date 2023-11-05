@@ -17,10 +17,17 @@ class UserGoodsController < ApplicationController
     # POST /users/:user_id/user_items
 
     def create
-      @user_good = @current_user.user_goods.create!(user_good_params)
-      render json: @user_good, status: :created
+      # byebug
+      @user_good = @current_user.user_goods.new (user_good_params)
+      if @user_good.save
+        # byebug
+        render json: @user_good, status: :created
+      else
+        render json: { errors: @user_good.errors.full_messages }, status: :unprocessable_entity
+      end
       
     end
+
     
     
     # PATCH/PUT /users/:user_id/user_items/:id
@@ -56,7 +63,7 @@ end
     end 
 
     def user_good_params
-      params.require(:user_good).permit(:title, :description, :main_image, :good_or_service, :user_id, :forum_id)
+      params.require(:user_good).permit(:id, :title, :description, :good_or_service, :main_image, :forum_id)
     end
     
 

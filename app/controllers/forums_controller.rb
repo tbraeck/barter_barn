@@ -2,13 +2,14 @@ class ForumsController < ApplicationController
   skip_before_action :authorize
 
   def index
+    
     forums = Forum.includes(:goods, :services, :free_stuffs).all
     render json: forums, status: :ok
   end
 
   def show
+    byebug
     forum = find_forum
-
     render json: forum
   end
 
@@ -19,16 +20,25 @@ class ForumsController < ApplicationController
   end
 
   def create
-    forum = Forum.create!(forum_params)
-    forum.update!(forum_params)
-    render json: forum, status: :created
+    forum = Forum.new(forum_params)
+  
+    if forum.save
+      render json: forum, status: :created
+    else
+      render json: { errors: forum.errors.full_messages }, status: :unprocessable_entity
+    end
   end
-
+  
   def update
     forum = find_forum
-    forum.update!(forum_params)
-    render json: forum, status: :ok
+  
+    if forum.update(forum_params)
+      render json: forum, status: :ok
+    else
+      render json: { errors: forum.errors.full_messages }, status: :unprocessable_entity
+    end
   end
+  
 
   # # DELETE /forums/1
   # def destroy

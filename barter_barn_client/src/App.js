@@ -21,8 +21,7 @@ import { UserContext } from './contexts/UserContext';
 function App() {
   const [allForum, setAllForum] = useState([]);
   const [allGoods, setAllGoods] = useState([])
-  const [allServices, setAllServices] = useState([])
-  const [allFreeStuffs, setAllFreeStuffs] = useState([])
+  
 
   // const [userComments, setUserComments] = useState([]);
   const {user, setUser} = useContext(UserContext);
@@ -33,6 +32,10 @@ function App() {
       .then((data) => setAllForum(data))
       .catch((error) => console.error('Error fetching forums:', error));
 
+      fetch('/goods')
+      .then((res)=> res.json())
+      .then((data) => setAllGoods(data))
+      .catch((error) => console.error('Error fetching goods:', error));
   }, [])
   
 const handleAddGood = (newGood) => {
@@ -54,38 +57,38 @@ const handleAddFreeStuffs = (newStuff) => {
       setUser(null)
     }
 
-  const handleUpdateGoods = (updatedGood) => {
-      const editedGood = allGoods.map((good) => {
-        if (good.id === updatedGood.id) {
-          return editedGood
-        } else {
-          return good;
-        } 
-      });
-      setAllForum(editedGood)
-    }
+  // const handleUpdateGoods = (updatedGood) => {
+  //     const editedGood = allGoods.map((good) => {
+  //       if (good.id === updatedGood.id) {
+  //         return editedGood
+  //       } else {
+  //         return good;
+  //       } 
+  //     });
+  //     setAllForum(editedGood)
+  //   }
 
-const handleUpdateServices = (updatedService) => {
-      const editedService = allServices.map((service) => {
-        if (service.id === updatedService.id) {
-          return editedService
-        } else {
-          return service;
-        } 
-      });
-      setAllForum(editedService)
-    }
+// const handleUpdateServices = (updatedService) => {
+//       const editedService = allServices.map((service) => {
+//         if (service.id === updatedService.id) {
+//           return editedService
+//         } else {
+//           return service;
+//         } 
+//       });
+//       setAllForum(editedService)
+//     }
 
-const handleUpdateFreeStuffs = (updatedStuff) => {
-      const editedFreeStuff = allFreeStuffs.map((stuff) => {
-        if (stuff.id === updatedStuff.id) {
-          return editedFreeStuff
-        } else {
-          return stuff;
-        } 
-      });
-      setAllForum(editedFreeStuff)
-    }
+// const handleUpdateFreeStuffs = (updatedStuff) => {
+//       const editedFreeStuff = allFreeStuffs.map((stuff) => {
+//         if (stuff.id === updatedStuff.id) {
+//           return editedFreeStuff
+//         } else {
+//           return stuff;
+//         } 
+//       });
+//       setAllForum(editedFreeStuff)
+//     }
    
 if(!user) return <Login  />
 
@@ -99,14 +102,14 @@ if(!user) return <Login  />
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
                 <Route path="/forums/:id" element={<ForumCard   allForum={allForum} setAllForum={setAllForum} />} />
-                <Route path="/goods/:id" element={<GoodsCard allGoods={allGoods} setAllGoods={setAllGoods}   allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood}  handleAddFreeStuffs={handleAddFreeStuffs} handleAddService={handleAddService}/>}/> 
-                <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum} handleAddService={handleAddService} />}/> 
-                <Route path="/free_stuffs/:id" element={<FreeStuffCard allForum={allForum} setAllForum={setAllForum} handleAddFreeStuffs={handleAddFreeStuffs} />}/>
+                <Route path="/goods/:id" element={<GoodsCard    allForum={allForum} setAllForum={setAllForum}   />}/> 
+                <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum}  />}/> 
+                <Route path="/free_stuffs/:id" element={<FreeStuffCard allForum={allForum} setAllForum={setAllForum} />}/>
                 <Route path="/featured" element={<FeatureCard  allGoods={allGoods}  setAllGoods={setAllGoods}  allForum={allForum} setAllForum={setAllForum} user={user} />} />
-                <Route path="/forums/:id/edit" element={<ForumCard allForum={allForum} setAllForum={setAllForum} handleAddGood={handleAddGood}/>}/>
-                <Route path="/users/:user_id/goods/:good_id" element={<EditGoods user={user} handleUpdateGoods={handleUpdateGoods } allForum={allForum}/>} />
-                <Route path="/users/:user_id/services/:service_id" element={<EditServices user={user} handleUpdateServices={handleUpdateServices } allForum={allForum}/>} />
-                <Route path="/users/:user_id/free_stuffs/:free_ stuffs_id" element={<EditFreeStuffs user={user} handleUpdateFreeStuffs={handleUpdateFreeStuffs } allForum={allForum}/>} />
+                <Route path="/forums/:id/edit" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
+                <Route path="/users/:user_id/goods/:good_id" element={<EditGoods user={user}  allForum={allForum}/>} />
+                <Route path="/users/:user_id/services/:service_id" element={<EditServices user={user} allForum={allForum}/>} />
+                <Route path="/users/:user_id/free_stuffs/:free_ stuffs_id" element={<EditFreeStuffs user={user}  allForum={allForum}/>} />
 
                 <Route path="/user-profile"  element={user ? <UserProfile user={user}/> : <Navigate to='/'/>} /> 
                 </Routes>
