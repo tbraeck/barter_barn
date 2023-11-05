@@ -145,7 +145,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     });
   }
 
-  return fetch(`/users/${user.id}/user_free_stuffs`, {
+  return fetch(`/users/${user.id}/free_stuffs`, {
 
     method: 'POST',
     headers: {
@@ -195,7 +195,7 @@ const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
     });
   }
 
-  return fetch(`/users/${user.id}/user_free_stuffs`, {
+  return fetch(`/users/${user.id}/free_stuffs`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -281,7 +281,7 @@ const handleDeleteClickService = (user_id, service_id) => {
 };
 
 const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
-  fetch(`/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
+  fetch(`/${user_id}/free_stuffs/${free_stuffs_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": 'application/json',
@@ -315,7 +315,7 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
 const handleDeleteClickClaimFreeStuff = (user_id, free_stuffs_id) => {
   console.log('userFreeStuff:', userFreeStuff);
   console.log('free_stuffs_id:', free_stuffs_id);
-  fetch(`/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
+  fetch(`/${user_id}/free_stuffs/${free_stuffs_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": 'application/json',
@@ -387,8 +387,7 @@ const handleUpdateSubmitService = (service_id, updatedService) => {
 };
 
 const handleUpdateSubmitFreeStuff = (free_stuff_id, updatedFreeStuff) => {
-  fetch(`/users/${user.id}/user_free_stuffs/${free_stuff_id}`, {
-    // "/users/:user_id/user_free_stuffs/:free_stuff_id"
+  fetch(`/users/${user.id}/free_stuffs/${free_stuff_id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

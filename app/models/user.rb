@@ -2,9 +2,9 @@ class User < ApplicationRecord
     has_many :goods
     has_many :services
     has_many :free_stuffs
+    has_many :claimed_stuffs, foreign_key: :claimant_id
     has_many :user_goods, class_name: 'Good'
     has_many :user_services, class_name: 'Service'
-    has_many :user_free_stuffs
   
     # has_many :jobs, foreign_key: 'user_id', class_name: 'Task'
 

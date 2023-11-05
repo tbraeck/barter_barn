@@ -1,4 +1,4 @@
-class ForumWithServicesSerializer < ActiveModel::Serializer
+class ForumWithServiceSerializer < ActiveModel::Serializer
   attributes :id, :title
   has_many :services
  

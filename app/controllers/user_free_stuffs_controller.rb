@@ -5,8 +5,8 @@ class UserFreeStuffsController < ApplicationController
 
 
   def index
-    user_free_stuffs = @current_user.user_free_stuffs
-    render json: user_free_stuffs
+    free_stuffs = @current_user.claimed_stuffs
+    render json: free_stuffs
   end
 
   def show
@@ -14,8 +14,8 @@ class UserFreeStuffsController < ApplicationController
   end
 
   def create
-    @user_free_stuff = @current_user.user_free_stuffs.new(user_free_stuff_params)
-    
+    @user_free_stuff = @current_user.free_stuffs.new(user_free_stuff_params)
+    byebug
     if @user_free_stuff.save
       render json: @user_free_stuff, status: :created
     else
@@ -39,14 +39,15 @@ class UserFreeStuffsController < ApplicationController
   end
 
   def set_user_free_stuff
-    user_id = params[:user_id]  
+    user_id = params[:user_id]
     user_free_stuff_id = params[:id]
-    # puts "user_id: #{user_id}, user_free_stuff_id: #{user_free_stuff_id}"
-    @user_free_stuff = @current_user.user_free_stuffs.find(user_free_stuff_id)
+    Rails.logger.info("user_id: #{user_id}, user_free_stuff_id: #{user_free_stuff_id}")
+  
+    @user_free_stuff = @current_user.free_stuffs.find(user_free_stuff_id)
   end
 
   def user_free_stuff_params
-    params.require(:user_free_stuff).permit(:user_id, :claimant_id, :free_stuff_id, :body, :created_at, :updated_at)
+    params.require(:user_free_stuff).permit(:user_id, :claimant_id, :free_stuff_id, :body, :created_at, :updated_at, :forum_id)
   end
   
 end

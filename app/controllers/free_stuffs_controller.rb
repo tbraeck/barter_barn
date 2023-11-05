@@ -3,18 +3,18 @@ class FreeStuffsController < ApplicationController
 
   # GET /goods
   def index
-    @free_stuff = FreeStuff.all
-
-    render json: @free_stuff
+    free_stuffs = FreeStuff.where(claimant_id: params[:claimant_id])
+    render json: free_stuffs
   end
 
   # GET /goods/1
   def show
-    # free_stuff = find_free_stuff
-    render json: @free_stuff
+     free_stuff = find_free_stuff
+    render json: free_stuff
   end
   
   def create
+    # byebug
     @free_stuff = FreeStuff.new(free_stuffs_params)
     
     if @free_stuff.save
@@ -26,7 +26,7 @@ class FreeStuffsController < ApplicationController
 
   def save
     free_stuff = FreeStuff.find(params[:id])
-    user_free_stuff = current_user.user_free_stuffs.build(free_stuff: free_stuff)
+    user_free_stuff = current_user.free_stuffs.build(free_stuff: free_stuff)
     
     if user_free_stuff.save
       render json: { message: 'Free stuff saved successfully' }
@@ -37,7 +37,7 @@ class FreeStuffsController < ApplicationController
 
     def claim
     free_stuff = FreeStuff.find(params[:id])
-    user_free_stuff = current_user.user_free_stuffs.build(free_stuff: free_stuff, claimant: current_user)
+    user_free_stuff = current_user.free_stuffs.build(free_stuff: free_stuff, claimant: current_user)
     
     if user_free_stuff.save
       render json: { message: 'Free stuff claimed successfully' }
@@ -50,7 +50,7 @@ end
 
 def return
   free_stuff = FreeStuff.find(params[:id])
-  user_free_stuff = current_user.user_free_stuffs.find_by(free_stuff: free_stuff, returned_at: nil)
+  user_free_stuff = current_user.free_stuffs.find_by(free_stuff: free_stuff, returned_at: nil)
 
   if user_free_stuff
     user_free_stuff.update(returned_at: Time.now, claimant: nil) # Mark as returned and remove claimant
@@ -95,13 +95,14 @@ end
     end
     
     def set_free_stuffs
-      @free_stuff = FreeStuff.find(params[:id])
+      @free_stuff = FreeStuff.find_by(params[:id])
     end
 
     def free_stuffs_params
-      params.permit(:body, :user_id, :forum_id, :claimant_id, :main_image) 
+      params.require(:free_stuff).permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
     end
+  end
     
-end
+
 
 

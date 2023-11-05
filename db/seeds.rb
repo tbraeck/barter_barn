@@ -228,61 +228,61 @@ puts "🤖 Seeding Free Stuff..."
 FreeStuff.create!([
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 3,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 2,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 4,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 1,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 1,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 4,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 5,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 6,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 7,
       forum_id: 3
     },
     {
       body: Faker::Appliance.equipment,
-      claimant_id: null,
+      claimant_id: nil,
       user_id: 8,
       forum_id: 3
     }

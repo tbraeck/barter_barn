@@ -22,7 +22,7 @@ function EditFreeStuffs({  user, stuff, handleUpdateUserFreeStuffs, isEditFormVi
       let free_stuff_id = stuff.id;
       let user_id = user.id;
 
-      fetch(`http://localhost:3000/users/${user_id}/user_free_stuffs/${free_stuff_id}`, {
+      fetch(`/users/${user_id}/free_stuffs/${free_stuff_id}`, {
       method: "PATCH",
         headers: {
           "Content-Type": "application/json",

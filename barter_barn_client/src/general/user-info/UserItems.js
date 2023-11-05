@@ -43,7 +43,7 @@ const UserItems = ({ user }) => {
       });
 
     // Fetch user free stuff
-    fetch(`/users/${user.id}/user_free_stuffs`)
+    fetch(`/users/${user.id}/free_stuffs/${}`)
       .then((response) => {
         if (response.ok) {
           return response.json(); 
@@ -106,7 +106,7 @@ const UserItems = ({ user }) => {
 
 
   const handleDeleteClickFreeStuff = (free_stuffs_id) => {
-    fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
+    fetch(`/users/${user.id}/free_stuffs/${free_stuffs_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -159,7 +159,7 @@ const UserItems = ({ user }) => {
 
   const handleClaimFreeStuff = (freeStuffId) => {
     // Make an API request to claim the free stuff item
-    fetch(`/users/${user.id}/user_free_stuffs/${freeStuffId}/claim`, {
+    fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
       method: "POST", // You should define a route and controller action for claiming
       headers: {
         "Content-Type": "application/json",
@@ -193,7 +193,9 @@ const UserItems = ({ user }) => {
   // };
 
   
-// console.log(updatedStuff)
+console.log(userServices)
+console.log(userFreeStuff)
+
   return (
     <div className='user-items-container'>
       <div className='user-column'>

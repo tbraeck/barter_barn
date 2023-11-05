@@ -15,12 +15,13 @@ const NewUserGoods = ({
     title: '',
     description: '',
     good_or_service: '',
-    forum_id: ''
+    forum_id: forum.id
   });
 
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
-    forum_id: ''
+    claimant_id: null,
+    forum_id: forum.id
 
   });
 const [users, setUsers] = useState([])
@@ -32,7 +33,7 @@ const [imageData, setImageData] = useState(null);
   const [errors, setErrors] = useState([]);
 
   const { title, description, good_or_service } = goodFormData;
-  const { body, claimant_id } = freeStuffData;
+  const { body, claimant_id,  } = freeStuffData;
 
   useEffect(() => {
     fetch(`/users`)
@@ -162,7 +163,7 @@ const [imageData, setImageData] = useState(null);
     // handleImageChange('');
   };
 
-  // console.log(imageData)
+  console.log(freeStuffData)
 
   const handleSubmitStuff = (e) => {
     e.preventDefault();
@@ -173,7 +174,7 @@ const [imageData, setImageData] = useState(null);
     formData.append('body', freeStuffData.body);
     formData.append('claimant_id', freeStuffData.claimant_id )
     formData.append('main_image', imageData);
-    
+
     fetch(`/free_stuffs`, {
       method: 'POST',
       body: (formData), 

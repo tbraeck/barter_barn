@@ -1,9 +1,10 @@
 class UserFreeStuff < ApplicationRecord
-  attr_accessor :body
+  # attr_accessor :body
 
   belongs_to :user, class_name: 'User'
   belongs_to :free_stuff, class_name: 'FreeStuff' 
   belongs_to :claimant, class_name: 'User', optional: true
+  belongs_to :forum
 
   has_one_attached :main_image, dependent: :destroy
 
