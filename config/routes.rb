@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'user_free_stuffs/create'
+  get 'user_free_stuffs/update'
+  get 'user_free_stuffs/destroy'
   resources :forums, only: [:index, :show]
   resources :services, only: [:index, :show, :create, :update, :destroy]
   resources :goods, only: [:index, :show, :create, :update, :destroy]

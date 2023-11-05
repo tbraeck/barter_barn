@@ -138,7 +138,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     });
   }
 
-  return fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`, {
+  return fetch(`/users/${user.id}/user_free_stuffs`, {
 
     method: 'POST',
     headers: {
@@ -447,6 +447,8 @@ const forumServices = forum.services.map((service) => (
 
 const forumFreeStuff = forum.free_stuffs.map((stuff) => (
   // const claimed = stuff.claimantId
+  // null to start, click on claim, make patch to change attribute in db  send freestuff back 
+  // handle state 
   // if(!claimed) {
   <div key={stuff.id}>
     <FreeStuffCard

@@ -6,7 +6,8 @@ class User < ApplicationRecord
     has_many :user_services, class_name: 'Service'
     has_many :user_free_stuffs, class_name: 'FreeStuff'
   
-    
+    # has_many :jobs, foreign_key: 'user_id', class_name: 'Task'
+
     has_many :forums, through: [:goods, :services, :free_stuffs]
    
 

@@ -17,8 +17,14 @@
     # POST /users/:user_id/user_items
 
     def create
-      @user_service = @current_user.user_services.create!(user_service_params)
-      render json: @user_service, status: :created
+      # byebug
+      @user_service = @current_user.user_services.new (user_service_params)
+      if @user_service.save
+        # byebug
+        render json: @user_service, status: :created
+      else
+        render json: { errors: @user_service.errors.full_messages }, status: :unprocessable_entity
+      end
       
     end
     
@@ -53,4 +59,4 @@
       params.permit(:title, :description, :main_image, :good_or_service, :user_id, :forum_id, :created_at, :updated_at)
     end
 
-  end
+  ends

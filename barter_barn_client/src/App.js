@@ -28,7 +28,7 @@ function App() {
   const {user, setUser} = useContext(UserContext);
 
   useEffect(()=> {
-    fetch("http://localhost:3000/forums")
+    fetch("/forums")
       .then((res)=> res.json())
       .then((data) => setAllForum(data))
       .catch((error) => console.error('Error fetching forums:', error));

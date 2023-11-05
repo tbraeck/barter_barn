@@ -2,7 +2,7 @@ class UserService < ApplicationRecord
   belongs_to :user
   belongs_to :forum
 
-  has_one_attached :main_image
+  has_one_attached :main_image, dependent: :destroy
 
   validates :title, presence: true
   validates :description, presence: true
