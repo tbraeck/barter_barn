@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   resources :services, only: [:index, :show, :create, :update, :destroy]
   resources :goods, only: [:index, :show, :create, :update, :destroy]
   resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
-  
+  resources :user_free_stuffs, only: [:create, :update, :destroy]
+
   # resources :users, only: [:show]
   resources :users do
     resources :goods
@@ -17,10 +18,11 @@ Rails.application.routes.draw do
     resources :user_free_stuffs
   end
 
-  resources :freestuffs do
+  resources :free_stuffs do
     member do
-      post 'claim', to: 'freestuffs#claim'
-      post 'return', to: 'freestuffs#return'
+      post 'save', to: 'free_stuffs#save'
+      post 'claim', to: 'free_stuffs#claim'
+      post 'return', to: 'free_stuffs#return'
     end
   end
 

@@ -11,7 +11,7 @@ const UserItems = ({ user }) => {
 
   useEffect(() => {
     // Fetch user goods 
-    fetch(`http://localhost:3000/users/${user.id}/user_goods`)
+    fetch(`/users/${user.id}/user_goods`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -27,7 +27,7 @@ const UserItems = ({ user }) => {
       });
 
     // Fetch user services
-    fetch(`http://localhost:3000/users/${user.id}/user_services`)
+    fetch(`/users/${user.id}/user_services`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -43,7 +43,7 @@ const UserItems = ({ user }) => {
       });
 
     // Fetch user free stuff
-    fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs`)
+    fetch(`/users/${user.id}/user_free_stuffs`)
       .then((response) => {
         if (response.ok) {
           return response.json(); 
@@ -61,7 +61,7 @@ const UserItems = ({ user }) => {
   }, [user.id]);
 
   const handleDeleteClickGood = (good_id) => {
-    fetch(`http://localhost:3000/users/${user.id}/user_goods/${good_id}`, {
+    fetch(`/users/${user.id}/user_goods/${good_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -83,7 +83,7 @@ const UserItems = ({ user }) => {
   };
 
   const handleDeleteClickService = (service_id) => {
-    fetch(`http://localhost:3000/users/${user.id}/user_services/${service_id}`, {
+    fetch(`/users/${user.id}/user_services/${service_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
@@ -106,7 +106,7 @@ const UserItems = ({ user }) => {
 
 
   const handleDeleteClickFreeStuff = (free_stuffs_id) => {
-    fetch(`http://localhost:3000/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
+    fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

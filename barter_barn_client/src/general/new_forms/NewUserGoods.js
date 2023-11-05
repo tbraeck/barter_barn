@@ -129,7 +129,7 @@ const [imageData, setImageData] = useState(null);
     formData.append('main_image', imageData);
   
 
-    fetch(`http://localhost:3000/goods`, {
+    fetch(`/goods`, {
       method: 'POST',
       body: (formData),
     })
@@ -228,17 +228,7 @@ const [imageData, setImageData] = useState(null);
                 required
               />
             </div>
-            {/* <div className='form-field'>
-              <label htmlFor='image_url'>Image URL:</label>
-              <input
-                className='formInput'
-                type='text'
-                name='image_url'
-                value={image_url}
-                onChange={handleGoodChange}
-                required
-              />
-            </div> */}
+            
             <div className='form-field'>
               <label htmlFor='good_or_service'>Good or Service:</label>
               <input

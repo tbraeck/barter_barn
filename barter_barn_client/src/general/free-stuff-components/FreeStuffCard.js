@@ -17,7 +17,7 @@ const FreeStuffCard = ({
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id || true);
+  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id !== null);
   // const [claimMessage, setClaimMessage] = useState("");
 // const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
@@ -37,14 +37,16 @@ const FreeStuffCard = ({
   const { body } = stuff;
 
   const handleSave = () => {
-      const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
-      if (saveResult.success) {
-        setIsSaved(true);
-        setErrors([]);
-      } else {
-        setErrors([saveResult.message]);
-      }
-    };
+    const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
+    if (saveResult.success) {
+      setIsSaved(true);
+      setErrors([]);
+    } else {
+      setErrors([saveResult.message]);
+    }
+  };
+
+    
 
   // const handleSaveClaim = () => {
   //     const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
@@ -65,6 +67,7 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
+  
   // const handleDeleteClaimed = () => {
   //   if (isUserProfile) {
   //     setErrors(["You can only delete free stuff in your profile."]);
@@ -74,67 +77,71 @@ const FreeStuffCard = ({
   // };
 
 
-  const handleClaim = () => {
-    if (!isClaimed) {
-      // Step 1: Remove the claimed item from the forum
-      const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-      setAllForum(updatedForum);
+  // const handleClaim = () => {
+  //   if (!isClaimed) {
+  //     // Step 1: Remove the claimed item from the forum
+  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  //     setAllForum(updatedForum);
   
-      // Step 2: Add the claimed item to the user's profile
-      const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
-      if (saveResult.success) {
-        setIsSaved(true);
-        setErrors([]);
-      } else {
-        setErrors([saveResult.message]);
-      }
+  //     // Step 2: Add the claimed item to the user's profile
+  //     const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
+  //     if (saveResult.success) {
+  //       setIsSaved(true);
+  //       setErrors([]);
+  //     } else {
+  //       setErrors([saveResult.message]);
+  //     }
       
-      setIsClaimed(true); // Set isClaimed to true when the item is claimed
-    }
-  };
-
-  //     // Step 2: Add the claimed item to the user's profile
-  //     handleSave( stuff);
-  //     setClaimMessage("Claimed item is in your profile");
-  //     // Step 3: Send a message to the original poster
-  //     sendMessageToOriginalPoster(stuff, user);
-  
-
-  // const handleClaim = () => {
-  //   if (!isPending && !isClaimed) {
-  //     setIsClaimed(true)
-  //     // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
-  
-  //     // Step 2: Add the claimed item to the user's profile
-  //     handleSave( stuff);
-  //     setClaimMessage("Claimed item is in your profile");
-  //     // Step 3: Send a message to the original poster
-  //     sendMessageToOriginalPoster(stuff, user);
-  
-
-  // const handleClaim = () => {
-  //   if (!isPending && !isClaimed) {
-  //     setIsClaimed(true)
-  //     // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
-  
-  //     // Step 2: Add the claimed item to the user's profile
-  //     handleSave( stuff);
-  //     setClaimMessage("Claimed item is in your profile");
-  //     // Step 3: Send a message to the original poster
-  //     sendMessageToOriginalPoster(stuff, user);
-  
-     
+  //     setIsClaimed(true); // Set isClaimed to true when the item is claimed
   //   }
   // };
 
+  //     // Step 2: Add the claimed item to the user's profile
+  //     handleSave( stuff);
+  //     setClaimMessage("Claimed item is in your profile");
+  //     // Step 3: Send a message to the original poster
+  //     sendMessageToOriginalPoster(stuff, user);
+  
+
+  // const handleClaim = () => {
+  //   if (!isPending && !isClaimed) {
+  //     setIsClaimed(true)
+  //     // Step 1: Remove the claimed item from the forum
+  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
+  //     setAllForum(updatedForum);
+  
+  //     // Step 2: Add the claimed item to the user's profile
+  //     handleSave( stuff);
+  //     setClaimMessage("Claimed item is in your profile");
+  //     // Step 3: Send a message to the original poster
+  //     sendMessageToOriginalPoster(stuff, user);
+  
+
+  const handleClaim = () => {
+    if (!isClaimed) {
+      fetch(`/free_stuffs/${stuff.id}/claim`, {
+        method: 'POST',
+      })
+        .then((response) => {
+          if (response.ok) {
+            setIsSaved(true); // Indicate successful claim
+            setIsClaimed(true);
+            setErrors([]);
+          } else {
+            console.error('Error claiming item:', response);
+            setErrors(['Failed to claim item. Please try again.']);
+          }
+        })
+        .catch((error) => {
+          console.error('Error claiming item:', error);
+          setErrors(['Failed to claim item. Please try again.']);
+        });
+    }
+  };
+
   const handleReturn = () => {
     if (isClaimed && stuff.claimant_id === user.id) {
-      // Make an API request to the "return" endpoint to handle the return action
-      fetch(`/freestuffs/${stuff.id}/return`, {
+      fetch(`/free_stuffs/${stuff.id}/return`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -144,10 +151,7 @@ const FreeStuffCard = ({
           if (response.ok) {
             // Update the UI to reflect the changes after a successful return
             setIsClaimed(false);
-            // setClaimMessage('Item has been returned to the forum');
-            // You may need to add logic to move the item back to the original forum
           } else {
-            // Handle errors if the return action is not successful
             console.error('Error returning item:', response);
             setErrors(['Failed to return item. Please try again.']);
           }
@@ -156,7 +160,7 @@ const FreeStuffCard = ({
           console.error('Error returning item:', error);
           setErrors(['Failed to return item. Please try again.']);
         });
-    } 
+    }
   };
   
   return(
