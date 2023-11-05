@@ -3,7 +3,7 @@ include Rails.application.routes.url_helpers
   attributes :id, :body, :image
 
   has_one :user
-  # has_one :forum
+  has_one :forum
 
   def image
     rails_blob_path(object.main_image, only_path: true) if object.main_image.attached?

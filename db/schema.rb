@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_05_001156) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_05_025154) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -106,6 +106,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_001156) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "forum_id", null: false
+    t.index ["forum_id"], name: "index_user_goods_on_forum_id"
     t.index ["user_id"], name: "index_user_goods_on_user_id"
   end
 
@@ -132,6 +134,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_001156) do
   add_foreign_key "user_free_stuffs", "claimants"
   add_foreign_key "user_free_stuffs", "free_stuffs"
   add_foreign_key "user_free_stuffs", "users"
+  add_foreign_key "user_goods", "forums"
   add_foreign_key "user_goods", "users"
   add_foreign_key "user_services", "users"
 end

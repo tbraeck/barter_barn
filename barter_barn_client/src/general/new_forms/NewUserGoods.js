@@ -44,8 +44,9 @@ const [imageData, setImageData] = useState(null);
     fetch(`/free_stuffs`)
     .then(res => res.json())
     .then(data => setFreeStuffs(data))
-  }, [])
 
+  }, [])
+// console.log(freeStuffs)
   useEffect(() => {
     fetch(`/goods`)
     .then(res => res.json())

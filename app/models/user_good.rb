@@ -1,6 +1,7 @@
 class UserGood < ApplicationRecord
-  belongs_to :user
-# belongs_to :forum
+  belongs_to :user, class_name: 'User'
+  belongs_to :good, class_name: 'Good'
+ belongs_to :forum
 
 has_one_attached :main_image, dependent: :destroy
 

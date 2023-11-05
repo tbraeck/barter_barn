@@ -48,36 +48,41 @@ const GoodsCard = ({
       </p>
       <img className='thumbImg' src={good.image} alt="Free Stuff Image" />
     
-      <div className='buttonContainer'>
-            {isUserProfile && (
-              <button onClick={handleSaveGood} className='crudButton saveButton'>
-                SAVE
-              </button>
-            )}
-            {isSaved && <p>Item has been saved to your profile!</p>}
-            
-            {!isUserProfile && (
-              <>
-                <button onClick={() => handleDelete(good)} className='crudButton deleteButton'>
+      <div className="buttonContainer">
+          {featured ? (
+            // If the card is featured, show the save button only
+            <button onClick={handleSaveGood} className="crudButton saveButton">
+              SAVE
+            </button>
+          ) : (
+            // If it's not featured, display save and delete buttons
+            <>
+              {isUserProfile && (
+                <button onClick={handleSaveGood} className="crudButton saveButton">
+                  SAVE
+                </button>
+              )}
+              {isSaved && <p>Item has been saved to your profile!</p>}
+              {!isUserProfile && (
+                <button onClick={() => handleDelete(good)} className="crudButton deleteButton">
                   DELETE
                 </button>
-             
-              </>
-            )}
-
-          </div>
-      {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
-      {errors.length > 0 && (
-        <div className="error-messages">
-          {errors.map((error, index) => (
-            <p key={index} className="error-message">
-              {error}
-            </p>
-          ))}
+              )}
+            </>
+          )}
         </div>
-      )}
+        {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
+        {errors.length > 0 && (
+          <div className="error-messages">
+            {errors.map((error, index) => (
+              <p key={index} className="error-message">
+                {error}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 

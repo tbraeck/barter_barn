@@ -1,6 +1,6 @@
 class UserGoodsController < ApplicationController
     before_action :set_user
-    before_action :set_user_good, only: [:index, :show, :create, :update, :destroy]
+    before_action :set_user_good, only: [:show, :edit, :update, :destroy]
     skip_before_action :authorize
 
     # GET /users/:user_id/user_items
@@ -59,12 +59,15 @@ end
 
 
     def set_user_good
-      @user_good = @current_user.user_goods.find_by(id: params[:id])
-    end 
+      @user_good = @current_user.user_goods.find(params[:id])
+    end
+    
+    
 
     def user_good_params
-      params.require(:user_good).permit(:id, :title, :description, :good_or_service, :main_image, :forum_id)
+      params.require(:user_good).permit(:id, :title, :description, :good_or_service, :main_image, :user_id, :forum_id)
     end
+    
     
 
   end

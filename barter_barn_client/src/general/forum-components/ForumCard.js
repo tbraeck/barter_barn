@@ -17,7 +17,7 @@ const ForumCard = (
   const [forum, setForum] = useState({
     goods: [],
     services: [],
-    free_stuff: []
+    free_stuffs: []
 })
 
 const [userGoods, setUserGoods] = useState([])
@@ -45,38 +45,47 @@ const handleSaveGoodToUserProfile = (item) => {
       message: "Saving items is not allowed in your profile.",
     };
   }
-
-  return fetch(`/users/${user.id}/user_goods`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(item),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json().then((savedItem) => {
-          setUserGoods([...userGoods, savedItem]);
-          return (
-            alert("Item saved to profile!")
-        )
+  
+    // Create a new UserGoods instance without the forum_id
+    const newUserGood = {
+      title: item.title,
+      description: item.description,
+      good_or_service: item.good_or_service,
+      main_image: item.main_image,
+      forum_id: forum.id
+      // No forum_id here
+    };
+  
+    return fetch(`/users/${user.id}/user_goods`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUserGood),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json().then((savedItem) => {
+            setUserGoods([...userGoods, savedItem]);
+            return alert("Item saved to profile!");
           });
-      } else {
-          res.json().then((error) => setErrors(error.errors))
+        } else {
+          res.json().then((error) => setErrors(error.errors));
           setTimeout(() => {
             setErrors(null);
           }, 3000);
           return;
         }
-    })
-    .catch((error) => {
-      console.error('Error saving item:', error);
-      return {
-        success: false,
-        message: error.message,
-      };
-    });
-};
+      })
+      .catch((error) => {
+        console.error('Error saving item:', error);
+        return {
+          success: false,
+          message: error.message,
+        };
+      });
+  };
+  
 
 
 const handleSaveServiceToUserProfile = (item) => {
@@ -443,7 +452,7 @@ const forumServices = forum.services ? forum.services.map((service) => (
   </div>
 )) : [];
 
-
+console.log(forum.free_stuffs)
  const forumFreeStuff = forum.free_stuffs ? forum.free_stuffs.map((stuff) => (
   // const claimed = stuff.claimantId
   // null to start, click on claim, make patch to change attribute in db  send freestuff back 

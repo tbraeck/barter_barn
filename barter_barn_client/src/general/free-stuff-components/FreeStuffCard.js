@@ -17,7 +17,7 @@ const FreeStuffCard = ({
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id !== null);
+  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id || true);
   // const [claimMessage, setClaimMessage] = useState("");
 // const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
@@ -37,16 +37,14 @@ const FreeStuffCard = ({
   const { body } = stuff;
 
   const handleSave = () => {
-    const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
-    if (saveResult.success) {
-      setIsSaved(true);
-      setErrors([]);
-    } else {
-      setErrors([saveResult.message]);
-    }
-  };
-
-    
+      const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
+      if (saveResult.success) {
+        setIsSaved(true);
+        setErrors([]);
+      } else {
+        setErrors([saveResult.message]);
+      }
+    };
 
   // const handleSaveClaim = () => {
   //     const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
@@ -67,7 +65,6 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
 
-  
   // const handleDeleteClaimed = () => {
   //   if (isUserProfile) {
   //     setErrors(["You can only delete free stuff in your profile."]);
@@ -124,9 +121,7 @@ const FreeStuffCard = ({
       })
         .then((response) => {
           if (response.ok) {
-            setIsSaved(true); // Indicate successful claim
-            setIsClaimed(true);
-            setErrors([]);
+            setIsSaved(true); // Update the UI to indicate successful claim
           } else {
             console.error('Error claiming item:', response);
             setErrors(['Failed to claim item. Please try again.']);
@@ -149,8 +144,7 @@ const FreeStuffCard = ({
       })
         .then((response) => {
           if (response.ok) {
-            // Update the UI to reflect the changes after a successful return
-            setIsClaimed(false);
+            setIsClaimed(false); // Update the UI to indicate successful return
           } else {
             console.error('Error returning item:', response);
             setErrors(['Failed to return item. Please try again.']);
@@ -169,7 +163,7 @@ const FreeStuffCard = ({
     <img className='thumbImg' src={stuff.image} alt="Free Stuff Image" />
     <h2 className="goodTitle">{body}</h2>
     <div className="buttonContainer">
-      {!isUserProfile && (
+      {isUserProfile && (
         <>
           <button onClick={handleSave} className="crudButton saveButton">
             SAVE
