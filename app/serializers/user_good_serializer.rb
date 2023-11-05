@@ -1,4 +1,4 @@
-class GoodSerializer < ActiveModel::Serializer
+class UserGoodSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
   attributes :id, :title, :description, :good_or_service, :image

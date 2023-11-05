@@ -173,7 +173,7 @@ const [imageData, setImageData] = useState(null);
     formData.append('body', freeStuffData.body);
     formData.append('claimant_id', freeStuffData.claimant_id )
     formData.append('main_image', imageData);
-
+    
     fetch(`/free_stuffs`, {
       method: 'POST',
       body: (formData), 

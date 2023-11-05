@@ -16,12 +16,14 @@ class FreeStuffsController < ApplicationController
   
   def create
     @free_stuff = FreeStuff.new(free_stuffs_params)
+    
     if @free_stuff.save
       render json: @free_stuff, status: :created
     else
       render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
   def save
     free_stuff = FreeStuff.find(params[:id])
     user_free_stuff = current_user.user_free_stuffs.build(free_stuff: free_stuff)
@@ -97,7 +99,7 @@ end
     end
 
     def free_stuffs_params
-      params.permit(:body, :user_id, :forum_id, :claimant_id, :main_image) # Adjust as needed
+      params.permit(:body, :user_id, :forum_id, :claimant_id, :main_image) 
     end
     
 end

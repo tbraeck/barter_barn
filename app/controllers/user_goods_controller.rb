@@ -57,13 +57,10 @@ end
       @current_user = User.find(params[:user_id])
     end
 
-
     def set_user_good
       @user_good = @current_user.user_goods.find(params[:id])
     end
     
-    
-
     def user_good_params
       params.require(:user_good).permit(:id, :title, :description, :good_or_service, :main_image, :user_id, :forum_id)
     end

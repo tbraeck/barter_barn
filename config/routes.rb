@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-  get 'user_free_stuffs/create'
-  get 'user_free_stuffs/update'
-  get 'user_free_stuffs/destroy'
+  post 'user_free_stuffs/create'
+  patch 'user_free_stuffs/update'
+  delete 'user_free_stuffs/destroy'
+  
   resources :forums, only: [:index, :show]
   resources :services, only: [:index, :show, :create, :update, :destroy]
   resources :goods, only: [:index, :show, :create, :update, :destroy]
   resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
-  resources :user_free_stuffs, only: [:create, :update, :destroy]
+  # resources :user_free_stuffs, only: [:create, :update, :destroy]
 
   # resources :users, only: [:show]
   resources :users do
