@@ -2,10 +2,11 @@ class UserGoodsController < ApplicationController
   before_action :authorize  
   # before_action :set_user_good
     
-
+  # 
     # GET /users/:user_id/user_items
     def index
       user_goods = @current_user.saved_goods
+      
       render json: user_goods
     end
     
@@ -18,12 +19,13 @@ class UserGoodsController < ApplicationController
 
     def create
       # byebug
-      @user_good = @current_user.user_goods.new (user_good_params)
-      if @user_good.save
-        # byebug
-        render json: @user_good, status: :created
+     good = Good.find(params[:id])
+    #  byebug
+      if @current_user.saved_goods << good
+      
+        render json: good, status: :created
       else
-        render json: { errors: @user_good.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: good.errors.full_messages }, status: :unprocessable_entity
       end
       
     end
@@ -32,11 +34,11 @@ class UserGoodsController < ApplicationController
     
     # PATCH/PUT /users/:user_id/user_items/:id
  # PATCH/PUT /users/:user_id/user_items/:id
-def update
-  @user_good = set_user_good
-  @user_good.update!(user_good_params)
-  render json: @user_good, status: :ok
-end
+# def update
+#   @user_good = set_user_good
+#   @user_good.update!(user_good_params)
+#   render json: @user_good, status: :ok
+# end
 
     # DELETE /users/:user_id/user_items/:id
 
@@ -46,7 +48,7 @@ end
     #     head :no_content
     # end
     def destroy
-      user_good = @current_user.goods.find(params[:id])
+      user_good = @current_user.saved_goods.find_by!(id: params[:id])
       user_good.destroy
       head :no_content
     end

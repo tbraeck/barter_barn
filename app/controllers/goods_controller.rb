@@ -1,5 +1,5 @@
 class GoodsController < ApplicationController
-  skip_before_action :authorize
+  before_action :authorize
 
   # GET /goods
   def index
@@ -14,6 +14,7 @@ class GoodsController < ApplicationController
   end
 
   def create
+    # byebug
     @good = Good.new(good_params)
 
     if @good.save
@@ -46,6 +47,6 @@ class GoodsController < ApplicationController
     end
 
     def good_params
-      params.permit(:title, :description, :main_image,  :good_or_service, :user_id, :forum_id)
+      params.require(:good).permit(:title, :description, :main_image,  :good_or_service, :user_id, :forum_id)
     end
 end

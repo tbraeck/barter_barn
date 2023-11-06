@@ -3,14 +3,18 @@ class UserFreeStuffsController < ApplicationController
 
 
   def index
-    free_stuffs = @current_user.saved_free_stuffs
-    render json: free_stuffs
+    user_free_stuffs = @current_user.saved_free_stuffs
+    render json: user_free_stuffs
   end
 
+  
   def show
-    render json: @current_user.saved_free_stuffs
+    render json: @user_free_stuff
   end
 
+  # def show
+  #   render json: @user_service
+  # end
   def create
     free_stuff = FreeStuff.find(params[:id])
     
@@ -31,16 +35,16 @@ class UserFreeStuffsController < ApplicationController
   private
 
 
-  def set_user_free_stuff
-    user_id = params[:user_id]
-    user_free_stuff_id = params[:id]
-    Rails.logger.info("user_id: #{user_id}, user_free_stuff_id: #{user_free_stuff_id}")
+  # def set_user_free_stuff
+  #   user_id = params[:user_id]
+  #   user_free_stuff_id = params[:id]
+  #   Rails.logger.info("user_id: #{user_id}, user_free_stuff_id: #{user_free_stuff_id}")
   
-    @user_free_stuff = @current_user.free_stuffs.find(user_free_stuff_id)
-  end
+  #   @user_free_stuff = @current_user.free_stuffs.find(user_free_stuff_id)
+  # end
 
   def user_free_stuff_params
-    params.require(:user_free_stuff).permit(:user_id, :claimant_id, :free_stuff_id, :body, :created_at, :updated_at, :forum_id)
+    params.require(:user_free_stuff).permit(:user_id, :claimant_id, :main_image, :body, :forum_id)
   end
   
 end

@@ -5,10 +5,11 @@ class User < ApplicationRecord
     has_many :user_services
     has_many :user_goods
     has_many :user_free_stuffs
-    has_many :claimed_stuffs, foreign_key: :claimant_id, class_name: 'FreeStuff'
     has_many :saved_goods, through: :user_goods, source: :good
     has_many :saved_services, through: :user_services, source: :service 
     has_many :saved_free_stuffs, through: :user_free_stuffs, source: :free_stuff
+    has_many :claimed_stuffs, foreign_key: :claimant_id, class_name: 'FreeStuff'
+
     
 
   

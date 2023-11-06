@@ -15,10 +15,8 @@
     # POST /users/:user_id/user_items
 
     def create
-      # byebug
       service = Service.find(params[:id])
       if @current_user.saved_services << service
-        # byebug
         render json: service, status: :created
       else
         render json: { errors: service.errors.full_messages }, status: :unprocessable_entity

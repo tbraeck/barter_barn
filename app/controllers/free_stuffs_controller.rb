@@ -68,9 +68,11 @@ class FreeStuffsController < ApplicationController
   end
 
   def destroy
-    @free_stuff.destroy
+    free_stuff = find_free_stuff
+    free_stuff.destroy
     head :no_content
   end
+  
 
 
   def claim_free_stuff
@@ -94,12 +96,12 @@ class FreeStuffsController < ApplicationController
     FreeStuff.find(params[:id])
   end
     
-  def set_free_stuffs
-    @free_stuff = FreeStuff.find_by(params[:id])
-  end
+  # def set_free_stuffs
+  #   @free_stuff = FreeStuff.find_by(params[:id])
+  # end
 
   def free_stuffs_params
-    params.permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
+    params.require(:free_stuff).permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
   end
 end
     

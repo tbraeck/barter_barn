@@ -44,17 +44,6 @@ const FreeStuffCard = ({
       }
     };
 
-  // const handleSaveClaim = () => {
-  //     const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
-  //     if (saveResult.success) {
-  //       setIsSaved(true);
-  //       setErrors([]);
-  //     } else {
-  //       setErrors([saveResult.message]);
-  //     }
-  //   }
- 
-
   const handleDeleteSaved = () => {
     if (isUserProfile) {
       setErrors(["You can only delete free stuff in your profile."]);
@@ -62,55 +51,6 @@ const FreeStuffCard = ({
     }
     handleDeleteClickFreeStuff(stuff.id);
   };
-
-  // const handleDeleteClaimed = () => {
-  //   if (isUserProfile) {
-  //     setErrors(["You can only delete free stuff in your profile."]);
-  //     return;
-  //   }
-  //   handleDeleteClickFreeStuff(stuff.id);
-  // };
-
-
-  // const handleClaim = () => {
-  //   if (!isClaimed) {
-  //     // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
-  
-  //     // Step 2: Add the claimed item to the user's profile
-  //     const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
-  //     if (saveResult.success) {
-  //       setIsSaved(true);
-  //       setErrors([]);
-  //     } else {
-  //       setErrors([saveResult.message]);
-  //     }
-      
-  //     setIsClaimed(true); // Set isClaimed to true when the item is claimed
-  //   }
-  // };
-
-  //     // Step 2: Add the claimed item to the user's profile
-  //     handleSave( stuff);
-  //     setClaimMessage("Claimed item is in your profile");
-  //     // Step 3: Send a message to the original poster
-  //     sendMessageToOriginalPoster(stuff, user);
-  
-
-  // const handleClaim = () => {
-  //   if (!isPending && !isClaimed) {
-  //     setIsClaimed(true)
-  //     // Step 1: Remove the claimed item from the forum
-  //     const updatedForum = allForum.filter((item) => item.id !== stuff.id);
-  //     setAllForum(updatedForum);
-  
-  //     // Step 2: Add the claimed item to the user's profile
-  //     handleSave( stuff);
-  //     setClaimMessage("Claimed item is in your profile");
-  //     // Step 3: Send a message to the original poster
-  //     sendMessageToOriginalPoster(stuff, user);
-  
 
   const handleClaim = () => {
     if (!isClaimed) {

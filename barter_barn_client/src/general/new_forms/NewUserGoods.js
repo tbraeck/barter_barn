@@ -5,13 +5,19 @@ const NewUserGoods = ({
   forum,
   allForum,
   setAllForum,
-  
   user,
   handleAddGood,
   handleAddService,
   handleAddFreeStuffs,
 }) => {
   const [goodFormData, setGoodFormData] = useState({
+    title: '',
+    description: '',
+    good_or_service: '',
+    forum_id: forum.id
+  });
+
+  const [serviceFormData, setServiceFormData] = useState({
     title: '',
     description: '',
     good_or_service: '',

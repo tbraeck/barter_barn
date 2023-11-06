@@ -47,21 +47,21 @@ const handleSaveGoodToUserProfile = (item) => {
   }
   
     // Create a new UserGoods instance without the forum_id
-    const newUserGood = {
-      title: item.title,
-      description: item.description,
-      good_or_service: item.good_or_service,
-      main_image: item.main_image,
-      forum_id: forum.id
-      // No forum_id here
-    };
+    // const newUserGood = {
+    //   title: item.title,
+    //   description: item.description,
+    //   good_or_service: item.good_or_service,
+    //   main_image: item.main_image,
+    //   forum_id: forum.id
+    //   // No forum_id here
+    // };
   
     return fetch(`/users/${user.id}/user_goods`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newUserGood),
+      body: JSON.stringify(item),
     })
       .then((res) => {
         if (res.ok) {
@@ -94,7 +94,7 @@ const handleSaveServiceToUserProfile = (item) => {
       success: false,
       message: "Saving items is not allowed in your profile.",
     };
-  }
+  } 
 
   return fetch(`/users/${user.id}/user_services`, {
     method: 'POST',
@@ -136,15 +136,15 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     };
   }
 
-  const isItemSaved = userFreeStuff.some((savedItem) => savedItem.id === item.id);
+  // const isItemSaved = userFreeStuff.some((savedItem) => savedItem.id === item.id);
 
-  if (isItemSaved) {
-    return Promise.resolve({
-      success: false,
-      message: "Item already saved to user profile."
-    });
-  }
-  return fetch(`/users/${user.id}/free_stuffs`, {
+  // if (isItemSaved) {
+  //   return Promise.resolve({
+  //     success: false,
+  //     message: "Item already saved to user profile."
+  //   });
+  // }
+  return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -279,7 +279,7 @@ const handleDeleteClickService = (user_id, service_id) => {
 };
 
 const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
-  fetch(`/${user_id}/free_stuffs/${free_stuffs_id}`, {
+  fetch(`/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": 'application/json',
@@ -292,18 +292,10 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
       return response.json();
     })
     .then(() => {
-      // Remove the item from the user's profile
-      const updatedUserFreeStuffs = userFreeStuff.filter((item) => item.id !== free_stuffs_id);
-      setUserFreeStuff(updatedUserFreeStuffs);
-
-      // Add the item back to the free stuff forum
-      const itemToRestore = userFreeStuff.find((item) => item.id === free_stuffs_id);
-      if (itemToRestore) {
-        const updatedFreeStuffs = [...allForum, itemToRestore];
-        setAllForum(updatedFreeStuffs);
-      }
-
-      handleUpdateSubmitFreeStuff(free_stuffs_id, updatedUserFreeStuffs);
+      const deleteFreeStuff = forum.free_stuffs.filter(s => s.id !== free_stuffs_id);
+      const updatedFreeStuff = allForum.map(f => f.id === forum.id ? { ...f, free_stuffs: deleteFreeStuff } : f);
+      setAllForum(updatedFreeStuff);
+      handleUpdateSubmitFreeStuff(free_stuffs_id, deleteFreeStuff);
     })
     .catch((error) => {
       console.error('Error deleting stuff:', error);
@@ -384,8 +376,8 @@ const handleUpdateSubmitService = (service_id, updatedService) => {
     });
 };
 
-const handleUpdateSubmitFreeStuff = (free_stuff_id, updatedFreeStuff) => {
-  fetch(`/users/${user.id}/free_stuffs/${free_stuff_id}`, {
+const handleUpdateSubmitFreeStuff = (free_stuffs_id, updatedFreeStuff) => {
+  fetch(`/users/${user.id}/user_free_stuffs/${free_stuffs_id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -395,7 +387,7 @@ const handleUpdateSubmitFreeStuff = (free_stuff_id, updatedFreeStuff) => {
     .then(r => r.json())
     .then(savedFreeStuff => {
       const updatedUserFreeStuff = userFreeStuff.map(stuff =>
-        stuff.id === free_stuff_id ? savedFreeStuff : stuff
+        stuff.id === free_stuffs_id ? savedFreeStuff : stuff
       );
       setUserFreeStuff(updatedUserFreeStuff);
     })
