@@ -101,7 +101,7 @@ class FreeStuffsController < ApplicationController
   # end
 
   def free_stuffs_params
-    params.require(:free_stuff).permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
+    params.permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
   end
 end
     

@@ -38,8 +38,8 @@ const [imageData, setImageData] = useState(null);
 
   const [errors, setErrors] = useState([]);
 
-  const { title, description, good_or_service } = goodFormData
-  const { title: serviceTitle, description: serviceDescription, good_or_service: serviceGoodOrService } = serviceFormData;
+  const { title: goodTitle, description: goodDescription, good_or_service: goodOrService } = goodFormData
+  const { title: serviceTitle, description: serviceDescription, good_or_service: serviceOrService } = serviceFormData;
   const { body  } = freeStuffData;
 
   useEffect(() => {
@@ -142,9 +142,9 @@ const handleNewService = (newService) => {
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
-    formData.append('title', goodFormData.title);
-    formData.append('description', goodFormData.description);
-    formData.append('good_or_service', goodFormData.good_or_service);
+    formData.append('title', goodTitle);
+    formData.append('description', goodDescription);
+    formData.append('good_or_service', goodOrService);
     formData.append('main_image', imageData);
   
 
@@ -180,9 +180,9 @@ const handleNewService = (newService) => {
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
-    formData.append('title', serviceFormData.title);
-    formData.append('description', serviceFormData.description);
-    formData.append('good_or_service', serviceFormData.good_or_service);
+    formData.append('title', serviceTitle);
+    formData.append('description', serviceDescription);
+    formData.append('good_or_service', serviceOrService);
     formData.append('main_image', imageData);
   
 
@@ -250,10 +250,10 @@ const handleNewService = (newService) => {
   };
   return (
     <div>
-      {forum.id === 1 || forum.id === 2 ? (
+      {forum.id === 1  ? (
         <div className='newDrawingForm'>
           <h2 className='newDrawingH2'>
-            <b>New Goods or Services</b>
+            <b>New Goods</b>
           </h2>
           <form className='form' onSubmit={handleSubmitGood}>
             <div className='form-field'>
@@ -262,7 +262,7 @@ const handleNewService = (newService) => {
                 className='formInput'
                 type='text'
                 name='title'
-                value={title}
+                value={goodTitle}
                 onChange={handleGoodChange}
                 required
               />
@@ -273,7 +273,7 @@ const handleNewService = (newService) => {
                 className='formInput'
                 type='text'
                 name='description'
-                value={description}
+                value={goodDescription}
                 onChange={handleGoodChange}
                 required
               />
@@ -284,7 +284,7 @@ const handleNewService = (newService) => {
                 className='formInput'
                 type='text'
                 name='good_or_service'
-                value={good_or_service}
+                value={goodOrService}
                 onChange={handleGoodChange}
                 required
               />
@@ -317,19 +317,20 @@ const handleNewService = (newService) => {
           </form>
         </div>
       ) : null }
+
        {forum.id === 2 ? (
         <div className='newDrawingForm'>
           <h2 className='newDrawingH2'>
             <b>New Services</b>
           </h2>
-          <form className='form' onSubmit={handleSubmitGood}>
+          <form className='form' onSubmit={handleSubmitService}>
             <div className='form-field'>
               <label htmlFor='title'>Title:</label>
               <input
                 className='formInput'
                 type='text'
                 name='title'
-                value={title}
+                value={serviceTitle}
                 onChange={handleServiceChange}
                 required
               />
@@ -341,7 +342,7 @@ const handleNewService = (newService) => {
                 className='formInput'
                 type='text'
                 name='description'
-                value={description}
+                value={serviceDescription}
                 onChange={handleServiceChange}
                 required
               />
@@ -353,7 +354,7 @@ const handleNewService = (newService) => {
                 className='formInput'
                 type='text'
                 name='good_or_service'
-                value={good_or_service}
+                value={serviceOrService}
                 onChange={handleServiceChange}
                 required
               />
