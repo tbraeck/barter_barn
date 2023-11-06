@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :free_stuffs
     resources :user_goods
     resources :user_services
+    resources :user_free_stuffs
   end
 
   resources :free_stuffs do

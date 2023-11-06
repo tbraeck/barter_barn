@@ -8,6 +8,7 @@ const FreeStuffCard = ({
   userFreeStuff,
   setAllForum,
   allForum,
+  handleAddFreeStuffs,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleDeleteClickClaimFreeStuff,
@@ -17,7 +18,8 @@ const FreeStuffCard = ({
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [isClaimed, setIsClaimed] = useState(stuff.claimant_id || true);
+  const [isClaimed, setIsClaimed] = useState(!!stuff.claimant_id);
+  
   // const [claimMessage, setClaimMessage] = useState("");
 // const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
@@ -28,10 +30,6 @@ const FreeStuffCard = ({
 
   if (!stuff || !stuff.body) {
     return <div>Loading...</div>;
-  }
-
-  if (!isClaimed) {
-    return null;
   }
 
   const { body } = stuff;
@@ -121,11 +119,14 @@ const FreeStuffCard = ({
       })
         .then((response) => {
           if (response.ok) {
-            setIsSaved(true); // Update the UI to indicate successful claim
+            return response.json();
           } else {
-            console.error('Error claiming item:', response);
-            setErrors(['Failed to claim item. Please try again.']);
+            throw new Error('Failed to claim item. Please try again.');
           }
+        })
+        .then((data) => {
+          handleAddFreeStuffs(data);
+          setIsSaved(true); // Update the UI to indicate successful claim
         })
         .catch((error) => {
           console.error('Error claiming item:', error);
@@ -133,6 +134,7 @@ const FreeStuffCard = ({
         });
     }
   };
+  
 
   const handleReturn = () => {
     if (isClaimed && stuff.claimant_id === user.id) {

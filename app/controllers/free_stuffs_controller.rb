@@ -1,5 +1,5 @@
 class FreeStuffsController < ApplicationController
-  skip_before_action :authorize
+  before_action :authorize
 
   # GET /goods
   def index
@@ -37,28 +37,26 @@ class FreeStuffsController < ApplicationController
 
     def claim
     free_stuff = FreeStuff.find(params[:id])
-    user_free_stuff = current_user.free_stuffs.build(free_stuff: free_stuff, claimant: current_user)
-    
-    if user_free_stuff.save
-      render json: { message: 'Free stuff claimed successfully' }
+    # user_free_stuff = @current_user.claimed_stuffs(free_stuff: free_stuff, claimant: current_user)
+    if free_stuff.update(claimant_id: @current_user.id)
+      free_stuffs = FreeStuff.where(claimant_id: params[:claimant_id])
+      render json: { free_stuffs: free_stuffs, message: 'Free stuff claimed successfully' }
     else
       render json: { error: 'Unable to claim free stuff' }, status: :unprocessable_entity
     end
   end
-end
 
+  def return
+    free_stuff = FreeStuff.find(params[:id])
+    user_free_stuff = current_user.free_stuffs.find_by(free_stuff: free_stuff, returned_at: nil)
 
-def return
-  free_stuff = FreeStuff.find(params[:id])
-  user_free_stuff = current_user.free_stuffs.find_by(free_stuff: free_stuff, returned_at: nil)
-
-  if user_free_stuff
-    user_free_stuff.update(returned_at: Time.now, claimant: nil) # Mark as returned and remove claimant
-    render json: { message: 'Free stuff returned to the forum' }
-  else
-    render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
+    if user_free_stuff
+      user_free_stuff.update(returned_at: Time.now, claimant: nil) # Mark as returned and remove claimant
+      render json: { message: 'Free stuff returned to the forum' }
+    else
+      render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
+    end
   end
-end
   
 
   def update
@@ -87,21 +85,23 @@ end
         render json: { error: 'Failed to claim the item.' }, status: :unprocessable_entity
       end
     end
+  end
   
 
   private
-    def find_free_stuff
-        FreeStuff.find(params[:id])
-    end
     
-    def set_free_stuffs
-      @free_stuff = FreeStuff.find_by(params[:id])
-    end
-
-    def free_stuffs_params
-      params.require(:free_stuff).permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
-    end
+  def find_free_stuff
+    FreeStuff.find(params[:id])
   end
+    
+  def set_free_stuffs
+    @free_stuff = FreeStuff.find_by(params[:id])
+  end
+
+  def free_stuffs_params
+    params.permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
+  end
+end
     
 
 

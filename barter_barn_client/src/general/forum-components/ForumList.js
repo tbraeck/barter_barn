@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 
 const ForumList = ({allForum}) => {
+
 
    const forumItems = allForum.map((forum) => (
     <div key={forum.id} className="forum-item">

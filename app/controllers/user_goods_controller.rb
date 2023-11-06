@@ -1,11 +1,11 @@
 class UserGoodsController < ApplicationController
-    before_action :set_user
-    before_action :set_user_good, only: [:show, :edit, :update, :destroy]
-    skip_before_action :authorize
+  before_action :authorize  
+  # before_action :set_user_good
+    
 
     # GET /users/:user_id/user_items
     def index
-      user_goods = @current_user.user_goods
+      user_goods = @current_user.saved_goods
       render json: user_goods
     end
     
@@ -46,20 +46,18 @@ end
     #     head :no_content
     # end
     def destroy
-      @user_good = set_user_good
-      @user_good.destroy
+      user_good = @current_user.goods.find(params[:id])
+      user_good.destroy
       head :no_content
     end
     
     private
     
-    def set_user
-      @current_user = User.find(params[:user_id])
-    end
+   
 
-    def set_user_good
-      @user_good = @current_user.user_goods.find(params[:id])
-    end
+    # def set_user_good
+    #   @user_good = @current_user.user_goods.find(params[:id])
+    # end
     
     def user_good_params
       params.require(:user_good).permit(:id, :title, :description, :good_or_service, :main_image, :user_id, :forum_id)

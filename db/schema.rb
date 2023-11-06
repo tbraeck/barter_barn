@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_05_211249) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_06_014314) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_211249) do
 
   create_table "free_stuffs", force: :cascade do |t|
     t.text "body"
+    t.string "image_url"
     t.integer "user_id"
     t.integer "forum_id"
     t.datetime "created_at", null: false
@@ -88,27 +89,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_211249) do
     t.string "good_or_service"
   end
 
-  create_table "user_goods", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.string "good_or_service"
-    t.integer "user_id", null: false
+  create_table "user_free_stuffs", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "free_stuff_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "forum_id", null: false
-    t.index ["forum_id"], name: "index_user_goods_on_forum_id"
+    t.index ["free_stuff_id"], name: "index_user_free_stuffs_on_free_stuff_id"
+    t.index ["user_id"], name: "index_user_free_stuffs_on_user_id"
+  end
+
+  create_table "user_goods", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "good_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["good_id"], name: "index_user_goods_on_good_id"
     t.index ["user_id"], name: "index_user_goods_on_user_id"
   end
 
   create_table "user_services", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.string "good_or_service"
-    t.integer "user_id", null: false
+    t.integer "user_id"
+    t.integer "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "forum_id", null: false
-    t.index ["forum_id"], name: "index_user_services_on_forum_id"
+    t.index ["service_id"], name: "index_user_services_on_service_id"
     t.index ["user_id"], name: "index_user_services_on_user_id"
   end
 
@@ -122,8 +126,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_211249) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "user_goods", "forums"
-  add_foreign_key "user_goods", "users"
-  add_foreign_key "user_services", "forums"
-  add_foreign_key "user_services", "users"
 end

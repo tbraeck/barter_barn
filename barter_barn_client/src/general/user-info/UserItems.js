@@ -43,8 +43,9 @@ const UserItems = ({ user }) => {
       });
 
     // Fetch user free stuff
-    fetch(`/users/${user.id}/free_stuffs/${}`)
+    fetch(`/users/${user.id}/user_free_stuffs`)
       .then((response) => {
+        console.log("response", response)
         if (response.ok) {
           return response.json(); 
         } else {
@@ -57,7 +58,6 @@ const UserItems = ({ user }) => {
       .catch((error) => {
         console.error('Error fetching user free stuff:', error);
       });
-
   }, [user.id]);
 
   const handleDeleteClickGood = (good_id) => {

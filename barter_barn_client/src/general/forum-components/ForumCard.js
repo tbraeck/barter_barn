@@ -144,9 +144,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
       message: "Item already saved to user profile."
     });
   }
-
   return fetch(`/users/${user.id}/free_stuffs`, {
-
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -452,11 +450,12 @@ const forumServices = forum.services ? forum.services.map((service) => (
 )) : [];
 
 console.log(forum.free_stuffs)
- const forumFreeStuff = forum.free_stuffs ? forum.free_stuffs.map((stuff) => (
-  // const claimed = stuff.claimantId
-  // null to start, click on claim, make patch to change attribute in db  send freestuff back 
-  // handle state 
-  // if(!claimed) {
+ const forumFreeStuff = forum.free_stuffs.filter((stuff) => (
+  stuff.claimant_id === null
+)
+).map(
+  (stuff) => ( // null to start, click on claim, make patch to change attribute in db  send freestuff back 
+  // handle state
   <div key={stuff.id}>
     <FreeStuffCard
      stuff={stuff}
@@ -464,10 +463,11 @@ console.log(forum.free_stuffs)
      forum={forum}
      allForum={allForum}
      setAllForum={setAllForum}
+     setUserFreeStuff={setUserFreeStuff}
      id={id}
+     handleAddFreeStuffs={handleAddFreeStuffs}
      setUserClaimedGoods={setUserClaimedGoods}
      userFreeStuff={userFreeStuff}
-     setUserFreeStuff={setUserFreeStuff}
      handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
      isUserProfile={isUserProfile}
      handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
@@ -477,8 +477,8 @@ console.log(forum.free_stuffs)
     // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
     />
   </div>
-  // }
-)) : [];
+    
+ ))
 
 return (
   <div className="forum-container">
