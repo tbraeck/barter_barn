@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import GoodsCard from './goods-components/GoodsCard';
 
-const FeaturedCard = ({ forum, allForum, user, allGoods }) => {
+const FeaturedCard = ({ forum, allForum, user, allGoods, handleSaveGoodToUserProfile }) => {
   const [randomIndex, setRandomIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
 
@@ -18,7 +18,7 @@ const FeaturedCard = ({ forum, allForum, user, allGoods }) => {
 
   const handleSave = () => {
     setIsSaved(true);
-    // Perform the save action (e.g., save the item to the user's profile)
+    handleSaveGoodToUserProfile(randomItem);
   };
 
   useEffect(() => {

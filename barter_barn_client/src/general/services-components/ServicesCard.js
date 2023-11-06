@@ -49,8 +49,10 @@ return (
         <div className='goodCard'>
           <h2 className='goodTitle'>{title}</h2>
           <p className='goodDescription'>{description}</p>
-          <p className='goodInfo'><strong>Image URL:</strong>{image_url}</p>
+
           <p className='goodInfo'><strong>Good needed:</strong> {good_or_service}</p>
+          <img className='thumbImg' src={service.image} alt="Free Stuff Image" />
+
           <div className='buttonContainer'>
             {isUserProfile && (
               <button onClick={handleSaveService} className='crudButton saveButton'>
