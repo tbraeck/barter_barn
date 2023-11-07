@@ -37,7 +37,18 @@ class FreeStuffsController < ApplicationController
 
     
   
+  def return
+    free_stuff = FreeStuff.find(params[:id])
   
+    if  free_stuff.claimant_id
+      free_stuff.update(claimant_id: nil)  
+      free_stuffs << free_stuff
+
+      render json: free_stuff, status: :created
+    else
+      render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
+    end
+  end
 
   def update
     if @free_stuff.update(free_stuffs_params)

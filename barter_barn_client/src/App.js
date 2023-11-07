@@ -40,16 +40,16 @@ function App() {
       
 
   }, [])
-  
-const handleAddGood = (newGood) => {
-    const newGoodArray = [...allForum, newGood]
-    setAllForum(newGoodArray)
-    }
+  console.log(allForum)
+// const handleAddGood = (newGood) => {
+//     const newGoodArray = [...allForum, newGood]
+//     setAllForum(newGoodArray)
+//     }
 
-const handleAddService = (newService) => {
-      const newServiceArray = [...allForum, newService]
-      setAllForum(newServiceArray)
-      }
+// const handleAddService = (newService) => {
+//       const newServiceArray = [...allForum, newService]
+//       setAllForum(newServiceArray)
+//       }
 
       // const handleAddFreeStuffs = (newStuff) => {
       //   // Filter out the claimed item from allForum

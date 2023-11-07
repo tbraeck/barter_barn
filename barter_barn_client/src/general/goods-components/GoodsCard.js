@@ -17,7 +17,7 @@ const GoodsCard = ({
     return <div>Loading...</div>;
   }
 
-  const { title, description, image_url, good_or_service } = good;
+  const { title, description, good_or_service } = good;
 
   const handleSaveGood = () => {
     const saveResult = handleSaveGoodToUserProfile(good);
@@ -46,7 +46,7 @@ const GoodsCard = ({
       <p className="goodInfo">
         <strong>Service needed:</strong> {good_or_service}
       </p>
-      <img className='thumbImg' src={good.image} alt="Free Stuff Image" />
+      <img className='thumbImg' src={good.image} alt="Good" />
     
       <div className="buttonContainer">
           {featured ? (

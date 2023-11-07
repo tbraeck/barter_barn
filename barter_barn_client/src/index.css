@@ -208,6 +208,27 @@ html, body {
   margin: 0 auto; /* Center the image horizontally */
 }
 
+.redButton {
+  background-color: #dc3545;
+  color: white;
+  margin-right: 5px; /* Add spacing between buttons */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.greenButton {
+  background-color: rgb(213, 139, 252);
+  color: white;
+  margin-right: 5px; /* Add spacing between buttons */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
 
 .forumBox {
   display: flex;

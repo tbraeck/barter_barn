@@ -51,7 +51,7 @@ return (
           <p className='goodDescription'>{description}</p>
 
           <p className='goodInfo'><strong>Good needed:</strong> {good_or_service}</p>
-          <img className='thumbImg' src={service.image} alt="Free Stuff Image" />
+          <img className='thumbImg' src={service.image} alt="Service " />
 
           <div className='buttonContainer'>
             {isUserProfile && (

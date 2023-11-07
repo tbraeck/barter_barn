@@ -45,7 +45,6 @@ const UserItems = ({ user }) => {
     // Fetch user free stuff
     fetch(`/users/${user.id}/user_free_stuffs`)
       .then((response) => {
-        console.log("response", response)
         if (response.ok) {
           return response.json(); 
         } else {
@@ -192,7 +191,6 @@ const UserItems = ({ user }) => {
   // };
 
   
-console.log(userServices)
 console.log(userFreeStuff)
 
   return (
@@ -234,8 +232,8 @@ console.log(userFreeStuff)
             key={stuff.id}
             stuff={stuff}
             user={user}
-            handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
             userFreeStuff={userFreeStuff}
+            handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
             setUserFreeStuff={setUserFreeStuff}
             handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
             // handleClaimFreeStuff={handleClaimFreeStuff} 

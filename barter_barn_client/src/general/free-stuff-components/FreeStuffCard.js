@@ -38,9 +38,10 @@ setIsClaimed
     return <div>Loading...</div>;
   }
 
-  console.log(stuff)
+ 
+  // console.log(stuff)
   
-  const { body, claimant_id, image, forum_id, user_id} = stuff;
+  const { body} = stuff;
 
   const handleSave = () => {
       const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
@@ -52,15 +53,6 @@ setIsClaimed
       }
     };
 
-    // const handleClaim = () => {
-    //   const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
-    //   if (saveResult.success) {
-    //     setIsSaved(true);
-    //     setErrors([]);
-    //   } else {
-    //     setErrors([saveResult.message]);
-    //   }
-    // };
 
   const handleDeleteSaved = () => {
     if (isUserProfile) {
@@ -76,6 +68,10 @@ setIsClaimed
     if (!isClaimed) {
       fetch(`/user_free_stuffs/${stuff.id}/claim`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(stuff)
       })
         .then((response) => {
           if (response.ok) {
@@ -84,9 +80,11 @@ setIsClaimed
             throw new Error('Failed to claim item. Please try again.');
           }
         })
-        .then((data) => {
-          console.log('Claimed item data:', data); // Log the data received
-          handleAddFreeStuffs(data); // Add the item to userFreeStuff
+        .then((newStuff) => {
+          console.log('Claimed item data:', newStuff);
+          handleAddFreeStuffs(newStuff);
+          
+          setUserFreeStuff([...userFreeStuff, newStuff])
           setIsClaimed(true);
         })
         .catch((error) => {
@@ -112,7 +110,21 @@ setIsClaimed
       })
         .then((response) => {
           if (response.ok) {
-            setIsClaimed(false); // Update the UI to indicate successful return
+            setIsClaimed(false);
+  
+            stuff.claimant_id = null;
+  
+            setUserFreeStuff((prevUserFreeStuff) => {
+              return prevUserFreeStuff.map((item) => {
+                if (item.id === stuff.id) {
+                  return {
+                    ...item,
+                    claimant_id: null,
+                  };
+                }
+                return item;
+              });
+            });
           } else {
             console.error('Error returning item:', response);
             setErrors(['Failed to return item. Please try again.']);
@@ -126,10 +138,11 @@ setIsClaimed
   };
   
   
+  
   return(
   <div className="goodCardContainer">
   <div className="goodCard">
-    <img className='thumbImg' src={stuff.image} alt="Free Stuff Image" />
+    <img className='thumbImg' src={stuff.image} alt="Free Stuff" />
     <h2 className="goodTitle">{body}</h2>
     <div className="buttonContainer">
       {isUserProfile &&  (
@@ -145,15 +158,21 @@ setIsClaimed
       {isSaved && <p>Item has been saved to your profile!</p>}
       {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
       {!isUserProfile && (
-        <>
-          <button onClick={() => handleDeleteSaved(stuff)} className='crudButton deleteButton'>
-            DELETE
-          </button>
-          <button onClick={handleReturn} className="crudButton returnButton">
-            RETURN
-          </button>
-        </>
-      )}
+  <button
+    onClick={() => {
+      if (stuff.claimant_id === null) {
+        handleDeleteSaved(stuff);
+      } else {
+        handleReturn(stuff);
+      }
+    }}
+    className={stuff.claimant_id === null ? "redButton" : "greenButton"}
+  >
+    {stuff.claimant_id === null ? "DELETE" : "RETURN"}
+  </button>
+)}
+
+     
     </div>
     {isSaved && <p className="saveMessage">Item has been saved to your profile!</p>}
     {errors.length > 0 && (

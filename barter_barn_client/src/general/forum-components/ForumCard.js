@@ -12,7 +12,6 @@ const ForumCard = (
   setAllForum, 
   handleAddGood, 
   handleAddService, 
-  // handleAddFreeStuffs
 }) => {
 
   const [forum, setForum] = useState({
@@ -88,8 +87,6 @@ const handleSaveGoodToUserProfile = (item) => {
       });
   };
   
-
-
 const handleSaveServiceToUserProfile = (item) => {
   if (!isUserProfile) {
     return {
@@ -392,26 +389,32 @@ const setUserClaimedGoods = (updatedUserClaimedGoods) => {
 };
 
 
-const handleAddToUserFreeStuff = (claimedItem) => {
+const handleAddToUserFreeStuff = (newStuff) => {
   // Check if the claimed item is not already in the userFreeStuff array
-  if (!userFreeStuff.some(item => item.id === claimedItem.id)) {
-
-console.log("you got here:" + claimedItem);
-    const updatedUserFreeStuff = [...userFreeStuff, claimedItem];
-    console.log("you got here 2:" + claimedItem);
-
-    setUserFreeStuff(updatedUserFreeStuff);
+  if (!userFreeStuff.some(item => item.id === newStuff.id)) {
+    // Check if the item is visible or non-visible based on claimant_id
+    if (newStuff.claimant_id === null) {
+      // Item is visible to the user
+      const updatedUserFreeStuff = [...userFreeStuff, newStuff];
+      setUserFreeStuff(updatedUserFreeStuff);
+    }
   }
 };
 
+
 const handleAddFreeStuffs = (newStuff) => {
-  // Filter out the claimed item from allForum
-  const updatedAllForum = allForum.filter((item) => item.id !== newStuff.id);
-  setAllForum(updatedAllForum);
+  // Check if the newStuff has a claimant_id to determine visibility
+  if (newStuff.claimant_id === null) {
+    // Item is visible to the forum
+    const updatedForumData = [...allForum, newStuff];
+    setAllForum(updatedForumData);
+  }
 
   // Add the claimed item to userFreeStuff
   handleAddToUserFreeStuff(newStuff);
 };
+
+
 
 const forumGoods = forum.goods ? forum.goods.map((good) => (
   <div key={good.id}>

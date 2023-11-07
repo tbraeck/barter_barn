@@ -41,16 +41,7 @@ class UserFreeStuffsController < ApplicationController
     end
   end
 
-  def return
-    free_stuff = FreeStuff.find(params[:id])
   
-    if free_stuff.update(claimant_id: nil)  # Assuming setting claimant_id to nil indicates that the item has been returned.
-      render json: { message: 'Free stuff returned successfully' }
-    else
-      render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
-    end
-  end
-
     def destroy
     user_free_stuff = @current_user.saved_free_stuffs.find_by!(id: params[:id])
     user_free_stuff.destroy
