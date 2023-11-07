@@ -1,7 +1,7 @@
 class ServiceSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :title, :description, :good_or_service, :image
+  attributes :id, :title, :description, :good_or_service, :image, :user_id, :forum_id
 
   has_one :user
   has_one :forum

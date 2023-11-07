@@ -402,19 +402,42 @@ const handleAddToUserFreeStuff = (newStuff) => {
 };
 
 
-const handleAddFreeStuffs = (newStuff) => {
-  // Check if the newStuff has a claimant_id to determine visibility
-  if (newStuff.claimant_id === null) {
-    // Item is visible to the forum
-    const updatedForumData = [...allForum, newStuff];
-    setAllForum(updatedForumData);
-  }
+const handleAddFreeStuffs = (updatedStuff) => {
+ 
+// go through forums and find forum needing to be updated
+// freestuff forum / foreign key foru.id 
 
-  // Add the claimed item to userFreeStuff
-  handleAddToUserFreeStuff(newStuff);
+// map through allforum and find which one needs to be updated
+// create copy of with a variable, call 
+// allforum.freestuffs update/ filtering happens in JS 
+// edit state management / replacing 
+const newForums = allForum.map(f => {
+
+  if (f.id === updatedStuff.forum_id) {
+
+    const updatedFreeStuffs = f.free_stuffs.map(st => {
+     
+      if (st.id === updatedStuff.id) {
+          return updatedStuff
+        } else {
+          return st
+        }
+    })
+
+    const newForum = {...f, free_stuffs: updatedFreeStuffs  }
+    return newForum
+   } else {
+    return f
+  }
+})
+setAllForum(newForums)
+  handleAddToUserFreeStuff(updatedStuff);
 };
 
+const handleReturn = () => {
+// const updatedForum = fo
 
+}
 
 const forumGoods = forum.goods ? forum.goods.map((good) => (
   <div key={good.id}>
@@ -479,8 +502,8 @@ const forumServices = forum.services ? forum.services.map((service) => (
      handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
     // handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
-isClaimed={isClaimed}    
-setIsClaimed={setIsClaimed}
+      isClaimed={isClaimed}    
+      setIsClaimed={setIsClaimed}
 />
   </div>
     

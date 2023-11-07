@@ -19,9 +19,14 @@ Rails.application.routes.draw do
     member do
       post 'save', to: 'user_free_stuffs#save'
       post 'claim', to: 'user_free_stuffs#claim'
-      post 'return', to: 'user_free_stuffs#return'
     end
   end
+
+resources :free_stuffs do
+  member do
+    post 'return', to: 'free_stuffs#return'
+  end
+end
 
 get 'forums/featured', to: 'forums#featured', as: 'featured_forum'
 

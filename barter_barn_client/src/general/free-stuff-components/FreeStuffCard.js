@@ -17,8 +17,7 @@ const FreeStuffCard = ({
   handleClaimFreeStuff,
   handleSaveClaimFreeStuffToUserProfile,
   handleClaimFreeStuffToUserProfile,
-  handleUpdateUserFreeStuffs
-,
+  handleUpdateUserFreeStuffs,
 isClaimed,
 setIsClaimed
 }) => {
@@ -41,17 +40,26 @@ setIsClaimed
  
   // console.log(stuff)
   
-  const { body} = stuff;
+  const { body, claimant_id} = stuff;
 
   const handleSave = () => {
-      const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
-      if (saveResult.success) {
-        setIsSaved(true);
-        setErrors([]);
-      } else {
-        setErrors([saveResult.message]);
-      }
-    };
+    if (userFreeStuff.some(savedItem => savedItem.id === stuff.id)) {
+      setErrors(['You have already saved this item.']);
+      return;
+    }
+  
+    if (stuff.user_id === user.id) {
+      setErrors(['You cannot save an item you created.']);
+      return;
+    }
+    const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
+    if (saveResult.success) {
+      setIsSaved(true);
+      setErrors([]);
+    } else {
+      setErrors([saveResult.message]);
+    }
+  };
 
 
   const handleDeleteSaved = () => {
@@ -94,37 +102,41 @@ setIsClaimed
     }
   };
   
-  
-  
-  
-  
-  
+
 
   const handleReturn = () => {
-    if (isClaimed && stuff.claimant_id !== null) {
+    if (!isClaimed && stuff && stuff.claimant_id !== null) {
       fetch(`/free_stuffs/${stuff.id}/return`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(stuff),
       })
         .then((response) => {
           if (response.ok) {
-            setIsClaimed(false);
-  
-            stuff.claimant_id = null;
-  
+            // Update userFreeStuff to remove the returned item
             setUserFreeStuff((prevUserFreeStuff) => {
-              return prevUserFreeStuff.map((item) => {
-                if (item.id === stuff.id) {
-                  return {
-                    ...item,
-                    claimant_id: null,
-                  };
-                }
-                return item;
-              });
+              return prevUserFreeStuff.filter((item) => item.id !== stuff.id);
             });
+  
+            // Find the forum to which the claimed item belongs
+            const updatedAllForum = allForum.map((forum) => {
+              if (forum.id === stuff.forum_id) {
+                // Update the free_stuffs array in this forum
+                const updatedFreeStuffs = forum.free_stuffs.filter(
+                  (item) => item.id !== stuff.id
+                );
+                return { ...forum, free_stuffs: updatedFreeStuffs };
+              }
+              return forum;
+            });
+  
+            // Update the allForum state with the modified data
+            setAllForum(updatedAllForum);
+  
+            // Clear errors
+            setErrors([]);
           } else {
             console.error('Error returning item:', response);
             setErrors(['Failed to return item. Please try again.']);
@@ -134,8 +146,18 @@ setIsClaimed
           console.error('Error returning item:', error);
           setErrors(['Failed to return item. Please try again.']);
         });
+    } else {
+      // Handle cases where the conditions are not met (e.g., not claimed or claimant_id is null)
+      setErrors(['Item cannot be returned.']);
     }
   };
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -163,7 +185,7 @@ setIsClaimed
       if (stuff.claimant_id === null) {
         handleDeleteSaved(stuff);
       } else {
-        handleReturn(stuff);
+        handleReturn();
       }
     }}
     className={stuff.claimant_id === null ? "redButton" : "greenButton"}

@@ -24,6 +24,16 @@ const ServicesCard = ({
   const { title, description, good_or_service } = service;
 
   const handleSaveService = () => {
+
+    if (userServices.some(savedItem => savedItem.id === service.id)) {
+      setErrors(['You have already saved this item.']);
+      return;
+    }
+  
+    if (service.user_id === user.id) {
+      setErrors(['You cannot save an item you created.']);
+      return;
+    }
     const saveResult = handleSaveServiceToUserProfile(service);
     if (saveResult.success) {
       setIsSaved(true);

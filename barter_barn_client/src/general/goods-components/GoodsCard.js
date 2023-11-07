@@ -5,6 +5,7 @@ const GoodsCard = ({
   user, 
   allForum,
   setUserGoods,
+  userGoods,
   isUserProfile,
   handleDeleteClickGood,
   handleSaveGoodToUserProfile,
@@ -20,6 +21,16 @@ const GoodsCard = ({
   const { title, description, good_or_service } = good;
 
   const handleSaveGood = () => {
+    if (userGoods.some(savedItem => savedItem.id === good.id)) {
+      setErrors(['You have already saved this item.']);
+      return;
+    }
+  
+    if (good.user_id === user.id) {
+      setErrors(['You cannot save an item you created.']);
+      return;
+    }
+    
     const saveResult = handleSaveGoodToUserProfile(good);
     if (saveResult.success) {
       setIsSaved(true);

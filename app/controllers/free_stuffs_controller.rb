@@ -4,6 +4,7 @@ class FreeStuffsController < ApplicationController
   # GET /goods
   def index
     free_stuffs = FreeStuff.where(claimant_id: params[:claimant_id])
+    # free_stuffs = FreeStuff.all
     render json: free_stuffs
   end
 
@@ -35,14 +36,12 @@ class FreeStuffsController < ApplicationController
     end
   end
 
-    
-  
   def return
     free_stuff = FreeStuff.find(params[:id])
   
     if  free_stuff.claimant_id
       free_stuff.update(claimant_id: nil)  
-      free_stuffs << free_stuff
+      # free_stuffs << free_stuff
 
       render json: free_stuff, status: :created
     else

@@ -1,6 +1,6 @@
 class FreeStuffSerializer < ActiveModel::Serializer
 include Rails.application.routes.url_helpers
-  attributes :id, :body, :claimant_id, :image
+  attributes :id, :body, :claimant_id, :image, :user_id, :forum_id
 
 has_one :user
 has_one :forum

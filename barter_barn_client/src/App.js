@@ -22,7 +22,7 @@ function App() {
   const [allForum, setAllForum] = useState([]);
   const [allGoods, setAllGoods] = useState([])
   
-
+console.log(allForum)
   // const [userComments, setUserComments] = useState([]);
   const {user, setUser} = useContext(UserContext);
 

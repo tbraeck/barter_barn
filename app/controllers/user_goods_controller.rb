@@ -62,7 +62,7 @@ class UserGoodsController < ApplicationController
     # end
     
     def user_good_params
-      params.require(:user_good).permit(:id, :title, :description, :good_or_service, :main_image, :user_id, :forum_id)
+      params.permit(:id, :title, :description, :good_or_service, :main_image, :user_id, :forum_id)
     end
     
     
