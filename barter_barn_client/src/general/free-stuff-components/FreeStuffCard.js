@@ -9,17 +9,23 @@ const FreeStuffCard = ({
   setAllForum,
   allForum,
   handleAddFreeStuffs,
+  handleAddToUserFreeStuff,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleDeleteClickClaimFreeStuff,
   handleSaveFreeStuffToUserProfile,
   handleClaimFreeStuff,
   handleSaveClaimFreeStuffToUserProfile,
+  handleClaimFreeStuffToUserProfile,
+  handleUpdateUserFreeStuffs
+,
+isClaimed,
+setIsClaimed
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [isClaimed, setIsClaimed] = useState(!!stuff.claimant_id);
-  
+  // const [isClaimed, setIsClaimed] = useState(!!stuff.claimant_id);
+  // console.log(handleClaimFreeStuff)
   // const [claimMessage, setClaimMessage] = useState("");
 // const [isPending, setIsPending] = useState(false)
   // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
@@ -32,7 +38,9 @@ const FreeStuffCard = ({
     return <div>Loading...</div>;
   }
 
-  const { body } = stuff;
+  console.log(stuff)
+  
+  const { body, claimant_id, image, forum_id, user_id} = stuff;
 
   const handleSave = () => {
       const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
@@ -44,6 +52,16 @@ const FreeStuffCard = ({
       }
     };
 
+    // const handleClaim = () => {
+    //   const saveResult = handleSaveClaimFreeStuffToUserProfile(stuff, 'claim');
+    //   if (saveResult.success) {
+    //     setIsSaved(true);
+    //     setErrors([]);
+    //   } else {
+    //     setErrors([saveResult.message]);
+    //   }
+    // };
+
   const handleDeleteSaved = () => {
     if (isUserProfile) {
       setErrors(["You can only delete free stuff in your profile."]);
@@ -51,10 +69,12 @@ const FreeStuffCard = ({
     }
     handleDeleteClickFreeStuff(stuff.id);
   };
-
+  
+  
+  
   const handleClaim = () => {
     if (!isClaimed) {
-      fetch(`/free_stuffs/${stuff.id}/claim`, {
+      fetch(`/user_free_stuffs/${stuff.id}/claim`, {
         method: 'POST',
       })
         .then((response) => {
@@ -65,8 +85,9 @@ const FreeStuffCard = ({
           }
         })
         .then((data) => {
-          handleAddFreeStuffs(data);
-          setIsSaved(true); // Update the UI to indicate successful claim
+          console.log('Claimed item data:', data); // Log the data received
+          handleAddFreeStuffs(data); // Add the item to userFreeStuff
+          setIsClaimed(true);
         })
         .catch((error) => {
           console.error('Error claiming item:', error);
@@ -75,9 +96,14 @@ const FreeStuffCard = ({
     }
   };
   
+  
+  
+  
+  
+  
 
   const handleReturn = () => {
-    if (isClaimed && stuff.claimant_id === user.id) {
+    if (isClaimed && stuff.claimant_id !== null) {
       fetch(`/free_stuffs/${stuff.id}/return`, {
         method: 'POST',
         headers: {
@@ -99,13 +125,14 @@ const FreeStuffCard = ({
     }
   };
   
+  
   return(
   <div className="goodCardContainer">
   <div className="goodCard">
     <img className='thumbImg' src={stuff.image} alt="Free Stuff Image" />
     <h2 className="goodTitle">{body}</h2>
     <div className="buttonContainer">
-      {isUserProfile && (
+      {isUserProfile &&  (
         <>
           <button onClick={handleSave} className="crudButton saveButton">
             SAVE

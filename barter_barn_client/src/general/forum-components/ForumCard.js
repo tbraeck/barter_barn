@@ -12,19 +12,21 @@ const ForumCard = (
   setAllForum, 
   handleAddGood, 
   handleAddService, 
-  handleAddFreeStuffs}) => {
+  // handleAddFreeStuffs
+}) => {
 
   const [forum, setForum] = useState({
     goods: [],
     services: [],
     free_stuffs: []
 })
+const [isClaimed, setIsClaimed] = useState(false);
 
 const [userGoods, setUserGoods] = useState([])
 const [userServices, setUserServices] = useState([])
 const [userFreeStuff, setUserFreeStuff] = useState([])
 // const [userComments, setUserComments] = useState([])
-
+// console.log(isClaimed)
 const [errors, setErrors] = useState([]);
 const { user } = useContext(UserContext);
 const {id} = useParams()
@@ -136,14 +138,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     };
   }
 
-  // const isItemSaved = userFreeStuff.some((savedItem) => savedItem.id === item.id);
 
-  // if (isItemSaved) {
-  //   return Promise.resolve({
-  //     success: false,
-  //     message: "Item already saved to user profile."
-  //   });
-  // }
   return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
     headers: {
@@ -177,58 +172,32 @@ const handleSaveFreeStuffToUserProfile = (item) => {
 };
 
 
-const handleSaveClaimFreeStuffToUserProfile = (item, isItemClaimed) => {
-  if (!isUserProfile) {
-    return {
-      success: false,
-      message: "Claiming items is not allowed in your profile.",
-    };
-  }
+// const handleSaveClaimFreeStuffToUserProfile = (item) => {
+//   if (!isUserProfile) {
+//     return Promise.resolve({
+//       success: false,
+//       message: "Claiming items is not allowed in your profile.",
+//     });
+//   }
 
+//   // Use the existing handleClaimFreeStuff function to claim the item
+//   // handleClaimFreeStuff(item.id) // Assuming item.id represents the free stuff item's ID
 
-  if (isItemClaimed) {
-    return Promise.resolve({
-      success: false,
-      message: "Item already saved to user profile."
-    });
-  }
+//   // Update the user's claimed items in the user's profile
+//   const updatedUserFreeStuffs = [...userFreeStuff, item];
+//   setUserFreeStuff(updatedUserFreeStuffs);
 
-  return fetch(`/users/${user.id}/free_stuffs`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(item),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json().then((claimedItem) => {
-          setUserFreeStuff([...userFreeStuff, claimedItem]);
-          return (
-            alert("Claimed item is now in user profile!")
-          );
-        });
-      } else {
-        res.json().then((error) => setErrors(error.errors));
-        setTimeout(() => {
-          setErrors([]);
-        }, 3000);
-        return {
-          success: false,
-          message: "Error claiming item.",
-        };
-      }
-    })
-    .catch((error) => {
-      console.error('Error claiming item:', error);
-      return {
-        success: false,
-        message: error.message,
-      };
-    });
-};
+//   // Update the UI: Remove the claimed item from the forum
+//   const updatedForumItems = allForum.filter(
+//     (forumItem) => forumItem.id !== item.id
+//   );
+//   setAllForum(updatedForumItems);
 
-
+//   return {
+//     success: true,
+//     message: "Claimed item is now in your profile!",
+//   };
+// };
 
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`/users/${user_id}/user_goods/${good_id}`, {
@@ -302,39 +271,39 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
     });
 };
 
-const handleDeleteClickClaimFreeStuff = (user_id, free_stuffs_id) => {
-  console.log('userFreeStuff:', userFreeStuff);
-  console.log('free_stuffs_id:', free_stuffs_id);
-  fetch(`/${user_id}/free_stuffs/${free_stuffs_id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": 'application/json',
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Failed to delete stuff');
-      }
-      return response.json();
-    })
-    .then(() => {
-      // Remove the item from the user's profile
-      const updatedUserFreeStuffs = userFreeStuff.filter((item) => item.id !== free_stuffs_id);
-      setUserFreeStuff(updatedUserFreeStuffs);
+// const handleDeleteClickClaimFreeStuff = (user_id, free_stuffs_id) => {
+//   console.log('userFreeStuff:', userFreeStuff);
+//   console.log('free_stuffs_id:', free_stuffs_id);
+//   fetch(`/${user_id}/free_stuffs/${free_stuffs_id}`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": 'application/json',
+//     },
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error('Failed to delete stuff');
+//       }
+//       return response.json();
+//     })
+//     .then(() => {
+//       // Remove the item from the user's profile
+//       const updatedUserFreeStuffs = userFreeStuff.filter((item) => item.id !== free_stuffs_id);
+//       setUserFreeStuff(updatedUserFreeStuffs);
 
-      // Add the item back to the free stuff forum
-      const itemToRestore = userFreeStuff.find((item) => item.id === free_stuffs_id);
-      if (itemToRestore) {
-        const updatedFreeStuffs = [...allForum, itemToRestore];
-        setAllForum(updatedFreeStuffs);
-      }
+//       // Add the item back to the free stuff forum
+//       const itemToRestore = userFreeStuff.find((item) => item.id === free_stuffs_id);
+//       if (itemToRestore) {
+//         const updatedFreeStuffs = [...allForum, itemToRestore];
+//         setAllForum(updatedFreeStuffs);
+//       }
 
-      handleUpdateSubmitFreeStuff(free_stuffs_id, updatedUserFreeStuffs);
-    })
-    .catch((error) => {
-      console.error('Error deleting stuff:', error);
-    });
-};
+//       handleUpdateSubmitFreeStuff(free_stuffs_id, updatedUserFreeStuffs);
+//     })
+//     .catch((error) => {
+//       console.error('Error deleting stuff:', error);
+//     });
+// };
 
 const handleUpdateSubmitGood = (good_id, updatedGood) => {
   fetch(`/users/${user.id}/user_goods/${good_id}`, {
@@ -396,12 +365,54 @@ const handleUpdateSubmitFreeStuff = (free_stuffs_id, updatedFreeStuff) => {
     });
 };
 
+// const handleClaimFreeStuff = (freeStuffId) => {
+//   fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then((response) => {
+//       if (response.ok) {
+//         const updatedUserFreeStuffs = userFreeStuff.map((item) =>
+//           item.id === freeStuffId ? { ...item, claimed: true } : item
+//         );
+//         setUserFreeStuff(updatedUserFreeStuffs);
+//       } else {
+//         console.error("Failed to claim free stuff");
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error claiming free stuff:", error);
+//     });
+// };
 
 const setUserClaimedGoods = (updatedUserClaimedGoods) => {
   setUserFreeStuff(updatedUserClaimedGoods);
 };
 
-console.log(allForum)
+
+const handleAddToUserFreeStuff = (claimedItem) => {
+  // Check if the claimed item is not already in the userFreeStuff array
+  if (!userFreeStuff.some(item => item.id === claimedItem.id)) {
+
+console.log("you got here:" + claimedItem);
+    const updatedUserFreeStuff = [...userFreeStuff, claimedItem];
+    console.log("you got here 2:" + claimedItem);
+
+    setUserFreeStuff(updatedUserFreeStuff);
+  }
+};
+
+const handleAddFreeStuffs = (newStuff) => {
+  // Filter out the claimed item from allForum
+  const updatedAllForum = allForum.filter((item) => item.id !== newStuff.id);
+  setAllForum(updatedAllForum);
+
+  // Add the claimed item to userFreeStuff
+  handleAddToUserFreeStuff(newStuff);
+};
+
 const forumGoods = forum.goods ? forum.goods.map((good) => (
   <div key={good.id}>
     <GoodsCard
@@ -441,7 +452,6 @@ const forumServices = forum.services ? forum.services.map((service) => (
   </div>
 )) : [];
 
-console.log(forum.free_stuffs)
  const forumFreeStuff = forum.free_stuffs.filter((stuff) => (
   stuff.claimant_id === null
 )
@@ -462,12 +472,13 @@ console.log(forum.free_stuffs)
      userFreeStuff={userFreeStuff}
      handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
      isUserProfile={isUserProfile}
-     handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
+    //  handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
      handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
     handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
-    handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
-    // handleClaimFreeStuff={() => handleClaimFreeStuff(stuff)} // Pass claimed item to the function
-    />
+    // handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
+isClaimed={isClaimed}    
+setIsClaimed={setIsClaimed}
+/>
   </div>
     
  ))

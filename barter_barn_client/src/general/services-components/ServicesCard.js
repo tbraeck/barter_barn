@@ -21,7 +21,7 @@ const ServicesCard = ({
   }
 
  
-  const { title, description, image_url, good_or_service } = service;
+  const { title, description, good_or_service } = service;
 
   const handleSaveService = () => {
     const saveResult = handleSaveServiceToUserProfile(service);

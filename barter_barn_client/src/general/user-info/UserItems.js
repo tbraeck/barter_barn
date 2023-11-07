@@ -157,29 +157,28 @@ const UserItems = ({ user }) => {
     });
   };
 
-  const handleClaimFreeStuff = (freeStuffId) => {
-    // Make an API request to claim the free stuff item
-    fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
-      method: "POST", // You should define a route and controller action for claiming
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          // If the claim was successful, update the claimed property of the item
-          const updatedUserFreeStuffs = userFreeStuff.map((item) =>
-            item.id === freeStuffId ? { ...item, claimed: true } : item
-          );
-          setUserFreeStuff(updatedUserFreeStuffs);
-        } else {
-          console.error("Failed to claim free stuff");
-        }
-      })
-      .catch((error) => {
-        console.error("Error claiming free stuff:", error);
-      });
-  };
+  // const handleClaimFreeStuff = (freeStuffId) => {
+  //   fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         const updatedUserFreeStuffs = userFreeStuff.map((item) =>
+  //           item.id === freeStuffId ? { ...item, claimed: true } : item
+  //         );
+  //         setUserFreeStuff(updatedUserFreeStuffs);
+  //       } else {
+  //         console.error("Failed to claim free stuff");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error claiming free stuff:", error);
+  //     });
+  // };
+  
   
   // const handleUpdateUserFreeStuffs = (updatedStuff) => {
   //   setUserFreeStuff((prevUserFreeStuff) => {
@@ -239,7 +238,7 @@ console.log(userFreeStuff)
             userFreeStuff={userFreeStuff}
             setUserFreeStuff={setUserFreeStuff}
             handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
-            handleClaimFreeStuff={handleClaimFreeStuff} 
+            // handleClaimFreeStuff={handleClaimFreeStuff} 
 
           />
         ))}

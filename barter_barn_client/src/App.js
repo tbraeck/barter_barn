@@ -51,10 +51,12 @@ const handleAddService = (newService) => {
       setAllForum(newServiceArray)
       }
 
-const handleAddFreeStuffs = (newStuff) => {
-        const newFreeStuffArray = [...allForum, newStuff]
-        setAllForum(newFreeStuffArray)
-        }
+      // const handleAddFreeStuffs = (newStuff) => {
+      //   // Filter out the claimed item from allForum
+      //   const updatedAllForum = allForum.filter((item) => item.id !== newStuff.id);
+      //   setAllForum(updatedAllForum);
+      // };
+      
 
     const handleLogout = ()=> {
       setUser(null)
@@ -104,10 +106,10 @@ if(!user) return <Login  />
             <Routes>
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
-                <Route path="/forums/:id" element={<ForumCard   allForum={allForum} setAllForum={setAllForum} handleAddFreeStuffs={handleAddFreeStuffs} />} />
+                <Route path="/forums/:id" element={<ForumCard   allForum={allForum} setAllForum={setAllForum}  />} />
                 <Route path="/goods/:id" element={<GoodsCard    allForum={allForum} setAllForum={setAllForum}   />}/> 
                 <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum}  />}/> 
-                <Route path="/free_stuffs/:id" element={<FreeStuffCard    allForum={allForum} setAllForum={setAllForum} handleAddFreeStuffs={handleAddFreeStuffs}/>}/>
+                <Route path="/free_stuffs/:id" element={<FreeStuffCard    allForum={allForum} setAllForum={setAllForum} />}/>
                 <Route path="/featured" element={<FeatureCard  allGoods={allGoods}  setAllGoods={setAllGoods}  allForum={allForum} setAllForum={setAllForum} user={user} />} />
                 <Route path="/forums/:id/edit" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
                 <Route path="/users/:user_id/goods/:good_id" element={<EditGoods user={user}  allForum={allForum}/>} />

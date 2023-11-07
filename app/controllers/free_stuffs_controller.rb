@@ -35,28 +35,8 @@ class FreeStuffsController < ApplicationController
     end
   end
 
-    def claim
-    free_stuff = FreeStuff.find(params[:id])
-    # user_free_stuff = @current_user.claimed_stuffs(free_stuff: free_stuff, claimant: current_user)
-    if free_stuff.update(claimant_id: @current_user.id)
-      free_stuffs = FreeStuff.where(claimant_id: params[:claimant_id])
-      render json: { free_stuffs: free_stuffs, message: 'Free stuff claimed successfully' }
-    else
-      render json: { error: 'Unable to claim free stuff' }, status: :unprocessable_entity
-    end
-  end
-
-  def return
-    free_stuff = FreeStuff.find(params[:id])
-    user_free_stuff = current_user.free_stuffs.find_by(free_stuff: free_stuff, returned_at: nil)
-
-    if user_free_stuff
-      user_free_stuff.update(returned_at: Time.now, claimant: nil) # Mark as returned and remove claimant
-      render json: { message: 'Free stuff returned to the forum' }
-    else
-      render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
-    end
-  end
+    
+  
   
 
   def update
@@ -75,19 +55,19 @@ class FreeStuffsController < ApplicationController
   
 
 
-  def claim_free_stuff
-    @free_stuff = FreeStuff.find(params[:id])
+  # def claim_free_stuff
+  #   @free_stuff = FreeStuff.find(params[:id])
   
-    if @free_stuff.claimant_id.present?
-      render json: { error: 'This item has already been claimed.' }, status: :unprocessable_entity
-    else
-      if @free_stuff.update(claimant_id: current_user.id)
-        render json: { message: 'Item claimed successfully.' }
-      else
-        render json: { error: 'Failed to claim the item.' }, status: :unprocessable_entity
-      end
-    end
-  end
+  #   if @free_stuff.claimant_id.present?
+  #     render json: { error: 'This item has already been claimed.' }, status: :unprocessable_entity
+  #   else
+  #     if @free_stuff.update(claimant_id: current_user.id)
+  #       render json: { message: 'Item claimed successfully.' }
+  #     else
+  #       render json: { error: 'Failed to claim the item.' }, status: :unprocessable_entity
+  #     end
+  #   end
+  # end
   
 
   private

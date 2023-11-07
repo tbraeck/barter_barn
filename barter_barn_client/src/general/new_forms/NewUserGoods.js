@@ -26,10 +26,10 @@ const NewUserGoods = ({
 
   const [freeStuffData, setFreeStuffData] = useState({
     body: '',
-    claimant_id: null,
+    claimant_id: '',
     forum_id: forum.id
-
   });
+
 const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
 const [someGoods, setSomeGoods] = useState([])
@@ -40,7 +40,7 @@ const [imageData, setImageData] = useState(null);
 
   const { title: goodTitle, description: goodDescription, good_or_service: goodOrService } = goodFormData
   const { title: serviceTitle, description: serviceDescription, good_or_service: serviceOrService } = serviceFormData;
-  const { body  } = freeStuffData;
+  const { body: freeStuffBody, claimant_id: freeStuffClaimantId  } = freeStuffData;
 
   useEffect(() => {
     fetch(`/users`)
@@ -131,7 +131,7 @@ const handleNewService = (newService) => {
     setAllForum(updatedForums);
     setFreeStuffData({
       body: '',
-      claimant_id: null
+      claimant_id: ''
     });
   };
 
@@ -221,8 +221,8 @@ const handleNewService = (newService) => {
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
-    formData.append('body', freeStuffData.body);
-    formData.append('claimant_id', freeStuffData.claimant_id )
+    formData.append('body', freeStuffBody);
+    formData.append('claimant_id', freeStuffClaimantId )
     formData.append('main_image', imageData);
 
     fetch(`/free_stuffs`, {
@@ -401,7 +401,7 @@ const handleNewService = (newService) => {
                 className='formInput'
                 type='text'
                 name='body'
-                value={body}
+                value={freeStuffBody}
                 onChange={handleFreeStuffChange}
                 required
               />

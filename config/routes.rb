@@ -15,11 +15,11 @@ Rails.application.routes.draw do
     resources :user_free_stuffs
   end
 
-  resources :free_stuffs do
+  resources :user_free_stuffs do
     member do
-      post 'save', to: 'free_stuffs#save'
-      post 'claim', to: 'free_stuffs#claim'
-      post 'return', to: 'free_stuffs#return'
+      post 'save', to: 'user_free_stuffs#save'
+      post 'claim', to: 'user_free_stuffs#claim'
+      post 'return', to: 'user_free_stuffs#return'
     end
   end
 
