@@ -145,8 +145,11 @@ const handleNewService = (newService) => {
         if (r.ok) {
           r.json().then((newGood) => {
             handleNewGood(newGood);
+            if (newGood.errors) {
+              setErrors(newGood.errors);
+            }          
           });
-          setErrors([]);
+          
         } else {
           r.json().then((err) => setErrors(err.errors));
           setTimeout(() => {
@@ -179,8 +182,11 @@ const handleNewService = (newService) => {
         if (r.ok) {
           r.json().then((newService) => {
             handleNewService(newService);
+            if (newService.errors) {
+              setErrors(newService.errors);
+            }
           });
-          setErrors([]);
+          
         } else {
           r.json().then((err) => setErrors(err.errors));
           setTimeout(() => {
@@ -216,8 +222,10 @@ const handleNewService = (newService) => {
         if (r.ok) {
           r.json().then((newStuff) => {
             handleNewFreeStuff(newStuff);
+            if (newStuff.errors) {
+              setErrors(newStuff.errors);
+            }
             });
-          setErrors([]);
         } else {
           r.json().then((err) => setErrors(err.errors));
           setTimeout(() => {
@@ -287,7 +295,7 @@ const handleNewService = (newService) => {
             <button className='formButton' type='submit'>
               ADD
             </button>
-            {errors &&  (
+            {errors && (
               <div className='error-messages'>
                 {errors.map((error, index) => (
                   <p key={index} className='error-message'>
@@ -357,7 +365,7 @@ const handleNewService = (newService) => {
             <button className='formButton' type='submit'>
               ADD
             </button>
-            {errors && (
+            {errors &&(
               <div className='error-messages'>
                 {errors.map((error, index) => (
                   <p key={index} className='error-message'>

@@ -72,6 +72,9 @@ Forum.create!([
 
 puts "🤖 Seeding Goods..."
 
+Good.all.each do |good|
+good.image.attach(io: File.open(Rails.root.join('db/images/stockImage.png')))
+end
 
   Good.create!([
       {
