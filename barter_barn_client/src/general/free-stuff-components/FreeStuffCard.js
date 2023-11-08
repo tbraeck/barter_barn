@@ -17,6 +17,7 @@ const FreeStuffCard = ({
     return <div>Loading...</div>;
   }
   
+  
   const { body, claimant_id} = stuff;
 
   const handleSave = () => {
@@ -29,7 +30,11 @@ const FreeStuffCard = ({
       setErrors(['You cannot save an item you created.']);
       return;
     }
+  
+    console.log('Before calling handleSaveFreeStuffToUserProfile');
     const saveResult = handleSaveFreeStuffToUserProfile(stuff, 'save');
+    console.log('After calling handleSaveFreeStuffToUserProfile');
+  
     if (saveResult.success) {
       setIsSaved(true);
       setErrors([]);
@@ -37,6 +42,7 @@ const FreeStuffCard = ({
       setErrors([saveResult.message]);
     }
   };
+  
 
 
   const handleDeleteSaved = () => {

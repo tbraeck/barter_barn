@@ -5,9 +5,13 @@ include Rails.application.routes.url_helpers
 has_one :user
 has_one :forum
 
-  def image
-    rails_blob_path(object.main_image, only_path: true) if object.main_image.attached?
+def image
+  if object.main_image.attached?
+    Rails.application.routes.url_helpers.rails_blob_path(object.main_image, only_path: true)
+  else
+    nil 
   end
+end
 end
 
 

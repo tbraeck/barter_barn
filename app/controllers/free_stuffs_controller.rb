@@ -12,12 +12,12 @@ class FreeStuffsController < ApplicationController
   end
   
   def create
-    free_stuff = FreeStuff.new(free_stuffs_params)
+    @free_stuff = FreeStuff.new(free_stuffs_params)
     
-    if free_stuff.save
-      render json: free_stuff, status: :created
+    if @free_stuff.save
+      render json: @free_stuff, status: :created
     else
-      render json: { errors: free_stuff.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

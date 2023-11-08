@@ -7,7 +7,7 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
   const [userGoods, setUserGoods] = useState([]);
   const [userServices, setUserServices] = useState([]);
   const [userFreeStuff, setUserFreeStuff] = useState([]);
-
+console.log(userFreeStuff)
   useEffect(() => {
     fetch(`/users/${user.id}/user_goods`)
       .then((response) => {
@@ -48,7 +48,7 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
         }
       })
       .then((data) => {
-        console.log(data);
+       setUserFreeStuff(data);
       })
       .catch((error) => {
         console.error('Error fetching user free stuff:', error);
@@ -130,7 +130,7 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     });
     
   };
-
+console.log(userFreeStuff)
   const handleUpdateUserServices = (updatedService) => {
     setUserServices((prevUserServices) => {
       const updatedUserServices = prevUserServices.map((service) =>

@@ -4,7 +4,6 @@ import React, {useState} from 'react'
 const LoginForm = ({ setUser, user}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
@@ -15,7 +14,7 @@ const LoginForm = ({ setUser, user}) => {
       headers: {    
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password, email }),
+      body: JSON.stringify({ username, password }),
     })
     .then((res) => {
         if (res.ok) {
@@ -52,13 +51,6 @@ const LoginForm = ({ setUser, user}) => {
         placeholder='Password'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className='form-input'
-        />
-        <input
-        type='email'
-        placeholder='email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
         className='form-input'
         />
         <button className='form-button' type='submit'>

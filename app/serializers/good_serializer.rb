@@ -7,6 +7,10 @@ class GoodSerializer < ActiveModel::Serializer
   has_one :forum
 
   def image
-    rails_blob_path(object.main_image, only_path: true) if object.main_image.attached?
+    if object.main_image.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(object.main_image, only_path: true)
+    else
+      nil
+    end
   end
 end
