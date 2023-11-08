@@ -11,7 +11,8 @@ const ForumCard = (
   {allForum,   
   setAllForum, 
   handleAddGood, 
-  handleAddService, 
+  handleAddService,
+  handleUpdateFreeStuffs,
 }) => {
 
   const [forum, setForum] = useState({
@@ -297,52 +298,13 @@ const setUserClaimedGoods = (updatedUserClaimedGoods) => {
   setUserFreeStuff(updatedUserClaimedGoods);
 };
 
-const handleAddToUserFreeStuff = (newStuff) => {
-  // Check if the claimed item is not already in the userFreeStuff array
-  if (!userFreeStuff.some(item => item.id === newStuff.id)) {
-    // Check if the item is visible or non-visible based on claimant_id
-    if (newStuff.claimant_id === null) {
-      // Item is visible to the user
-      const updatedUserFreeStuff = [...userFreeStuff, newStuff];
-      setUserFreeStuff(updatedUserFreeStuff);
-    }
-  }
-};
-
 console.log(allForum[2])
-
-
-const handleAddFreeStuffs = (updatedStuff) => {
-  // Clone the allForum state to make modifications
-  const updatedAllForum = [...allForum];
-
-  // Access the specific level of state (allForum[2].free_stuffs) and update it
-  const itemIndex = updatedStuff.id; // Index for the desired forum
-  const updatedForum = { ...updatedAllForum[2] };
-  console.log(allForum[2].free_stuffs[itemIndex])
-
-  updatedForum.free_stuffs = updatedForum.free_stuffs.map(st => {
-    if (st.id === updatedStuff.id) {
-      return updatedStuff;
-    } else {
-      return st;
-    }
-  });
-
-  // Update the state with the modified forum
-  updatedAllForum[2] = updatedForum;
-  setAllForum(updatedAllForum);
-
-  // Call the function to add to user free stuff
-  handleAddToUserFreeStuff(updatedStuff);
-};
 
 
 
 
 
 const forumGoods = forum.goods ? forum.goods.map((good) => (
-  <div>
     <GoodsCard
      key={good.id}
      good={good}
@@ -358,11 +320,9 @@ const forumGoods = forum.goods ? forum.goods.map((good) => (
     handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
 
     />
-  </div>
 )) : [];
 
 const forumServices = forum.services ? forum.services.map((service) => (
-  <div >
     <ServicesCard
     key={service.id}
      service={service}
@@ -377,7 +337,6 @@ const forumServices = forum.services ? forum.services.map((service) => (
     handleSaveServiceToUserProfile={handleSaveServiceToUserProfile}
 
     />
-  </div>
 )) : [];
 
  const forumFreeStuff = forum && forum.free_stuffs.filter((stuff) => (
@@ -386,7 +345,6 @@ const forumServices = forum.services ? forum.services.map((service) => (
 ).map(
   (stuff) => ( // null to start, click on claim, make patch to change attribute in db  send freestuff back 
   // handle state
-  <div >
     <FreeStuffCard
     key={stuff.id}
      stuff={stuff}
@@ -396,7 +354,7 @@ const forumServices = forum.services ? forum.services.map((service) => (
      setAllForum={setAllForum}
      setUserFreeStuff={setUserFreeStuff}
     //  id={id}
-     handleAddFreeStuffs={handleAddFreeStuffs}
+     handleUpdateFreeStuffs={handleUpdateFreeStuffs}
      setUserClaimedGoods={setUserClaimedGoods}
      userFreeStuff={userFreeStuff}
      handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
@@ -408,7 +366,6 @@ const forumServices = forum.services ? forum.services.map((service) => (
       isClaimed={isClaimed}    
       setIsClaimed={setIsClaimed}
 />
-  </div>
     
  ))
 
@@ -445,7 +402,7 @@ return (
             allForum={allForum}
             setAllForum={setAllForum}
             forum={forum}
-            handleAddFreeStuffs={handleAddFreeStuffs}
+            handleUpdateFreeStuffs={handleUpdateFreeStuffs}
             handleAddGood={handleAddGood}
             handleAddService={handleAddService}
             user={user}

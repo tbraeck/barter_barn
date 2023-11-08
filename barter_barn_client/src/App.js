@@ -22,16 +22,13 @@ import { ForumContext } from './contexts/ForumContext';
 function App() {
   // const [allForum, setAllForum] = useState([]);
   const [allGoods, setAllGoods] = useState([])
+  const [userFreeStuff, setUserFreeStuff] = useState([])
   
   // const [userComments, setUserComments] = useState([]);
   const {user, setUser} = useContext(UserContext);
 const {allForum, setAllForum } = useContext(ForumContext)
-  useEffect(()=> {
-    // fetch("/forums")
-    //   .then((res)=> res.json())
-    //   .then((data) => setAllForum(data))
-    //   .catch((error) => console.error('Error fetching forums:', error));
-
+  
+useEffect(()=> {
       fetch('/goods')
       .then((res)=> res.json())
       .then((data) => setAllGoods(data))
@@ -50,7 +47,7 @@ const {allForum, setAllForum } = useContext(ForumContext)
 //       setAllForum(newServiceArray)
 //       }
 
-      // const handleAddFreeStuffs = (newStuff) => {
+      // const handleUpdateFreeStuffs = (newStuff) => {
       //   // Filter out the claimed item from allForum
       //   const updatedAllForum = allForum.filter((item) => item.id !== newStuff.id);
       //   setAllForum(updatedAllForum);
@@ -60,6 +57,33 @@ const {allForum, setAllForum } = useContext(ForumContext)
     const handleLogout = ()=> {
       setUser(null)
     }
+
+    const handleAddToUserFreeStuff = (newStuff) => {
+      // Check if the claimed item is not already in the userFreeStuff array
+      if (!userFreeStuff.some(item => item.id === newStuff.id)) {
+        // Check if the item is visible or non-visible based on claimant_id
+        if (newStuff.claimant_id === null) {
+          // Item is visible to the user
+          const updatedUserFreeStuff = [...userFreeStuff, newStuff];
+          setUserFreeStuff(updatedUserFreeStuff);
+        }
+      }
+    };
+
+    const handleUpdateFreeStuffs = (updatedStuff) => {
+      const updatedAllForum = [...allForum];
+    
+      const itemIndex = updatedAllForum[2].free_stuffs.findIndex(element => (
+           element.id === updatedStuff.id
+      ))
+    // console.log(updatedAllForum)
+    
+      updatedAllForum[2].free_stuffs[itemIndex] = updatedStuff
+      
+    // debugger
+      setAllForum(updatedAllForum);
+      handleAddToUserFreeStuff(updatedStuff);
+    };
 
   // const handleUpdateGoods = (updatedGood) => {
   //     const editedGood = allGoods.map((good) => {
@@ -105,17 +129,17 @@ if(!user) return <Login  />
             <Routes>
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
-                <Route path="/forums/:id" element={<ForumCard  allForum={allForum} setAllForum={setAllForum}  />} />
+              <Route path="/forums/:id" element={<ForumCard  handleUpdateFreeStuffs={handleUpdateFreeStuffs} allForum={allForum} setAllForum={setAllForum}  />} />
                 <Route path="/goods/:id" element={<GoodsCard    allForum={allForum} setAllForum={setAllForum}   />}/> 
                 <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum}  />}/> 
-                <Route path="/free_stuffs/:id" element={<FreeStuffCard    allForum={allForum} setAllForum={setAllForum} />}/>
+                <Route path="/free_stuffs/:id" element={<FreeStuffCard handleUpdateFreeStuffs={handleUpdateFreeStuffs}   allForum={allForum} setAllForum={setAllForum} />}/>
                 <Route path="/featured" element={<FeatureCard  allGoods={allGoods}  setAllGoods={setAllGoods}  allForum={allForum} setAllForum={setAllForum} user={user} />} />
                 <Route path="/forums/:id/edit" element={<ForumCard allForum={allForum} setAllForum={setAllForum} />}/>
                 <Route path="/users/:user_id/goods/:good_id" element={<EditGoods user={user}  allForum={allForum}/>} />
                 <Route path="/users/:user_id/services/:service_id" element={<EditServices user={user} allForum={allForum}/>} />
                 <Route path="/users/:user_id/free_stuffs/:free_ stuffs_id" element={<EditFreeStuffs user={user}  allForum={allForum}/>} />
 
-                <Route path="/user-profile"  element={user ? <UserProfile user={user}/> : <Navigate to='/'/>} /> 
+                <Route path="/user-profile"  element={user ? <UserProfile allForum={allForum} handleUpdateFreeStuffs={handleUpdateFreeStuffs} user={user}/> : <Navigate to='/'/>} /> 
                 </Routes>
           </div> 
         <div className='footer--pin'>

@@ -8,7 +8,7 @@ const FreeStuffCard = ({
   userFreeStuff,
   setAllForum,
   allForum,
-  handleAddFreeStuffs,
+  handleUpdateFreeStuffs,
   handleAddToUserFreeStuff,
   isUserProfile,
   handleDeleteClickFreeStuff,
@@ -61,51 +61,30 @@ const FreeStuffCard = ({
   };
   
   const handleReturn = () => {
-  if (!isClaimed && stuff && stuff.claimant_id !== null) {
     fetch(`/free_stuffs/${stuff.id}/return`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
-        if (response.ok) {
-          // Remove the returned item from userFreeStuff
-          setUserFreeStuff((prevUserFreeStuff) => {
-            return prevUserFreeStuff.filter((item) => item.id !== stuff.id);
-          });
-
-          // Find the forum to which the claimed item belongs
-          const updatedAllForum = allForum[2].free_stuffs.map((f) => {
-            if (f && f.id === stuff.forum_id) {
-              // Filter out the returned item from free_stuffs in the forum
-              const updatedFreeStuffs = f.free_stuffs.filter((st) => st.id !== stuff.id);
-              const newForum = { ...f, free_stuffs: updatedFreeStuffs };
-              return newForum;
-            }
-            return f;
-          });
-
-          setAllForum(updatedAllForum);
-          setErrors([]);
-        } else {
-          console.error('Error returning item:', response);
-          setErrors(['Failed to return item. Please try again.']);
-        }
-      })
-      .catch((error) => {
-        console.error('Error returning item:', error);
-        setErrors(['Failed to return item. Please try again.']);
-      });
-  } else {
-    // Handle cases where the conditions are not met (e.g., not claimed or claimant_id is null)
-    setErrors(['Item cannot be returned.']);
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to return item. Please try again.');
+      }
+    })
+    .then((newStuff) => {
+      handleUpdateFreeStuffs(newStuff);
+    })
+    .catch((error) => {
+      console.error('Error returning item:', error);
+      setErrors(['Failed to return item. Please try again.']);
+    });
   }
-};
 
   
   const handleClaim = () => {
-    if (!isClaimed) {
 
       if (stuff.user_id === user.id) {
         setErrors(["You cannot claim your own item."]);
@@ -127,15 +106,12 @@ const FreeStuffCard = ({
           }
         })
         .then((newStuff) => {
-          handleAddFreeStuffs(newStuff);
-          
-          setIsClaimed(true);
+          handleUpdateFreeStuffs(newStuff);
         })
         .catch((error) => {
           console.error('Error claiming item:', error);
           setErrors(['Failed to claim item. Please try again.']);
         });
-    }
   };
 
   return(
@@ -162,7 +138,7 @@ const FreeStuffCard = ({
       if (stuff.claimant_id === null) {
         handleDeleteSaved(stuff);
       } else {
-        handleReturn(allForum);
+        handleReturn(stuff);
       }
     }}
     className={stuff.claimant_id === null ? "redButton" : "greenButton"}

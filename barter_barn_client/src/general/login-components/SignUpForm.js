@@ -89,6 +89,15 @@ const SignUpForm = ({setUser}) => {
 type="submit" >
         {loading ? 'Loading...' : 'Sign Up'}
       </button>
+      {errors && (
+          <div className="error-messages">
+            {errors.map((error, index) => (
+              <p key={index} className="error-message">
+                {error}
+              </p>
+            ))}
+          </div>
+        )}
     </form>
   </div>
 </div>

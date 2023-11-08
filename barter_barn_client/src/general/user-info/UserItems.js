@@ -4,7 +4,7 @@ import ServicesCard from '../services-components/ServicesCard';
 import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
 // Import other item components and necessary dependencies
 
-const UserItems = ({ user }) => {
+const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
   const [userGoods, setUserGoods] = useState([]);
   const [userServices, setUserServices] = useState([]);
   const [userFreeStuff, setUserFreeStuff] = useState([]);
@@ -52,7 +52,7 @@ const UserItems = ({ user }) => {
         }
       })
       .then((data) => {
-        setUserFreeStuff(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error('Error fetching user free stuff:', error);
@@ -146,16 +146,6 @@ const UserItems = ({ user }) => {
     
   };
 
-  const handleUpdateUserFreeStuffs = (updatedStuff) => {
-    setUserFreeStuff((prevUserFreeStuff) => {
-      const updatedUserFreeStuffs = prevUserFreeStuff.map((stuff) =>
-        stuff.id === updatedStuff.id ? updatedStuff : stuff
-      );      
-      console.log(updatedStuff)
-
-      return updatedUserFreeStuffs;
-    });
-  };
 
   // const handleClaimFreeStuff = (freeStuffId) => {
   //   fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
@@ -190,11 +180,8 @@ const UserItems = ({ user }) => {
   //     return updatedUserFreeStuffs;
   //   });
   // };
-
-  
-console.log(userFreeStuff)
-
-  return (
+  if (allForum.length > 1) {
+    return (
     <div className='user-items-container'>
       <div className='user-column'>
         <h2>Goods</h2>
@@ -228,13 +215,13 @@ console.log(userFreeStuff)
 
       <div className='user-column'>
         <h2>Free Stuff</h2>
-        {userFreeStuff.map((stuff) => (
+        {allForum[2].free_stuffs.filter(stuff => stuff.claimant_id === user.id).map((stuff) => (
           <FreeStuffCard
             key={stuff.id}
             stuff={stuff}
             user={user}
             userFreeStuff={userFreeStuff}
-            handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
+            handleUpdateFreeStuffs={handleUpdateFreeStuffs}
             setUserFreeStuff={setUserFreeStuff}
             handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
             // handleClaimFreeStuff={handleClaimFreeStuff} 
@@ -245,7 +232,9 @@ console.log(userFreeStuff)
 
       
     </div>
-  );
+  ) } else {
+    return 'loading...';
+  }
 };
 
 export default UserItems;

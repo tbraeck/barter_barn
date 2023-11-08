@@ -8,7 +8,7 @@ const NewUserGoods = ({
   user,
   handleAddGood,
   handleAddService,
-  handleAddFreeStuffs,
+  handleUpdateFreeStuffs,
 }) => {
   const [goodFormData, setGoodFormData] = useState({
     title: '',
@@ -61,16 +61,10 @@ const [imageData, setImageData] = useState(null);
   }, [])
 
 
-
-  const handleErrors = (error) => {
-    setErrors([error.message]); 
-  };
-
   const handleGoodChange = (e) => {
     const { name, value } = e.target;
     setGoodFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
 
   const handleServiceChange = (e) => {
     const { name, value } = e.target;
@@ -138,7 +132,6 @@ const handleNewService = (newService) => {
   const handleSubmitGood = (e) => {
     e.preventDefault();
 
-
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
@@ -147,7 +140,6 @@ const handleNewService = (newService) => {
     formData.append('good_or_service', goodOrService);
     formData.append('main_image', imageData);
   
-
     fetch(`/goods`, {
       method: 'POST',
       body: (formData),
@@ -156,14 +148,13 @@ const handleNewService = (newService) => {
       .then((r) => {
         if (r.ok) {
           r.json().then((newGood) => {
-            // console.log(newGood);
             handleNewGood(newGood);
           });
           setErrors([]);
         } else {
           r.json().then((err) => setErrors(err.errors));
           setTimeout(() => {
-            setErrors([]);
+            setErrors([null]);
           }, 3000);
         }
       })
@@ -176,7 +167,6 @@ const handleNewService = (newService) => {
   const handleSubmitService = (e) => {
     e.preventDefault();
 
-
     const formData = new FormData();
     formData.append('user_id', users[0].id);
     formData.append('forum_id', forum.id);
@@ -185,29 +175,26 @@ const handleNewService = (newService) => {
     formData.append('good_or_service', serviceOrService);
     formData.append('main_image', imageData);
   
-
     fetch(`/services`, {
       method: 'POST',
       body: (formData),
     })
-
       .then((r) => {
         if (r.ok) {
           r.json().then((newService) => {
-            // console.log(newGood);
             handleNewService(newService);
           });
           setErrors([]);
         } else {
           r.json().then((err) => setErrors(err.errors));
           setTimeout(() => {
-            setErrors([]);
+            setErrors([null]);
           }, 3000);
         }
       })
       .catch((error) => {
-        console.error('Error saving good:', error);
-        setErrors(['Error saving good']);
+        console.error('Error saving service:', error);
+        setErrors(['Error saving service']);
       });
   };
 
@@ -233,13 +220,12 @@ const handleNewService = (newService) => {
         if (r.ok) {
           r.json().then((newStuff) => {
             handleNewFreeStuff(newStuff);
-            console.log(newStuff)
-          });
+            });
           setErrors([]);
         } else {
           r.json().then((err) => setErrors(err.errors));
           setTimeout(() => {
-            setErrors([]);
+            setErrors([null]);
           }, 3000);
         }
       })
@@ -248,6 +234,7 @@ const handleNewService = (newService) => {
         setErrors(['Error saving stuff']);
       });
   };
+
   return (
     <div>
       {forum.id === 1  ? (
@@ -304,8 +291,7 @@ const handleNewService = (newService) => {
             <button className='formButton' type='submit'>
               ADD
             </button>
-
-            {errors && errors.length > 0 && (
+            {errors &&  (
               <div className='error-messages'>
                 {errors.map((error, index) => (
                   <p key={index} className='error-message'>
@@ -375,8 +361,7 @@ const handleNewService = (newService) => {
             <button className='formButton' type='submit'>
               ADD
             </button>
-
-            {errors && errors.length > 0 && (
+            {errors && (
               <div className='error-messages'>
                 {errors.map((error, index) => (
                   <p key={index} className='error-message'>
@@ -421,7 +406,7 @@ const handleNewService = (newService) => {
             <button className='formButton' type='submit'>
               ADD
             </button>
-            {errors && errors.length > 0 && (
+            {errors && (
               <div className='error-messages'>
                 {errors.map((error, index) => (
                   <p key={index} className='error-message'>
