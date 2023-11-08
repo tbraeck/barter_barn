@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import GoodsCard from '../goods-components/GoodsCard';
 import ServicesCard from '../services-components/ServicesCard';
 import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
-// Import other item components and necessary dependencies
 
 const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
   const [userGoods, setUserGoods] = useState([]);
@@ -10,7 +9,6 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
   const [userFreeStuff, setUserFreeStuff] = useState([]);
 
   useEffect(() => {
-    // Fetch user goods 
     fetch(`/users/${user.id}/user_goods`)
       .then((response) => {
         if (response.ok) {
@@ -26,7 +24,6 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
         console.error('Error fetching user goods:', error);
       });
 
-    // Fetch user services
     fetch(`/users/${user.id}/user_services`)
       .then((response) => {
         if (response.ok) {
@@ -42,7 +39,6 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
         console.error('Error fetching user services:', error);
       });
 
-    // Fetch user free stuff
     fetch(`/users/${user.id}/user_free_stuffs`)
       .then((response) => {
         if (response.ok) {
@@ -103,7 +99,6 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     });
   };
 
-
   const handleDeleteClickFreeStuff = (free_stuffs_id) => {
     fetch(`/users/${user.id}/free_stuffs/${free_stuffs_id}`, {
       method: "DELETE",
@@ -146,40 +141,6 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     
   };
 
-
-  // const handleClaimFreeStuff = (freeStuffId) => {
-  //   fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         const updatedUserFreeStuffs = userFreeStuff.map((item) =>
-  //           item.id === freeStuffId ? { ...item, claimed: true } : item
-  //         );
-  //         setUserFreeStuff(updatedUserFreeStuffs);
-  //       } else {
-  //         console.error("Failed to claim free stuff");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error claiming free stuff:", error);
-  //     });
-  // };
-  
-  
-  // const handleUpdateUserFreeStuffs = (updatedStuff) => {
-  //   setUserFreeStuff((prevUserFreeStuff) => {
-  //     // Map through the previous items and update the claimed item
-  //     const updatedUserFreeStuffs = prevUserFreeStuff.map((item) =>
-  //       item.id === updatedStuff.id ? { ...item, claimed: true } : item
-  //     );
-  
-  //     return updatedUserFreeStuffs;
-  //   });
-  // };
   if (allForum.length > 1) {
     return (
     <div className='user-items-container'>
@@ -224,13 +185,9 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
             handleUpdateFreeStuffs={handleUpdateFreeStuffs}
             setUserFreeStuff={setUserFreeStuff}
             handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
-            // handleClaimFreeStuff={handleClaimFreeStuff} 
-
           />
         ))}
       </div>
-
-      
     </div>
   ) } else {
     return 'loading...';

@@ -25,6 +25,11 @@ html, body {
   height: 78vh; /* Adjust the height as needed */
 }
 
+.welcomeText {
+  color: #ddd;
+  font-size: 26px;
+}
+
 .content {
   position: fixed; /* Keep the text fixed within the viewport */
   top: 45%; /* Center the text vertically */

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const NavBar = ({user, userComments, setUserComments,handleLogout}) => {
+const NavBar = ({user, handleLogout}) => {
 
   const handleLogoutClick = () => {
     fetch("/logout", {
@@ -38,19 +38,13 @@ const NavBar = ({user, userComments, setUserComments,handleLogout}) => {
             USER PROFILE
         </button>
       </Link>
-      {/* <Link to="/free_stuffs" className='btn '>
-        <button  type='button' className='btn btn-secondary'>
-            FREE STUFF
-        </button>
-      </Link> */}
-
+    
       <div className='btn '>
-          <p>Welcome, {user.username}!</p>
+          <p className='welcomeText'>Welcome, {user.username}!</p>
           <button type='submit' onClick={handleLogoutClick} className='btn btn-secondary' >LOGOUT</button>
       </div>
-      {/* <Link to="/" className='navButton'>Home</Link> */}
     </div>
-    </div>
+  </div>
   )
 }
 

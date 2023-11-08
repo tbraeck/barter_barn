@@ -25,7 +25,6 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
       let user_id = user.id;
 
       fetch(`http://localhost:3000/users/${user_id}/user_goods/${good_id}`, {
-        // "/users/:user_id/user_goods/:good_id
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +34,6 @@ function EditGoods({  user, good, handleUpdateUserGoods, isEditFormVisible, setI
       .then((r) => {
         if (r.ok) {
           r.json().then((updatedGood) => {
-            // setErrors([]);
             handleUpdateUserGoods(updatedGood);
             setIsEditFormVisible(!isEditFormVisible);
           });

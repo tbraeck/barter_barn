@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 const GoodsCard = ({
   good,
   user, 
-  allForum,
-  setUserGoods,
   userGoods,
   isUserProfile,
   handleDeleteClickGood,

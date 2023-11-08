@@ -1,22 +1,18 @@
 class GoodsController < ApplicationController
   before_action :authorize
 
-  # GET /goods
   def index
     goods = Good.all
     render json: goods
   end
 
-  # GET /goods/1
   def show
     good = find_good
     render json: good
   end
 
   def create
-    # byebug
     @good = Good.new(good_params)
-
     if @good.save
       render json: @good, status: :created
     else
@@ -31,15 +27,11 @@ class GoodsController < ApplicationController
    
   end
 
-  # DELETE /goods/1
   def destroy
     good = find_good
     good.destroy
     head :no_content
   end
-
-  
-  
 
   private
     def find_good

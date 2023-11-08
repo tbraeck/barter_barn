@@ -1,34 +1,21 @@
 import React, { useState } from 'react';
-// import { useParams } from 'react-router-dom';
 
 const FreeStuffCard = ({
   stuff,
   user,
-  setUserFreeStuff,
   userFreeStuff,
-  setAllForum,
-  allForum,
   handleUpdateFreeStuffs,
-  handleAddToUserFreeStuff,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleSaveFreeStuffToUserProfile,
-  isClaimed,
-  setIsClaimed
+ 
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
 
-// console.log(userFreeStuff)
-// console.log(allForum[2].free_stuffs)
-
-
   if (!stuff || !stuff.body) {
     return <div>Loading...</div>;
   }
-
- 
-  // console.log(stuff)
   
   const { body, claimant_id} = stuff;
 

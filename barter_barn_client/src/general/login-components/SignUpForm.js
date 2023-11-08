@@ -7,17 +7,18 @@ const SignUpForm = ({setUser}) => {
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
     const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true)
 
-        fetch("/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+    fetch("/signup", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+        },
+          body: JSON.stringify({
                 username,
                 password,
                 passwordConfirmation, 
@@ -28,9 +29,18 @@ const SignUpForm = ({setUser}) => {
             setLoading(false);
             if (r.ok) {
                 r.json().then((user) => setUser(user))
-            } 
+            } else {
+              r.json().then((error) => setErrors(error.errors))
+              setTimeout(() => {
+                setErrors(null);
+              }, 3000);
+            }
         })
-    }
+        .catch((error) => {
+          console.error("Error:", error);
+
+    })
+  }
 
   return (
     <div  className='login-container'>
@@ -49,7 +59,6 @@ const SignUpForm = ({setUser}) => {
         className='form-input'
       />
         <br></br><br></br>
-
       <label  htmlFor="password">
         Password
       </label>
@@ -60,9 +69,7 @@ const SignUpForm = ({setUser}) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className='form-input'
-
       />
-
       <label  htmlFor="password_confirmation">
         Password Confirmation
       </label>
@@ -73,7 +80,6 @@ const SignUpForm = ({setUser}) => {
         value={passwordConfirmation}
         onChange={(e) => setPasswordConfirmation(e.target.value)}
         className='form-input'
-
       />
        <input
         id="email"
@@ -82,11 +88,8 @@ const SignUpForm = ({setUser}) => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className='form-input'
-
       />
-
-      <button         className='form-button'
-type="submit" >
+      <button className='form-button' type="submit" >
         {loading ? 'Loading...' : 'Sign Up'}
       </button>
       {errors && (

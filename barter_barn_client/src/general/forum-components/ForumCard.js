@@ -14,19 +14,15 @@ const ForumCard = (
   handleAddService,
   handleUpdateFreeStuffs,
 }) => {
-
   const [forum, setForum] = useState({
     goods: [],
     services: [],
     free_stuffs: []
 })
 const [isClaimed, setIsClaimed] = useState(false);
-
 const [userGoods, setUserGoods] = useState([])
 const [userServices, setUserServices] = useState([])
 const [userFreeStuff, setUserFreeStuff] = useState([])
-// const [userComments, setUserComments] = useState([])
-// console.log(isClaimed)
 const [errors, setErrors] = useState([]);
 const { user } = useContext(UserContext);
 const {id} = useParams()
@@ -40,7 +36,6 @@ useEffect(() => {
   }
 }, [allForum, id]);
 
-
 const handleSaveGoodToUserProfile = (item) => {
   if (!isUserProfile) {
     return {
@@ -48,7 +43,6 @@ const handleSaveGoodToUserProfile = (item) => {
       message: "Saving items is not allowed in your profile.",
     };
   }
-  
     return fetch(`/users/${user.id}/user_goods`, {
       method: 'POST',
       headers: {
@@ -126,8 +120,6 @@ const handleSaveFreeStuffToUserProfile = (item) => {
       message: "Saving items is not allowed in your profile.",
     };
   }
-
-
   return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
     headers: {
@@ -231,8 +223,6 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
       console.error('Error deleting stuff:', error);
     });
 };
-// console.log(allForum[2].free_stuffs)
-
 
 const handleUpdateSubmitGood = (good_id, updatedGood) => {
   fetch(`/users/${user.id}/user_goods/${good_id}`, {
@@ -298,12 +288,6 @@ const setUserClaimedGoods = (updatedUserClaimedGoods) => {
   setUserFreeStuff(updatedUserClaimedGoods);
 };
 
-console.log(allForum[2])
-
-
-
-
-
 const forumGoods = forum.goods ? forum.goods.map((good) => (
     <GoodsCard
      key={good.id}
@@ -343,8 +327,7 @@ const forumServices = forum.services ? forum.services.map((service) => (
   stuff.claimant_id === null
 )
 ).map(
-  (stuff) => ( // null to start, click on claim, make patch to change attribute in db  send freestuff back 
-  // handle state
+  (stuff) => (  
     <FreeStuffCard
     key={stuff.id}
      stuff={stuff}
@@ -353,16 +336,13 @@ const forumServices = forum.services ? forum.services.map((service) => (
      allForum={allForum}
      setAllForum={setAllForum}
      setUserFreeStuff={setUserFreeStuff}
-    //  id={id}
      handleUpdateFreeStuffs={handleUpdateFreeStuffs}
      setUserClaimedGoods={setUserClaimedGoods}
      userFreeStuff={userFreeStuff}
      handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
      isUserProfile={isUserProfile}
-    //  handleDeleteClickClaimFreeStuff={handleDeleteClickClaimFreeStuff}
      handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
-    handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
-    // handleSaveClaimFreeStuffToUserProfile={handleSaveClaimFreeStuffToUserProfile}
+      handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
       isClaimed={isClaimed}    
       setIsClaimed={setIsClaimed}
 />
@@ -410,7 +390,7 @@ return (
         </div>
       </div>
     </div>
-    {errors && Array.isArray(errors) && (
+    {errors &&  (
   <div className="error-messages">
     {errors.map((error, index) => (
       <p key={index} className="error-message">

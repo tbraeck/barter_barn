@@ -5,7 +5,7 @@ const LoginForm = ({ setUser, user}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-
+  const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault()  
@@ -19,11 +19,22 @@ const LoginForm = ({ setUser, user}) => {
     })
     .then((res) => {
       if (res.ok) {
-        res.json().then((user) => 
-        setUser(user));
+        res.json().then((user) => {
+          setUser(user);
+        });
+      } else {
+        res.json().then((error) => setErrors(error.errors))
+        setTimeout(() => {
+          setErrors(null);
+        }, 3000);
+        return;
       }
     })
-  }
+    .catch((error) => {
+      console.error('Error during login:', error);
+      setErrors('An error occurred during login. Please try again later.');
+    });
+};
   
   return (
     <div className='login-container'>
