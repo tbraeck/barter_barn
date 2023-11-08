@@ -34,10 +34,11 @@ const isUserProfile = user.username !== forum.title;
 
 useEffect(() => {
   const selectedForum = allForum.find(f => f.id === parseInt(id));
-  if(selectedForum) { 
-    setForum(selectedForum)
+  if (selectedForum) {
+    setForum(selectedForum);
   }
-}, [allForum, id])
+}, [allForum, id]);
+
 
 const handleSaveGoodToUserProfile = (item) => {
   if (!isUserProfile) {
@@ -46,16 +47,6 @@ const handleSaveGoodToUserProfile = (item) => {
       message: "Saving items is not allowed in your profile.",
     };
   }
-  
-    // Create a new UserGoods instance without the forum_id
-    // const newUserGood = {
-    //   title: item.title,
-    //   description: item.description,
-    //   good_or_service: item.good_or_service,
-    //   main_image: item.main_image,
-    //   forum_id: forum.id
-    //   // No forum_id here
-    // };
   
     return fetch(`/users/${user.id}/user_goods`, {
       method: 'POST',
@@ -168,34 +159,6 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     });
 };
 
-
-// const handleSaveClaimFreeStuffToUserProfile = (item) => {
-//   if (!isUserProfile) {
-//     return Promise.resolve({
-//       success: false,
-//       message: "Claiming items is not allowed in your profile.",
-//     });
-//   }
-
-//   // Use the existing handleClaimFreeStuff function to claim the item
-//   // handleClaimFreeStuff(item.id) // Assuming item.id represents the free stuff item's ID
-
-//   // Update the user's claimed items in the user's profile
-//   const updatedUserFreeStuffs = [...userFreeStuff, item];
-//   setUserFreeStuff(updatedUserFreeStuffs);
-
-//   // Update the UI: Remove the claimed item from the forum
-//   const updatedForumItems = allForum.filter(
-//     (forumItem) => forumItem.id !== item.id
-//   );
-//   setAllForum(updatedForumItems);
-
-//   return {
-//     success: true,
-//     message: "Claimed item is now in your profile!",
-//   };
-// };
-
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`/users/${user_id}/user_goods/${good_id}`, {
     method: "DELETE",
@@ -267,40 +230,8 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
       console.error('Error deleting stuff:', error);
     });
 };
+// console.log(allForum[2].free_stuffs)
 
-// const handleDeleteClickClaimFreeStuff = (user_id, free_stuffs_id) => {
-//   console.log('userFreeStuff:', userFreeStuff);
-//   console.log('free_stuffs_id:', free_stuffs_id);
-//   fetch(`/${user_id}/free_stuffs/${free_stuffs_id}`, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": 'application/json',
-//     },
-//   })
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error('Failed to delete stuff');
-//       }
-//       return response.json();
-//     })
-//     .then(() => {
-//       // Remove the item from the user's profile
-//       const updatedUserFreeStuffs = userFreeStuff.filter((item) => item.id !== free_stuffs_id);
-//       setUserFreeStuff(updatedUserFreeStuffs);
-
-//       // Add the item back to the free stuff forum
-//       const itemToRestore = userFreeStuff.find((item) => item.id === free_stuffs_id);
-//       if (itemToRestore) {
-//         const updatedFreeStuffs = [...allForum, itemToRestore];
-//         setAllForum(updatedFreeStuffs);
-//       }
-
-//       handleUpdateSubmitFreeStuff(free_stuffs_id, updatedUserFreeStuffs);
-//     })
-//     .catch((error) => {
-//       console.error('Error deleting stuff:', error);
-//     });
-// };
 
 const handleUpdateSubmitGood = (good_id, updatedGood) => {
   fetch(`/users/${user.id}/user_goods/${good_id}`, {
@@ -362,32 +293,9 @@ const handleUpdateSubmitFreeStuff = (free_stuffs_id, updatedFreeStuff) => {
     });
 };
 
-// const handleClaimFreeStuff = (freeStuffId) => {
-//   fetch(`/users/${user.id}/free_stuffs/${freeStuffId}/claim`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   })
-//     .then((response) => {
-//       if (response.ok) {
-//         const updatedUserFreeStuffs = userFreeStuff.map((item) =>
-//           item.id === freeStuffId ? { ...item, claimed: true } : item
-//         );
-//         setUserFreeStuff(updatedUserFreeStuffs);
-//       } else {
-//         console.error("Failed to claim free stuff");
-//       }
-//     })
-//     .catch((error) => {
-//       console.error("Error claiming free stuff:", error);
-//     });
-// };
-
 const setUserClaimedGoods = (updatedUserClaimedGoods) => {
   setUserFreeStuff(updatedUserClaimedGoods);
 };
-
 
 const handleAddToUserFreeStuff = (newStuff) => {
   // Check if the claimed item is not already in the userFreeStuff array
@@ -401,53 +309,47 @@ const handleAddToUserFreeStuff = (newStuff) => {
   }
 };
 
+console.log(allForum[2])
+
 
 const handleAddFreeStuffs = (updatedStuff) => {
- 
-// go through forums and find forum needing to be updated
-// freestuff forum / foreign key foru.id 
+  // Clone the allForum state to make modifications
+  const updatedAllForum = [...allForum];
 
-// map through allforum and find which one needs to be updated
-// create copy of with a variable, call 
-// allforum.freestuffs update/ filtering happens in JS 
-// edit state management / replacing 
-const newForums = allForum.map(f => {
+  // Access the specific level of state (allForum[2].free_stuffs) and update it
+  const itemIndex = updatedStuff.id; // Index for the desired forum
+  const updatedForum = { ...updatedAllForum[2] };
+  console.log(allForum[2].free_stuffs[itemIndex])
 
-  if (f.id === updatedStuff.forum_id) {
+  updatedForum.free_stuffs = updatedForum.free_stuffs.map(st => {
+    if (st.id === updatedStuff.id) {
+      return updatedStuff;
+    } else {
+      return st;
+    }
+  });
 
-    const updatedFreeStuffs = f.free_stuffs.map(st => {
-     
-      if (st.id === updatedStuff.id) {
-          return updatedStuff
-        } else {
-          return st
-        }
-    })
+  // Update the state with the modified forum
+  updatedAllForum[2] = updatedForum;
+  setAllForum(updatedAllForum);
 
-    const newForum = {...f, free_stuffs: updatedFreeStuffs  }
-    return newForum
-   } else {
-    return f
-  }
-})
-setAllForum(newForums)
+  // Call the function to add to user free stuff
   handleAddToUserFreeStuff(updatedStuff);
 };
 
-const handleReturn = () => {
-// const updatedForum = fo
 
-}
+
+
 
 const forumGoods = forum.goods ? forum.goods.map((good) => (
-  <div key={good.id}>
+  <div>
     <GoodsCard
+     key={good.id}
      good={good}
      user={user}
      forum={forum}
      allForum={allForum}
      setAllForum={setAllForum}
-     id={id}
      userGoods={userGoods}
      setUserGoods={setUserGoods}
      handleDeleteClickGood={(goodId) => handleDeleteClickGood(goodId, 'goods')}
@@ -460,13 +362,13 @@ const forumGoods = forum.goods ? forum.goods.map((good) => (
 )) : [];
 
 const forumServices = forum.services ? forum.services.map((service) => (
-  <div key={service.id}>
+  <div >
     <ServicesCard
+    key={service.id}
      service={service}
      user={user}
      forum={forum}
      allForum={allForum}
-     id={id}
      userServices={userServices}
      setUserServices={setUserServices}
      handleDeleteClickService={(serviceId) => handleDeleteClickService(serviceId, 'services')}
@@ -478,21 +380,22 @@ const forumServices = forum.services ? forum.services.map((service) => (
   </div>
 )) : [];
 
- const forumFreeStuff = forum.free_stuffs.filter((stuff) => (
+ const forumFreeStuff = forum && forum.free_stuffs.filter((stuff) => (
   stuff.claimant_id === null
 )
 ).map(
   (stuff) => ( // null to start, click on claim, make patch to change attribute in db  send freestuff back 
   // handle state
-  <div key={stuff.id}>
+  <div >
     <FreeStuffCard
+    key={stuff.id}
      stuff={stuff}
      user={user}
      forum={forum}
      allForum={allForum}
      setAllForum={setAllForum}
      setUserFreeStuff={setUserFreeStuff}
-     id={id}
+    //  id={id}
      handleAddFreeStuffs={handleAddFreeStuffs}
      setUserClaimedGoods={setUserClaimedGoods}
      userFreeStuff={userFreeStuff}

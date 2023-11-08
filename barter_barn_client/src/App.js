@@ -17,20 +17,20 @@ import EditServices from './general/editing-components/EditServices';
 import EditFreeStuffs from './general/editing-components/EditFreeStuff';
 import UserProfile from './general/user-info/UserProfile.js';
 import { UserContext } from './contexts/UserContext';
+import { ForumContext } from './contexts/ForumContext';
 
 function App() {
-  const [allForum, setAllForum] = useState([]);
+  // const [allForum, setAllForum] = useState([]);
   const [allGoods, setAllGoods] = useState([])
   
-console.log(allForum)
   // const [userComments, setUserComments] = useState([]);
   const {user, setUser} = useContext(UserContext);
-
+const {allForum, setAllForum } = useContext(ForumContext)
   useEffect(()=> {
-    fetch("/forums")
-      .then((res)=> res.json())
-      .then((data) => setAllForum(data))
-      .catch((error) => console.error('Error fetching forums:', error));
+    // fetch("/forums")
+    //   .then((res)=> res.json())
+    //   .then((data) => setAllForum(data))
+    //   .catch((error) => console.error('Error fetching forums:', error));
 
       fetch('/goods')
       .then((res)=> res.json())
@@ -40,7 +40,6 @@ console.log(allForum)
       
 
   }, [])
-  console.log(allForum)
 // const handleAddGood = (newGood) => {
 //     const newGoodArray = [...allForum, newGood]
 //     setAllForum(newGoodArray)
@@ -106,7 +105,7 @@ if(!user) return <Login  />
             <Routes>
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
-                <Route path="/forums/:id" element={<ForumCard   allForum={allForum} setAllForum={setAllForum}  />} />
+                <Route path="/forums/:id" element={<ForumCard  allForum={allForum} setAllForum={setAllForum}  />} />
                 <Route path="/goods/:id" element={<GoodsCard    allForum={allForum} setAllForum={setAllForum}   />}/> 
                 <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum}  />}/> 
                 <Route path="/free_stuffs/:id" element={<FreeStuffCard    allForum={allForum} setAllForum={setAllForum} />}/>

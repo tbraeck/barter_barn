@@ -3,7 +3,7 @@ class ForumsController < ApplicationController
 
   def index
     
-    forums = Forum.includes(:goods, :services, :free_stuffs).all
+    forums = Forum.all
     render json: forums, status: :ok
   end
 

@@ -41,10 +41,12 @@ class FreeStuffsController < ApplicationController
   
     if  free_stuff.claimant_id
       free_stuff.update(claimant_id: nil)  
-      # free_stuffs << free_stuff
+      # free_stuff << free_stuff
 
       render json: free_stuff, status: :created
     else
+
+     
       render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
     end
   end
@@ -63,33 +65,12 @@ class FreeStuffsController < ApplicationController
     head :no_content
   end
   
-
-
-  # def claim_free_stuff
-  #   @free_stuff = FreeStuff.find(params[:id])
-  
-  #   if @free_stuff.claimant_id.present?
-  #     render json: { error: 'This item has already been claimed.' }, status: :unprocessable_entity
-  #   else
-  #     if @free_stuff.update(claimant_id: current_user.id)
-  #       render json: { message: 'Item claimed successfully.' }
-  #     else
-  #       render json: { error: 'Failed to claim the item.' }, status: :unprocessable_entity
-  #     end
-  #   end
-  # end
-  
-
   private
     
   def find_free_stuff
     FreeStuff.find(params[:id])
   end
     
-  # def set_free_stuffs
-  #   @free_stuff = FreeStuff.find_by(params[:id])
-  # end
-
   def free_stuffs_params
     params.permit(:user_id, :forum_id, :body, :claimant_id, :main_image)
   end

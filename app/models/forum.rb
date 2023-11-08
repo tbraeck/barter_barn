@@ -5,6 +5,8 @@ class Forum < ApplicationRecord
 
     has_many :users, through: [:goods, :services, :free_stuffs]
     # has_many :user_goods
+    # has_many :users, through: [:goods, :services, :free_stuffs]
+
     # has_many :user_services
   end
     

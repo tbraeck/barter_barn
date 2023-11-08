@@ -1,24 +1,22 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-
-// import $ from 'jquery';
-// import Popper from 'popper.js';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import './main.css';
-
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
+import { ForumProvider } from './contexts/ForumContext';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <UserProvider>
+        <ForumProvider>
     <Router>
     <App />
     </Router>
+    </ForumProvider>
     </UserProvider>
 );
 

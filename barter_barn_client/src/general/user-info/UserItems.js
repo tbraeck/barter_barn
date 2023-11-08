@@ -150,7 +150,8 @@ const UserItems = ({ user }) => {
     setUserFreeStuff((prevUserFreeStuff) => {
       const updatedUserFreeStuffs = prevUserFreeStuff.map((stuff) =>
         stuff.id === updatedStuff.id ? updatedStuff : stuff
-      );      console.log(updatedStuff)
+      );      
+      console.log(updatedStuff)
 
       return updatedUserFreeStuffs;
     });

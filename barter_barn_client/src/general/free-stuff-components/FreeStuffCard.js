@@ -12,26 +12,16 @@ const FreeStuffCard = ({
   handleAddToUserFreeStuff,
   isUserProfile,
   handleDeleteClickFreeStuff,
-  handleDeleteClickClaimFreeStuff,
   handleSaveFreeStuffToUserProfile,
-  handleClaimFreeStuff,
-  handleSaveClaimFreeStuffToUserProfile,
-  handleClaimFreeStuffToUserProfile,
-  handleUpdateUserFreeStuffs,
-isClaimed,
-setIsClaimed
+  isClaimed,
+  setIsClaimed
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
-  // const [isClaimed, setIsClaimed] = useState(!!stuff.claimant_id);
-  // console.log(handleClaimFreeStuff)
-  // const [claimMessage, setClaimMessage] = useState("");
-// const [isPending, setIsPending] = useState(false)
-  // const isItemClaimed = userFreeStuff.some((savedItem) => savedItem.id === stuff.id);
 
-  // const { claimed } = useParams();
-  // const isItemClaimed = claimed === 'true';
-  // const isItemSaved = isItemClaimed || stuff.claimed;
+// console.log(userFreeStuff)
+// console.log(allForum[2].free_stuffs)
+
 
   if (!stuff || !stuff.body) {
     return <div>Loading...</div>;
@@ -70,10 +60,58 @@ setIsClaimed
     handleDeleteClickFreeStuff(stuff.id);
   };
   
-  
+  const handleReturn = () => {
+  if (!isClaimed && stuff && stuff.claimant_id !== null) {
+    fetch(`/free_stuffs/${stuff.id}/return`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Remove the returned item from userFreeStuff
+          setUserFreeStuff((prevUserFreeStuff) => {
+            return prevUserFreeStuff.filter((item) => item.id !== stuff.id);
+          });
+
+          // Find the forum to which the claimed item belongs
+          const updatedAllForum = allForum[2].free_stuffs.map((f) => {
+            if (f && f.id === stuff.forum_id) {
+              // Filter out the returned item from free_stuffs in the forum
+              const updatedFreeStuffs = f.free_stuffs.filter((st) => st.id !== stuff.id);
+              const newForum = { ...f, free_stuffs: updatedFreeStuffs };
+              return newForum;
+            }
+            return f;
+          });
+
+          setAllForum(updatedAllForum);
+          setErrors([]);
+        } else {
+          console.error('Error returning item:', response);
+          setErrors(['Failed to return item. Please try again.']);
+        }
+      })
+      .catch((error) => {
+        console.error('Error returning item:', error);
+        setErrors(['Failed to return item. Please try again.']);
+      });
+  } else {
+    // Handle cases where the conditions are not met (e.g., not claimed or claimant_id is null)
+    setErrors(['Item cannot be returned.']);
+  }
+};
+
   
   const handleClaim = () => {
     if (!isClaimed) {
+
+      if (stuff.user_id === user.id) {
+        setErrors(["You cannot claim your own item."]);
+        return;
+      }
+
       fetch(`/user_free_stuffs/${stuff.id}/claim`, {
         method: 'POST',
         headers: {
@@ -89,10 +127,8 @@ setIsClaimed
           }
         })
         .then((newStuff) => {
-          console.log('Claimed item data:', newStuff);
           handleAddFreeStuffs(newStuff);
           
-          setUserFreeStuff([...userFreeStuff, newStuff])
           setIsClaimed(true);
         })
         .catch((error) => {
@@ -101,66 +137,7 @@ setIsClaimed
         });
     }
   };
-  
 
-
-  const handleReturn = () => {
-    if (!isClaimed && stuff && stuff.claimant_id !== null) {
-      fetch(`/free_stuffs/${stuff.id}/return`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(stuff),
-      })
-        .then((response) => {
-          if (response.ok) {
-            // Update userFreeStuff to remove the returned item
-            setUserFreeStuff((prevUserFreeStuff) => {
-              return prevUserFreeStuff.filter((item) => item.id !== stuff.id);
-            });
-  
-            // Find the forum to which the claimed item belongs
-            const updatedAllForum = allForum.map((forum) => {
-              if (forum.id === stuff.forum_id) {
-                // Update the free_stuffs array in this forum
-                const updatedFreeStuffs = forum.free_stuffs.filter(
-                  (item) => item.id !== stuff.id
-                );
-                return { ...forum, free_stuffs: updatedFreeStuffs };
-              }
-              return forum;
-            });
-  
-            // Update the allForum state with the modified data
-            setAllForum(updatedAllForum);
-  
-            // Clear errors
-            setErrors([]);
-          } else {
-            console.error('Error returning item:', response);
-            setErrors(['Failed to return item. Please try again.']);
-          }
-        })
-        .catch((error) => {
-          console.error('Error returning item:', error);
-          setErrors(['Failed to return item. Please try again.']);
-        });
-    } else {
-      // Handle cases where the conditions are not met (e.g., not claimed or claimant_id is null)
-      setErrors(['Item cannot be returned.']);
-    }
-  };
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   return(
   <div className="goodCardContainer">
   <div className="goodCard">
@@ -185,7 +162,7 @@ setIsClaimed
       if (stuff.claimant_id === null) {
         handleDeleteSaved(stuff);
       } else {
-        handleReturn();
+        handleReturn(allForum);
       }
     }}
     className={stuff.claimant_id === null ? "redButton" : "greenButton"}
