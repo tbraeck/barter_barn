@@ -3,6 +3,7 @@ class Good < ApplicationRecord
     belongs_to :user
       
     has_one_attached :main_image, dependent: :destroy
+# has_many_attached :images, dependent: :destroy
 
     validates :title, presence: true
     validates :description, presence: true

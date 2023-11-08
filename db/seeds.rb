@@ -72,17 +72,19 @@ Forum.create!([
 
 puts "🤖 Seeding Goods..."
 
-Good.all.each do |good|
-good.image.attach(io: File.open(Rails.root.join('db/images/stockImage.png')))
-end
+# Good.all.each do |good|
 
-  Good.create!([
+#   good.images.attach(io: File.open(Rails.root.join('db/images/stockImage.png')),
+#    filename: 'stockImage.png')
+# end
+
+Good.create!([
       {
         title: Faker::House.furniture,
         description: Faker::Construction.material,
         good_or_service: Faker::Construction.trade,
         user_id: 1,
-        forum_id: 1
+        forum_id: 1,
       },
       {
         title: Faker::House.furniture,
@@ -153,6 +155,10 @@ end
 
 puts "🤖 Seeding Services..."
 
+# Service.all.each do |service|
+#   image_file_path = Rails.root.join('db/images/stockImage.png')
+#   service.main_image.attach(io: File.open(image_file_path), filename: 'stockImage.png')
+# end
   Service.create!([
     {
       title: Faker::Hobby.activity,
@@ -227,7 +233,11 @@ puts "🤖 Seeding Services..."
   ])
 
 puts "🤖 Seeding Free Stuff..."
-  
+# FreeStuff.all.each do |stuff|
+#   image_file_path = Rails.root.join('db/images/stockImage.png')
+#   stuff.main_image.attach(io: File.open(image_file_path), filename: 'stockImage.png')
+# end
+
 FreeStuff.create!([
     {
       body: Faker::Appliance.equipment,

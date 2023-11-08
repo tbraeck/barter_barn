@@ -18,23 +18,23 @@ const LoginForm = ({ setUser, user}) => {
       body: JSON.stringify({ username, password, email }),
     })
     .then((res) => {
-      if (res.ok) {
-        res.json().then((user) => {
-          setUser(user);
-        });
-      } else {
-        res.json().then((error) => setErrors(error.errors))
-        setTimeout(() => {
-          setErrors(null);
-        }, 3000);
-        return;
-      }
-    })
-    .catch((error) => {
-      console.error('Error during login:', error);
-      setErrors('An error occurred during login. Please try again later.');
-    });
-};
+        if (res.ok) {
+          res.json().then((user) => {
+            setUser(user);
+          });
+        } else {
+          res.json().then((error) => setErrors(error.errors))
+          setTimeout(() => {
+            setErrors(null);
+          }, 3000);
+          return;
+        }
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+        setErrors('An error occurred during login. Please try again later.');
+      });
+  };
   
   return (
     <div className='login-container'>
