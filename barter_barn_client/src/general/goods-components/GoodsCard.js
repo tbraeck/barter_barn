@@ -7,7 +7,7 @@ const GoodsCard = ({
   isUserProfile,
   handleDeleteClickGood,
   handleSaveGoodToUserProfile,
-  featured,
+  featured
 }) => {
    const [isSaved, setIsSaved] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -19,14 +19,16 @@ const GoodsCard = ({
   const { title, description, good_or_service } = good;
 
   const handleSaveGood = () => {
-    if (userGoods.some(savedItem => savedItem.id === good.id)) {
+    if (userGoods && userGoods.some(savedItem => savedItem.id === good.id)) {
       setErrors(['You have already saved this item.']);
       return;
     }
   
-    if (good.user_id === user.id) {
+    if (good && good.user_id === user.id) {
       setErrors(['You cannot save an item you created.']);
       return;
+    } else {
+      console.error("The 'good' object is undefined or does not have an 'id' property.");
     }
     
     const saveResult = handleSaveGoodToUserProfile(good);

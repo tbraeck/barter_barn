@@ -8,7 +8,6 @@ class ForumsController < ApplicationController
   end
 
   def show
-    byebug
     forum = find_forum
     render json: forum
   end

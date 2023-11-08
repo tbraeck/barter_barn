@@ -16,8 +16,10 @@ const FeaturedCard = ({ forum, user, allGoods, handleSaveGoodToUserProfile }) =>
   const isUserProfile = user.id === (forum?.user_id || null);
 
   const handleSave = () => {
-    setIsSaved(true);
-    handleSaveGoodToUserProfile(randomItem);
+    if (randomItem) {
+      setIsSaved(true);
+      handleSaveGoodToUserProfile(randomItem);
+    }
   };
 
   useEffect(() => {

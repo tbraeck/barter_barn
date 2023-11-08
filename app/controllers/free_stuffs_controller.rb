@@ -1,27 +1,23 @@
 class FreeStuffsController < ApplicationController
   before_action :authorize
 
-  # GET /goods
   def index
     free_stuffs = FreeStuff.where(claimant_id: params[:claimant_id])
-    # free_stuffs = FreeStuff.all
     render json: free_stuffs
   end
 
-  # GET /goods/1
   def show
      free_stuff = find_free_stuff
     render json: free_stuff
   end
   
   def create
-    # byebug
-    @free_stuff = FreeStuff.new(free_stuffs_params)
+    free_stuff = FreeStuff.new(free_stuffs_params)
     
-    if @free_stuff.save
-      render json: @free_stuff, status: :created
+    if free_stuff.save
+      render json: free_stuff, status: :created
     else
-      render json: { errors: @free_stuff.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: free_stuff.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -41,8 +37,6 @@ class FreeStuffsController < ApplicationController
   
     if  free_stuff.claimant_id
       free_stuff.update(claimant_id: nil)  
-      # free_stuff << free_stuff
-
       render json: free_stuff, status: :created
     else
 

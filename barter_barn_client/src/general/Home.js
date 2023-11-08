@@ -5,8 +5,8 @@ const Home = () => {
     <div className="home">
       <div className="background-image"></div> 
       <div className="content">
-        <h1>Welcome to Barter Barn</h1>
-        <p>Explore and trade with our community</p>
+        <h1 className='homeMainWords'>Welcome to Barter Barn</h1>
+        <p className='homeSubWords'>Explore and trade with our community</p>
       </div>
     </div>
   );

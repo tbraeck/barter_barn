@@ -22,24 +22,36 @@ html, body {
 
 .home {
   position: relative;
-  height: 78vh; /* Adjust the height as needed */
+  height: 77vh; /* Adjust the height as needed */
 }
 
-.welcomeText {
-  color: #ddd;
-  font-size: 26px;
-}
+
+
+
 
 .content {
-  position: fixed; /* Keep the text fixed within the viewport */
-  top: 45%; /* Center the text vertically */
-  left: 70%; /* Center the text horizontally */
-  transform: translate(-50%, -50%);
   text-align: center;
-  color: white;
-  font-size: 2em;
+  z-index: 1;
+  position: absolute;
+  top: 32%; /* Move the content down to the vertical center */
+  left: 66%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center vertically and horizontally */
 }
 
+.homeMainWords {
+  font-size: 6rem;
+  color: #fff; /* Text color */
+  margin: 0;
+  padding: 0;
+
+}
+
+.homeSubWords {
+  font-size: 3.5rem;
+  color: #fff; /* Text color */
+  margin: 0;
+  padding: 20px 0; /* Adjust the padding as needed */
+}
 .background-image {
   background-image: url('../public/BigBarn.png');
   background-repeat: no-repeat;

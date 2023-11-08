@@ -12,21 +12,23 @@ class GoodsController < ApplicationController
   end
 
   def create
-    @good = Good.new(good_params)
-    if @good.save
-      render json: @good, status: :created
+    good = Good.new(good_params)
+    if good.save
+      render json: good, status: :created
     else
-      render json: { errors: @good.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: good.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update
     good = find_good
-    good.update!(good_params)
-    render json: good, status: :ok
-   
+    if good.update(good_params)
+      render json: good, status: :ok
+    else
+      render json: { errors: good.errors.full_messages }, status: :unprocessable_entity
+    end
   end
-
+  
   def destroy
     good = find_good
     good.destroy
