@@ -54,11 +54,12 @@ return (
           <img className='thumbImg' src={service.image} alt="Service " />
         <div className='buttonContainer'>
             {isUserProfile && (
-              <button onClick={() => handleSaveService(service.id)} className="crudButton saveButton">
-              SAVE
-            </button>
-            
-            )}
+                service.user_id !== user.id && (
+                  <button onClick={() => handleSaveService(service.id)} className="crudButton saveButton">
+                    SAVE
+                  </button>
+                )
+              )}
             {isSaved && <p>Item has been saved to your profile!</p>}
       
             {!isUserProfile && (

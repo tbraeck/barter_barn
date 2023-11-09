@@ -86,7 +86,7 @@ if(!user) return <Login  />
             <Routes>
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
-                <Route path="/forums/:id" element={<ForumCard  user={user} setUser={setUser} handleUpdateFreeStuffs={handleUpdateFreeStuffs} allForum={allForum} setAllForum={setAllForum}  />} />
+                <Route path="/forums/:id" element={<ForumCard  user={user} setUser={setUser}handleUpdateFreeStuffs={handleUpdateFreeStuffs} allForum={allForum} setAllForum={setAllForum}  />} />
                 <Route path="/goods/:id" element={<GoodsCard    allForum={allForum} setAllForum={setAllForum}   />}/> 
                 <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum}  />}/> 
                 <Route path="/free_stuffs/:id" element={<FreeStuffCard handleUpdateFreeStuffs={handleUpdateFreeStuffs}   allForum={allForum} setAllForum={setAllForum} />}/>

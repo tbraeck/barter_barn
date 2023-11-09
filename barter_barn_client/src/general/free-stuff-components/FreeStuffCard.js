@@ -9,7 +9,8 @@ const FreeStuffCard = ({
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleSaveFreeStuffToUserProfile,
-  handleUpdateUserFreeStuffs
+  handleUpdateUserFreeStuffs,
+  uniqueUserFreeStuff
  
 }) => {
   const [isSaved, setIsSaved] = useState(false);
@@ -62,21 +63,26 @@ const FreeStuffCard = ({
         'Content-Type': 'application/json',
       },
     })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Failed to return item. Please try again.');
-      }
-    })
-    .then((newStuff) => {
-      const updatedUserFreeStuff = userFreeStuff.filter((item) => item.id !== newStuff.id);
-      setUserFreeStuff(updatedUserFreeStuff);    })
-    .catch((error) => {
-      console.error('Error returning item:', error);
-      setErrors(['Failed to return item. Please try again.']);
-    });
-  }
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to return item. Please try again.');
+        }
+      })
+      .then((newStuff) => {
+        const updatedUserFreeStuff = userFreeStuff.filter((item) => item.id !== newStuff.id);
+        setUserFreeStuff(updatedUserFreeStuff);
+  
+        // Call the function to update the forum state
+        handleUpdateFreeStuffs(newStuff);
+      })
+      .catch((error) => {
+        console.error('Error returning item:', error);
+        setErrors(['Failed to return item. Please try again.']);
+      });
+  };
+  
 
   
   const handleClaim = () => {
@@ -115,32 +121,37 @@ const FreeStuffCard = ({
     <img className='thumbImg' src={stuff.image} alt="Free Stuff" />
     <h2 className="goodTitle">{body}</h2>
     <div className="buttonContainer">
-      {isUserProfile &&  (
-        <>
-          <button onClick={handleSave} className="crudButton saveButton">
-            SAVE
+
+    {isUserProfile && (
+      <>
+        {stuff.user_id !== user.id && (
+          <>
+            <button onClick={() => handleSave(stuff.id)} className="crudButton saveButton">
+              SAVE
+            </button>
+            <button     onClick={handleClaim} className="crudButton claimButton">
+              CLAIM
+            </button>
+          </>
+        )}
+      </>
+    )}
+    {isSaved && <p>Item has been saved to your profile!</p>}
+              {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
+              {!isUserProfile && (
+          <button
+            onClick={() => {
+              if (stuff.claimant_id === null) {
+                handleDeleteSaved(stuff);
+              } else {
+                handleReturn(stuff);
+              }
+            }}
+            className={stuff.claimant_id === null ? "redButton" : "greenButton"}
+          >
+            {stuff.claimant_id === null ? "DELETE" : "RETURN"}
           </button>
-          <button onClick={handleClaim} className="crudButton claimButton">
-            CLAIM
-          </button>
-        </>
-      )}
-      {isSaved && <p>Item has been saved to your profile!</p>}
-      {/* {claimMessage && <p className="claim-message">{claimMessage}</p>} */}
-      {!isUserProfile && (
-  <button
-    onClick={() => {
-      if (stuff.claimant_id === null) {
-        handleDeleteSaved(stuff);
-      } else {
-        handleReturn(stuff);
-      }
-    }}
-    className={stuff.claimant_id === null ? "redButton" : "greenButton"}
-  >
-    {stuff.claimant_id === null ? "DELETE" : "RETURN"}
-  </button>
-)}
+        )}
 
      
     </div>

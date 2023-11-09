@@ -319,73 +319,74 @@ const setUserClaimedGoods = (updatedUserClaimedGoods) => {
 };
 
 
-const forumGoods = forum.goods
-  ? forum.goods
-      .filter((good) => good.user_id !== user.id) 
-      .map((good) => (
-        <GoodsCard
-          key={good.id}
-          good={good}
+const forumGoods = forum && forum.goods
+  ? forum.goods.map((good) => (
+      <GoodsCard
+        key={good.id}
+        good={good}
+        user={user}
+        forum={forum}
+        allForum={allForum}
+        setAllForum={setAllForum}
+        userGoods={userGoods}
+        setUserGoods={setUserGoods}
+        handleDeleteClickGood={(goodId) => handleDeleteClickGood(goodId, 'goods')}
+        isUserProfile={isUserProfile}
+        handleUpdateSubmitGood={handleUpdateSubmitGood}
+        handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
+      />
+    ))
+  : [];
+
+const forumServices = forum && forum.services
+  ? forum.services.map((service) => (
+      <ServicesCard
+        key={service.id}
+        service={service}
+        user={user}
+        forum={forum}
+        allForum={allForum}
+        userServices={userServices}
+        setUserServices={setUserServices}
+        handleDeleteClickService={(serviceId) => handleDeleteClickService(serviceId, 'services')}
+        isUserProfile={isUserProfile}
+        handleUpdateSubmitService={handleUpdateSubmitService}
+        handleSaveServiceToUserProfile={handleSaveServiceToUserProfile}
+      />
+    ))
+  : [];
+
+
+
+
+
+  const forumFreeStuff = forum && forum.free_stuffs
+  ? forum.free_stuffs
+      .filter((stuff) => (
+        stuff.claimant_id === null || stuff.user_id === user.id
+      ))
+      .map((stuff) => (
+        <FreeStuffCard
+          key={stuff.id}
+          stuff={stuff}
           user={user}
           forum={forum}
           allForum={allForum}
           setAllForum={setAllForum}
-          userGoods={userGoods}
-          setUserGoods={setUserGoods}
-          handleDeleteClickGood={(goodId) => handleDeleteClickGood(goodId, 'goods')}
+          setUserFreeStuff={setUserFreeStuff}
+          handleUpdateFreeStuffs={handleUpdateFreeStuffs}
+          setUserClaimedGoods={setUserClaimedGoods}
+          userFreeStuff={userFreeStuff}
+          handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
           isUserProfile={isUserProfile}
-          handleUpdateSubmitGood={handleUpdateSubmitGood}
-          handleSaveGoodToUserProfile={handleSaveGoodToUserProfile}
+          handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
+          handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
+          isClaimed={isClaimed}    
+          setIsClaimed={setIsClaimed}
         />
       ))
   : [];
 
-
-  const forumServices = forum.services
-  ? forum.services
-      .filter((service) => service.user_id !== user.id) 
-      .map((service) => (
-        <ServicesCard
-          key={service.id}
-          service={service}
-          user={user}
-          forum={forum}
-          allForum={allForum}
-          userServices={userServices}
-          setUserServices={setUserServices}
-          handleDeleteClickService={(serviceId) => handleDeleteClickService(serviceId, 'services')}
-          isUserProfile={isUserProfile}
-          handleUpdateSubmitService={handleUpdateSubmitService}
-          handleSaveServiceToUserProfile={handleSaveServiceToUserProfile}
-        />
-      ))
-  : [];
-
-
-const forumFreeStuff = forum && forum.free_stuffs
-.filter((stuff) => (
-  stuff.claimant_id === null && stuff.user_id !== user.id 
-))
-.map((stuff) => (  
-  <FreeStuffCard
-    key={stuff.id}
-    stuff={stuff}
-    user={user}
-    forum={forum}
-    allForum={allForum}
-    setAllForum={setAllForum}
-    setUserFreeStuff={setUserFreeStuff}
-    handleUpdateFreeStuffs={handleUpdateFreeStuffs}
-    setUserClaimedGoods={setUserClaimedGoods}
-    userFreeStuff={userFreeStuff}
-    handleDeleteClickFreeStuff={(free_stuffs_id) => handleDeleteClickFreeStuff(free_stuffs_id, 'stuff')}
-    isUserProfile={isUserProfile}
-    handleUpdateSubmitFreeStuff={handleUpdateSubmitFreeStuff}
-    handleSaveFreeStuffToUserProfile={handleSaveFreeStuffToUserProfile}
-    isClaimed={isClaimed}    
-    setIsClaimed={setIsClaimed}
-  />
-));
 
 
 return (

@@ -157,7 +157,6 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     (value, index, self) => self.findIndex((item) => item.id === value.id) === index
   );
 
-  // Filter out duplicate services based on their 'id'
   const uniqueUserServices = userServices.filter(
     (value, index, self) => self.findIndex((item) => item.id === value.id) === index
   );
@@ -166,7 +165,7 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     (value, index, self) => self.findIndex((item) => item.id === value.id) === index
   );
 
-
+console.log(uniqueUserFreeStuff)
   if (allForum.length > 1) {
     return (
     <div className='user-items-container'>
@@ -203,7 +202,7 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
       <div className='user-column'>
         <h2>Saved Free Stuff</h2>
         {uniqueUserFreeStuff
-          .filter((stuff) => stuff.claimant_id === null)
+          .filter((stuff) => stuff.claimant_id === null && stuff.user_id !== user.id) 
           .map((stuff) => (
             <FreeStuffCard
               key={`saved-${stuff.id}`} // Use a "saved-" prefix
@@ -224,7 +223,8 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
       .filter((stuff) => stuff.claimant_id === user.id)
       .map((stuff) => (
         <FreeStuffCard
-          key={`claimed-${stuff.id}`} // Use a "claimed-" prefix
+          key={`claimed-${stuff.id}`} 
+          uniqueUserFreeStuff={uniqueUserFreeStuff}
           stuff={stuff}
           user={user}
           userFreeStuff={userFreeStuff}

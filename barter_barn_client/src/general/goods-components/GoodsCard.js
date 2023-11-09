@@ -28,6 +28,11 @@ const GoodsCard = ({
       setErrors(['You cannot save an item you created.']);
       return;
     }
+
+    if (good.user_id === user.id) {
+
+      return;
+    }
     
     const saveResult = handleSaveGoodToUserProfile(good);
     if (saveResult.success) {
@@ -59,19 +64,18 @@ const GoodsCard = ({
     
       <div className="buttonContainer">
           {featured ? (
-            // If the card is featured, show the save button only
             <button onClick={() => handleSaveGood(good.id)} className="crudButton saveButton">
             SAVE
           </button>
           
           ) : (
-            // If it's not featured, display save and delete buttons
             <>
-              {isUserProfile && (
-               <button onClick={() => handleSaveGood(good.id)} className="crudButton saveButton">
-               SAVE
-             </button>
-             
+            {isUserProfile && (
+                good.user_id !== user.id && (
+                  <button onClick={() => handleSaveGood(good.id)} className="crudButton saveButton">
+                    SAVE
+                  </button>
+                )
               )}
               {isSaved && <p>Item has been saved to your profile!</p>}
               {!isUserProfile && (
