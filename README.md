@@ -40,80 +40,98 @@ List the ready features here:
 
 
 ## Screenshots
-(https://github.com/tbraeck/PHASE4_PROJECT/blob/Tate-Main/Screenshot%202023-09-02%20at%204.59.55%20PM.png)
-(https://github.com/tbraeck/PHASE4_PROJECT/blob/Tate-Main/Screenshot%202023-09-02%20at%205.00.36%20PM.png)
-(https://github.com/tbraeck/PHASE4_PROJECT/blob/Tate-Main/Screenshot%202023-09-02%20at%205.00.46%20PM.png)
+(https://github.com/tbraeck/barter_barn/blob/Tate-New/Screenshot%202023-11-08%20at%209.21.15%20PM.png)
+(https://github.com/tbraeck/barter_barn/blob/Tate-New/Screenshot%202023-11-08%20at%209.20.55%20PM.png)
+(https://github.com/tbraeck/barter_barn/blob/Tate-New/Screenshot%202023-11-08%20at%209.21.02%20PM.png)
 
 
 ## Setup
 To setup this project go to my Github repository.
-Full App: https://github.com/tbraeck/PHASE4_PROJECT
+Full App: https://github.com/tbraeck/barter_barn
 
 Start with the README file and then open the CSS, React, and Rails files in a text editor like VS Code.
-
 
 ## Usage
 Below are snippets of some code within the project.
 
-//React example for EditDrawing component//
+//React example for FreeStuffsCard component//
 
-`fetch(`http://localhost:3000/users/${user_id}/user_drawings/${drawing_id}`, {
-        method: "PATCH",
+` const handleClaim = () => {
+
+      if (stuff.user_id === user.id) {
+        setErrors(["You cannot claim your own item."]);
+        return;
+      }
+
+      fetch(`/user_free_stuffs/${stuff.id}/claim`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(drawingBody),
+        body: JSON.stringify(stuff)
       })
-        .then((response) => response.json())
-        .then((updatedDrawing) => {
-          console.log(updatedDrawing)
-          handleUpdateUserDrawings(updatedDrawing);
-          setIsEditFormVisible(!isEditFormVisible);
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to claim item. Please try again.');
+          }
+        })
+        .then((newStuff) => {
+          handleUpdateFreeStuffs(newStuff);
         })
         .catch((error) => {
-          console.error("Error updating drawing:", error);
+          console.error('Error claiming item:', error);
+          setErrors(['Failed to claim item. Please try again.']);
         });
-    };` 
+  };` 
 
-//Rails example for UserDrawings Controller backend routing//
+//Rails example for FreeStuffs Controller actions//
 
-`# PATCH/PUT /users/:user_id/user_drawings/:id
-    def update
-      if @user_drawing.update(user_drawing_params)
-        render json: @user_drawing
-      else
-        render json: @user_drawing.errors, status: :unprocessable_entity
-      end
+`def return
+    @free_stuff = FreeStuff.find(params[:id])
+
+    if @free_stuff.claimant_id 
+      @free_stuff.update(claimant_id: nil)
+
+      render json: @free_stuff
+    else
+      render json: { error: 'Item could not be returned' }, status: :unprocessable_entity
     end
-    
-    # DELETE /users/:user_id/user_drawings/:id
-    def destroy
-      @user_drawing.destroy
-      head :no_content
-    end`
+  end
+
+  def update
+    if @free_stuff.update(free_stuffs_params)
+      render json: @free_stuff
+    else
+      render json: @free_stuff.errors, status: :unprocessable_entity
+    end
+  end`
 
 
 ## Project Status
-Project is: _in progress_ The project is ever-evolving and will grow as I grow as a developer. I really do want this project to be deployed and for it to help any artist in need of creative inspiration.
+Project is: _in progress_ The project is still growing. I want to complete this and make something positive for the world. 
 
 
 ## Room for Improvement
 
 Room for improvement:
-- I need to improve the aesthetics of the overall site 
+- I need to improve the aesthetics of the overall site. I want it to be more liek Craigslist and easy to use 
 - Improve the use interface/ experience
-- Add randomizer functionality for idea creation
+- The functionality needs to be usable across the whole site.
 - Utilize a CSS framework to unify styling
+- Make it safe for users. 
 
 To do:
 - Work on the styling/ placement of elements
 - Add or subtract other features, interactions, experiences
+- A way to calculate the "value" of a good or service that users can use to trade? 
 
 
 ## Acknowledgements
 
-- This project was inspired by my years as an educator/ artist, thinking of how difficult and frustrating it is at times to find ideas for new creations without scraping the entire net.
-- Trying to solve a simple problem for educators and artists.
+- People are struggling and at the same time have fewer people in their own communities they can lean on for help or support. This site can help alleviate some of those problems by cutting out the monetary side of goods and services and returning to a bartering system.
+- I see that many people feel disconnected from their own communities and this is a way to help reconnect people.
 
 ## Contact
 Created by [Tate Braeckel](www.linkedin.com/in/tate-braeckel) - feel free to contact me!

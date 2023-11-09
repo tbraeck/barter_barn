@@ -74,7 +74,6 @@ const FreeStuffCard = ({
         const updatedUserFreeStuff = userFreeStuff.filter((item) => item.id !== newStuff.id);
         setUserFreeStuff(updatedUserFreeStuff);
   
-        // Call the function to update the forum state
         handleUpdateFreeStuffs(newStuff);
       })
       .catch((error) => {

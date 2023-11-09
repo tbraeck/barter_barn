@@ -32,29 +32,15 @@ class FreeStuffsController < ApplicationController
     end
   end
 
-  # def return
-  #   free_stuff = FreeStuff.find(params[:id])
   
-  #   if  free_stuff.claimant_id
-  #     free_stuff.update(claimant_id: nil)  
-  #     render json: free_stuff, status: :created
-  #   else
-
-     
-  #     render json: { error: 'Unable to return free stuff' }, status: :unprocessable_entity
-  #   end
-  # end
 
 
   def return
     @free_stuff = FreeStuff.find(params[:id])
 
-    # Check if the current user can return this item.
     if @free_stuff.claimant_id 
-      # Update the claimant_id to indicate that the item is no longer claimed.
       @free_stuff.update(claimant_id: nil)
 
-      # Return the updated item in the response.
       render json: @free_stuff
     else
       render json: { error: 'Item could not be returned' }, status: :unprocessable_entity
