@@ -22,22 +22,21 @@ Live demo [_here_](https://youtu.be/b4JDXWqOegs). <!-- If you have the project h
 
 
 ## General Information
-- Drawing Ideas Now was created to inspire every artist or budding artist for drawing or creative ideas.   One of the most frustrating aspects of art creation or art education is having enough creative ideas to inspire art creation itself.  That's where this app comes to the rescue. This site is intended to be a comprehensive search database for all random drawing ideas curated by members themselves.
-- Their are so many resources online for educators but this site is a singularity for all of those resources. 
+-  The site was created to be a to be a site similar to Craigslist that would be a resource for people who want to barter good or services or to give goods or services away for free. Barter Barn was created with the intention of bringing more connection to community members, to help people save money and time, and to perhaps cultivate a sense of connectedness, kindness, and compassion amongst community members. This site is intended to be a comprehensive forum-centered community space where members can share. trade, barter, and give freely of their goods and services.
 
 
 ## Technologies Used
 - Frontend: ReactJS 18.2.0
 - Backend: Ruby on Rails 7.0.7.2
 - VS Code - version 1.81.1
-
+- Active Storage (image_uploading/ storage)
 
 ## Features
 List the ready features here:
-- Category link that goes to all drawing categories.
-- CategoryCard that holds all associated drawings.
+- Things to Barter button links to all three of the forums.
+- Forumcard holds all of the forum data for the different forums.
 - User specific login and associated User Profile.
-- Each drawing in the UserProfile can be edited or deleted. Drawings in the general category card can be added to the UserProfile.
+- User can create new items and save or claim other user's items.
 
 
 ## Screenshots

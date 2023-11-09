@@ -46,18 +46,14 @@ useEffect(()=> {
     };
 
     const handleUpdateFreeStuffs = (updatedStuff) => {
-      // Clone the original allForum and userFreeStuff arrays.
       const updatedAllForum = [...allForum];
       const updatedUserFreeStuff = [...userFreeStuff];
     
-      // Find the index of the updatedStuff in the updatedAllForum's free_stuffs.
       const itemIndex = updatedAllForum[2].free_stuffs.findIndex((element) => element.id === updatedStuff.id);
     
       if (itemIndex !== -1) {
-        // If the item is found in the allForum state, update it.
         updatedAllForum[2].free_stuffs[itemIndex] = updatedStuff;
     
-        // If the item is claimed by the user, update the user's list of claimed items.
         if (updatedStuff.claimant_id === user.id) {
           const claimedItemIndex = updatedUserFreeStuff.findIndex((element) => element.id === updatedStuff.id);
           if (claimedItemIndex !== -1) {
@@ -66,11 +62,9 @@ useEffect(()=> {
         }
       }
     
-      // Update the state with the modified arrays.
       setAllForum(updatedAllForum);
       setUserFreeStuff(updatedUserFreeStuff);
     
-      // Handle adding the updated item to user's free stuff (if needed).
       handleAddToUserFreeStuff(updatedStuff);
     };
     

@@ -205,7 +205,7 @@ console.log(uniqueUserFreeStuff)
           .filter((stuff) => stuff.claimant_id === null && stuff.user_id !== user.id) 
           .map((stuff) => (
             <FreeStuffCard
-              key={`saved-${stuff.id}`} // Use a "saved-" prefix
+              key={`saved-${stuff.id}`}
               stuff={stuff}
               user={user}
               userFreeStuff={userFreeStuff}

@@ -28,7 +28,6 @@ const NewUserGoods = ({
     forum_id: forum.id
   });
 
-// const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
 const [someGoods, setSomeGoods] = useState([])
 const [someServices, setSomeServices] = useState([])
