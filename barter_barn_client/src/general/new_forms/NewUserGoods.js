@@ -1,16 +1,18 @@
 import React, { useState,useEffect } from 'react';
-// import SharedImageForm from '../../SharedImageForm';
 
 const NewUserGoods = ({
   forum,
   allForum,
   setAllForum,
+  user,
+  setUser
 }) => {
+
   const [goodFormData, setGoodFormData] = useState({
     title: '',
     description: '',
     good_or_service: '',
-    forum_id: forum.id
+    forum_id: forum.id, 
   });
 
   const [serviceFormData, setServiceFormData] = useState({
@@ -26,7 +28,7 @@ const NewUserGoods = ({
     forum_id: forum.id
   });
 
-const [users, setUsers] = useState([])
+// const [users, setUsers] = useState([])
 const [freeStuffs, setFreeStuffs] = useState([])
 const [someGoods, setSomeGoods] = useState([])
 const [someServices, setSomeServices] = useState([])
@@ -38,10 +40,9 @@ const [imageData, setImageData] = useState(null);
   const { title: serviceTitle, description: serviceDescription, good_or_service: serviceOrService } = serviceFormData;
   const { body: freeStuffBody, claimant_id: freeStuffClaimantId  } = freeStuffData;
 
+
+
   useEffect(() => {
-    fetch(`/users`)
-    .then(res => res.json())
-    .then(data => setUsers(data))
 
     fetch(`/free_stuffs`)
     .then(res => res.json())
@@ -55,6 +56,7 @@ const [imageData, setImageData] = useState(null);
     .then(res => res.json())
     .then(data => setSomeServices(data))
   }, [])
+
 
 
   const handleGoodChange = (e) => {
@@ -128,8 +130,12 @@ const handleNewService = (newService) => {
   const handleSubmitGood = (e) => {
     e.preventDefault();
 
+    if (!imageData) {
+      setErrors(['Please attach an image']);
+      return;
+    }
     const formData = new FormData();
-    formData.append('user_id', users[0].id);
+    formData.append('user_id', user.id);
     formData.append('forum_id', forum.id);
     formData.append('title', goodTitle);
     formData.append('description', goodDescription);
@@ -166,8 +172,13 @@ const handleNewService = (newService) => {
   const handleSubmitService = (e) => {
     e.preventDefault();
 
+    if (!imageData) {
+      setErrors(['Please attach an image']);
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('user_id', users[0].id);
+    formData.append('user_id', user.id);
     formData.append('forum_id', forum.id);
     formData.append('title', serviceTitle);
     formData.append('description', serviceDescription);
@@ -206,9 +217,14 @@ const handleNewService = (newService) => {
 
   const handleSubmitStuff = (e) => {
     e.preventDefault();
-  
+    
+    if (!imageData) {
+      setErrors(['Please attach an image']);
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('user_id', users[0].id);
+    formData.append('user_id', user.id);
     formData.append('forum_id', forum.id);
     formData.append('body', freeStuffBody);
     formData.append('claimant_id', freeStuffClaimantId )

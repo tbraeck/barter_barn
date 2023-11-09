@@ -13,49 +13,41 @@ puts "🥷👩‍🦰 Seeding users..."
  User.create!([
     {
       username: "Tate",
-      email: "tatebraeckel@gmail.com",
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     },
     {
       username: Faker::Name.name,
-      email: Faker::Internet.email,
       password: "iscool",
       password_confirmation: "iscool"
     }
@@ -86,8 +78,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 2,
         forum_id: 1,
-        # image: image
-
 
       },
       {
@@ -96,7 +86,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 3,
         forum_id: 1,
-        # image: image
 
 
       },
@@ -106,7 +95,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 4,
         forum_id: 1,
-        # image: image
 
 
       },
@@ -116,7 +104,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 5,
         forum_id: 1,
-        # image: image
 
 
       },
@@ -126,7 +113,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 6,
         forum_id: 1,
-        # image: image
 
 
       },
@@ -136,7 +122,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 7,
         forum_id: 1,
-        # image: image
 
 
       },
@@ -146,7 +131,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 8,
         forum_id: 1,
-        # image: image
 
 
       },
@@ -156,7 +140,6 @@ Good.create!([
         good_or_service: Faker::Construction.trade,
         user_id: 1,
         forum_id: 1,
-        # image: image
 
 
       }

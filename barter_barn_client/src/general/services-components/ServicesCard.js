@@ -16,7 +16,7 @@ const ServicesCard = ({
   }
 
   const { title, description, good_or_service } = service;
-
+console.log(service)
   const handleSaveService = () => {
 
     if (userServices.some(savedItem => savedItem.id === service.id)) {
@@ -54,9 +54,10 @@ return (
           <img className='thumbImg' src={service.image} alt="Service " />
         <div className='buttonContainer'>
             {isUserProfile && (
-              <button onClick={handleSaveService} className='crudButton saveButton'>
-                SAVE
-              </button>
+              <button onClick={() => handleSaveService(service.id)} className="crudButton saveButton">
+              SAVE
+            </button>
+            
             )}
             {isSaved && <p>Item has been saved to your profile!</p>}
       

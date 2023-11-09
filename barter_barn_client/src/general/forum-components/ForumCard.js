@@ -13,6 +13,7 @@ const ForumCard = (
   handleAddGood, 
   handleAddService,
   handleUpdateFreeStuffs,
+ 
 }) => {
   const [forum, setForum] = useState({
     goods: [],
@@ -24,7 +25,7 @@ const [userGoods, setUserGoods] = useState([])
 const [userServices, setUserServices] = useState([])
 const [userFreeStuff, setUserFreeStuff] = useState([])
 const [errors, setErrors] = useState([]);
-const { user } = useContext(UserContext);
+const { user, setUser } = useContext(UserContext);
 const {id} = useParams()
 
 const isUserProfile = user.username !== forum.title;
@@ -43,12 +44,23 @@ const handleSaveGoodToUserProfile = (item) => {
       message: "Saving items is not allowed in your profile.",
     };
   }
+
+  const savedGoodsData = {
+    title: item.title,
+    description: item.description,
+    good_or_service: item.good_or_service,
+    image:  item.image,
+    id: item.id,
+    user_id: user.id,
+    forum_id: item.forum_id,
+
+  };
     return fetch(`/users/${user.id}/user_goods`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(item),
+      body: JSON.stringify(savedGoodsData),
     })
       .then((res) => {
         if (res.ok) {
@@ -81,12 +93,24 @@ const handleSaveServiceToUserProfile = (item) => {
     };
   } 
 
+
+  const savedServicesData = {
+    title: item.title,
+    description: item.description,
+    good_or_service: item.good_or_service,
+    image:  item.image,
+    id: item.id,
+    user_id: user.id,
+    forum_id: item.forum_id,
+
+  };
+
   return fetch(`/users/${user.id}/user_services`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(item),
+    body: JSON.stringify(savedServicesData),
   })
     .then((res) => {
       if (res.ok) {
@@ -115,11 +139,15 @@ const handleSaveServiceToUserProfile = (item) => {
 
 const handleSaveFreeStuffToUserProfile = (item) => {
   if (!isUserProfile) {
+    console.log("Not allowed to save in this profile.");
+
     return {
       success: false,
       message: "Saving items is not allowed in your profile.",
     };
   }
+  console.log("Saving item:", item);
+
   return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
     headers: {
@@ -130,18 +158,17 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     .then((res) => {
       if (res.ok) {
         return res.json().then((savedItem) => {
+          console.log(savedItem);
           setUserFreeStuff([...userFreeStuff, savedItem]);
-          return (
-            alert("Item saved to profile!")
-        )
-          });
+          return { success: true, message: "Item saved to profile!" };
+        });
       } else {
-          res.json().then((error) => setErrors(error.errors))
-          setTimeout(() => {
-            setErrors(null);
-          }, 3000);
-          return;
-        }
+        res.json().then((error) => setErrors(error.errors));
+        setTimeout(() => {
+          setErrors([]);
+        }, 3000);
+        return { success: false, message: "Failed to save item. Please try again." };
+      }
     })
     .catch((error) => {
       console.error('Error saving item:', error);
@@ -151,6 +178,7 @@ const handleSaveFreeStuffToUserProfile = (item) => {
       };
     });
 };
+
 
 const handleDeleteClickGood = (user_id, good_id) => {
   fetch(`/users/${user_id}/user_goods/${good_id}`, {
@@ -201,7 +229,7 @@ const handleDeleteClickService = (user_id, service_id) => {
 };
 
 const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
-  fetch(`/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
+  fetch(`/users/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": 'application/json',
@@ -214,15 +242,17 @@ const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
       return response.json();
     })
     .then(() => {
-      const deleteFreeStuff = forum.free_stuffs.filter(s => s.id !== free_stuffs_id);
-      const updatedFreeStuff = allForum.map(f => f.id === forum.id ? { ...f, free_stuffs: deleteFreeStuff } : f);
-      setAllForum(updatedFreeStuff);
-      handleUpdateSubmitFreeStuff(free_stuffs_id, deleteFreeStuff);
+      // Assuming you have the items stored in userFreeStuff state
+      const updatedUserFreeStuff = userFreeStuff.filter(stuff => stuff.id !== free_stuffs_id);
+      setUserFreeStuff(updatedUserFreeStuff);
+
+      // Handle any additional updates or side effects here
     })
     .catch((error) => {
       console.error('Error deleting stuff:', error);
     });
 };
+
 
 const handleUpdateSubmitGood = (good_id, updatedGood) => {
   fetch(`/users/${user.id}/user_goods/${good_id}`, {
@@ -395,6 +425,7 @@ return (
             handleAddGood={handleAddGood}
             handleAddService={handleAddService}
             user={user}
+            setUser={setUser}
           />
         </div>
       </div>

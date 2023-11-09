@@ -31,4 +31,7 @@ class UserGoodsController < ApplicationController
     def user_good_params
       params.permit(:id, :title, :description, :good_or_service, :main_image, :user_id, :forum_id)
     end
+    
+    
+
   end

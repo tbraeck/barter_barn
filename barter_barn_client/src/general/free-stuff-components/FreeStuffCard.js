@@ -4,10 +4,12 @@ const FreeStuffCard = ({
   stuff,
   user,
   userFreeStuff,
+  setUserFreeStuff,
   handleUpdateFreeStuffs,
   isUserProfile,
   handleDeleteClickFreeStuff,
   handleSaveFreeStuffToUserProfile,
+  handleUpdateUserFreeStuffs
  
 }) => {
   const [isSaved, setIsSaved] = useState(false);
@@ -53,7 +55,7 @@ const FreeStuffCard = ({
     handleDeleteClickFreeStuff(stuff.id);
   };
   
-  const handleReturn = () => {
+  const handleReturn = (stuff) => {
     fetch(`/free_stuffs/${stuff.id}/return`, {
       method: 'POST',
       headers: {
@@ -68,8 +70,8 @@ const FreeStuffCard = ({
       }
     })
     .then((newStuff) => {
-      handleUpdateFreeStuffs(newStuff);
-    })
+      const updatedUserFreeStuff = userFreeStuff.filter((item) => item.id !== newStuff.id);
+      setUserFreeStuff(updatedUserFreeStuff);    })
     .catch((error) => {
       console.error('Error returning item:', error);
       setErrors(['Failed to return item. Please try again.']);

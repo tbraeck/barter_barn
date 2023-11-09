@@ -46,16 +46,34 @@ useEffect(()=> {
     };
 
     const handleUpdateFreeStuffs = (updatedStuff) => {
+      // Clone the original allForum and userFreeStuff arrays.
       const updatedAllForum = [...allForum];
+      const updatedUserFreeStuff = [...userFreeStuff];
     
-      const itemIndex = updatedAllForum[2].free_stuffs.findIndex(element => (
-           element.id === updatedStuff.id))
-
-      updatedAllForum[2].free_stuffs[itemIndex] = updatedStuff
-      
+      // Find the index of the updatedStuff in the updatedAllForum's free_stuffs.
+      const itemIndex = updatedAllForum[2].free_stuffs.findIndex((element) => element.id === updatedStuff.id);
+    
+      if (itemIndex !== -1) {
+        // If the item is found in the allForum state, update it.
+        updatedAllForum[2].free_stuffs[itemIndex] = updatedStuff;
+    
+        // If the item is claimed by the user, update the user's list of claimed items.
+        if (updatedStuff.claimant_id === user.id) {
+          const claimedItemIndex = updatedUserFreeStuff.findIndex((element) => element.id === updatedStuff.id);
+          if (claimedItemIndex !== -1) {
+            updatedUserFreeStuff[claimedItemIndex] = updatedStuff;
+          }
+        }
+      }
+    
+      // Update the state with the modified arrays.
       setAllForum(updatedAllForum);
+      setUserFreeStuff(updatedUserFreeStuff);
+    
+      // Handle adding the updated item to user's free stuff (if needed).
       handleAddToUserFreeStuff(updatedStuff);
     };
+    
    
 if(!user) return <Login  />
 
@@ -68,7 +86,7 @@ if(!user) return <Login  />
             <Routes>
                 <Route exact path="/" element={<Home /> } />  
                 <Route path="/forums" element={<ForumList allForum={allForum}  setAllForum={setAllForum} /> }/>
-                <Route path="/forums/:id" element={<ForumCard  handleUpdateFreeStuffs={handleUpdateFreeStuffs} allForum={allForum} setAllForum={setAllForum}  />} />
+                <Route path="/forums/:id" element={<ForumCard  user={user} setUser={setUser} handleUpdateFreeStuffs={handleUpdateFreeStuffs} allForum={allForum} setAllForum={setAllForum}  />} />
                 <Route path="/goods/:id" element={<GoodsCard    allForum={allForum} setAllForum={setAllForum}   />}/> 
                 <Route path="/services/:id" element={<ServicesCard  allForum={allForum} setAllForum={setAllForum}  />}/> 
                 <Route path="/free_stuffs/:id" element={<FreeStuffCard handleUpdateFreeStuffs={handleUpdateFreeStuffs}   allForum={allForum} setAllForum={setAllForum} />}/>

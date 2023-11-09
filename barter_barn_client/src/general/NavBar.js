@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+  import { Link, useNavigate } from 'react-router-dom'
 
 const NavBar = ({user, handleLogout}) => {
+  const navigate = useNavigate();
 
   const handleLogoutClick = () => {
     fetch("/logout", {
@@ -10,6 +10,8 @@ const NavBar = ({user, handleLogout}) => {
     .then((r)=> {
       if(r.ok){
         handleLogout(null)
+        navigate('/');  
+
       }
     })
   }
@@ -39,10 +41,12 @@ const NavBar = ({user, handleLogout}) => {
         </button>
       </Link>
     
-      <div className='btn '>
+      {user ? (
+        <div className='btn '>
           <p className='welcomeText'>Welcome, {user.username}!</p>
           <button type='submit' onClick={handleLogoutClick} className='btn btn-secondary' >LOGOUT</button>
-      </div>
+        </div>
+      ) : null}
     </div>
   </div>
   )

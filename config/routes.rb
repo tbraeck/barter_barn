@@ -22,11 +22,11 @@ Rails.application.routes.draw do
     end
   end
 
+# routes.rb
 resources :free_stuffs do
-  member do
-    post 'return', to: 'free_stuffs#return'
-  end
+  post 'return', on: :member
 end
+
 
 get 'forums/featured', to: 'forums#featured', as: 'featured_forum'
 

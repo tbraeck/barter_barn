@@ -7,7 +7,8 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
   const [userGoods, setUserGoods] = useState([]);
   const [userServices, setUserServices] = useState([]);
   const [userFreeStuff, setUserFreeStuff] = useState([]);
-console.log(userFreeStuff)
+
+
   useEffect(() => {
     fetch(`/users/${user.id}/user_goods`)
       .then((response) => {
@@ -130,7 +131,6 @@ console.log(userFreeStuff)
     });
     
   };
-console.log(userFreeStuff)
   const handleUpdateUserServices = (updatedService) => {
     setUserServices((prevUserServices) => {
       const updatedUserServices = prevUserServices.map((service) =>
@@ -141,12 +141,38 @@ console.log(userFreeStuff)
     
   };
 
+  const handleUpdateUserFreeStuffs = (updatedStuff) => {
+    setUserFreeStuff((prevUserStuff) => {
+      const updatedUserStuff = prevUserStuff.map((s) =>
+        s.id === updatedStuff.id ? updatedStuff : s
+      );
+      return updatedUserStuff;
+    });
+    
+  };
+  console.log(userFreeStuff)
+
+
+  const uniqueUserGoods = userGoods.filter(
+    (value, index, self) => self.findIndex((item) => item.id === value.id) === index
+  );
+
+  // Filter out duplicate services based on their 'id'
+  const uniqueUserServices = userServices.filter(
+    (value, index, self) => self.findIndex((item) => item.id === value.id) === index
+  );
+
+  const uniqueUserFreeStuff = userFreeStuff.filter(
+    (value, index, self) => self.findIndex((item) => item.id === value.id) === index
+  );
+
+
   if (allForum.length > 1) {
     return (
     <div className='user-items-container'>
       <div className='user-column'>
         <h2>Goods</h2>
-        {userGoods.map((good) => (
+        {uniqueUserGoods.map((good) => (
           <GoodsCard
             key={good.id}
             good={good}
@@ -161,7 +187,7 @@ console.log(userFreeStuff)
 
       <div className='user-column'>
         <h2>Services</h2>
-        {userServices.map((service) => (
+        {uniqueUserServices.map((service) => (
           <ServicesCard
             key={service.id}
             service={service}
@@ -173,21 +199,43 @@ console.log(userFreeStuff)
           />
         ))}
       </div>
-
+      
       <div className='user-column'>
-        <h2>Free Stuff</h2>
-        {allForum[2].free_stuffs.filter(stuff => stuff.claimant_id === user.id).map((stuff) => (
-          <FreeStuffCard
-            key={stuff.id}
-            stuff={stuff}
-            user={user}
-            userFreeStuff={userFreeStuff}
-            handleUpdateFreeStuffs={handleUpdateFreeStuffs}
-            setUserFreeStuff={setUserFreeStuff}
-            handleDeleteClickFreeStuff={ handleDeleteClickFreeStuff}
-          />
-        ))}
-      </div>
+        <h2>Saved Free Stuff</h2>
+        {uniqueUserFreeStuff
+          .filter((stuff) => stuff.claimant_id === null)
+          .map((stuff) => (
+            <FreeStuffCard
+              key={`saved-${stuff.id}`} // Use a "saved-" prefix
+              stuff={stuff}
+              user={user}
+              userFreeStuff={userFreeStuff}
+              handleUpdateFreeStuffs={handleUpdateFreeStuffs}
+              setUserFreeStuff={setUserFreeStuff}
+              handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
+              handleDeleteClickFreeStuff={handleDeleteClickFreeStuff}
+            />
+          ))}
+        </div>
+
+  <div className='user-column'>
+    <h2>Claimed Free Stuff</h2>
+    {uniqueUserFreeStuff
+      .filter((stuff) => stuff.claimant_id === user.id)
+      .map((stuff) => (
+        <FreeStuffCard
+          key={`claimed-${stuff.id}`} // Use a "claimed-" prefix
+          stuff={stuff}
+          user={user}
+          userFreeStuff={userFreeStuff}
+          handleUpdateFreeStuffs={handleUpdateFreeStuffs}
+          setUserFreeStuff={setUserFreeStuff}
+          handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
+          handleDeleteClickFreeStuff={handleDeleteClickFreeStuff}
+        />
+      ))}
+  </div>
+
     </div>
   ) } else {
     return 'loading...';

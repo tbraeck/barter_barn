@@ -15,7 +15,7 @@ const GoodsCard = ({
   if (!good || !good.title) {
     return <div>Loading...</div>;
   }
-
+ 
   const { title, description, good_or_service } = good;
 
   const handleSaveGood = () => {
@@ -24,11 +24,9 @@ const GoodsCard = ({
       return;
     }
   
-    if (good && good.user_id === user.id) {
+    if (good.user_id === user.id) {
       setErrors(['You cannot save an item you created.']);
       return;
-    } else {
-      console.error("The 'good' object is undefined or does not have an 'id' property.");
     }
     
     const saveResult = handleSaveGoodToUserProfile(good);
@@ -62,16 +60,18 @@ const GoodsCard = ({
       <div className="buttonContainer">
           {featured ? (
             // If the card is featured, show the save button only
-            <button onClick={handleSaveGood} className="crudButton saveButton">
-              SAVE
-            </button>
+            <button onClick={() => handleSaveGood(good.id)} className="crudButton saveButton">
+            SAVE
+          </button>
+          
           ) : (
             // If it's not featured, display save and delete buttons
             <>
               {isUserProfile && (
-                <button onClick={handleSaveGood} className="crudButton saveButton">
-                  SAVE
-                </button>
+               <button onClick={() => handleSaveGood(good.id)} className="crudButton saveButton">
+               SAVE
+             </button>
+             
               )}
               {isSaved && <p>Item has been saved to your profile!</p>}
               {!isUserProfile && (

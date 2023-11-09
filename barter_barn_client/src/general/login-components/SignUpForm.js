@@ -5,7 +5,7 @@ const SignUpForm = ({setUser}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
-    const [email, setEmail] = useState('')
+    // const [email, setEmail] = useState('')
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState([]);
 
@@ -21,8 +21,7 @@ const SignUpForm = ({setUser}) => {
           body: JSON.stringify({
                 username,
                 password,
-                passwordConfirmation, 
-                email
+                passwordConfirmation
             }),
         })
         .then((r) => {
@@ -53,7 +52,7 @@ const SignUpForm = ({setUser}) => {
       <input
         id="username"
         type="text"
-        placeholder="Username"
+        placeholder="Must be unique"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         className='form-input'
@@ -65,7 +64,7 @@ const SignUpForm = ({setUser}) => {
       <input
         id="password"
         type="password"
-        placeholder="Password"
+        placeholder="Must have 6 or more characters"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className='form-input'
@@ -76,19 +75,19 @@ const SignUpForm = ({setUser}) => {
       <input
         id="password_confirmation"
         type="password"
-        placeholder="Password Confirmation"
+        placeholder="Enter the same password again"
         value={passwordConfirmation}
         onChange={(e) => setPasswordConfirmation(e.target.value)}
         className='form-input'
       />
-       <input
+       {/* <input
         id="email"
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         className='form-input'
-      />
+      /> */}
       <button className='form-button' type="submit" >
         {loading ? 'Loading...' : 'Sign Up'}
       </button>
