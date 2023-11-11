@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :forums, only: [:index, :show]
   resources :services, only: [:index, :show, :create, :update, :destroy]
   resources :goods, only: [:index, :show, :create, :update, :destroy]
-  resources :free_stuffs, only: [:index, :show, :create, :update, :destroy]
+  resources :free_stuffs
 
   # resources :users, only: [:show]
   resources :users do
@@ -15,17 +15,20 @@ Rails.application.routes.draw do
     resources :user_free_stuffs
   end
 
-  resources :user_free_stuffs do
+  resources :free_stuffs do
     member do
-      post 'save', to: 'user_free_stuffs#save'
-      post 'claim', to: 'user_free_stuffs#claim'
+      patch 'return'
     end
   end
+  
 
-# routes.rb
-resources :free_stuffs do
-  post 'return', on: :member
-end
+# config/routes.rb
+# resources :free_stuffs do
+#   member do
+#     patch 'return'
+#   end
+# end
+
 
 
 get 'forums/featured', to: 'forums#featured', as: 'featured_forum'

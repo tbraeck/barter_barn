@@ -38,7 +38,6 @@ const GoodsCard = ({
     if (saveResult.success) {
       setIsSaved(true);
       setErrors([]);
-      console.log(good)
     } else {
       setErrors([saveResult.message]);
     }

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState, useEffect  } from 'react';
 import GoodsCard from '../goods-components/GoodsCard';
 import ServicesCard from '../services-components/ServicesCard';
-import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
+import FreeStuffCard from '../FreeStuffCard';
 
-const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
+const UserItems = ({ allForum, user, setAllForum,setUser, handleUpdateFreeStuffs }) => {
   const [userGoods, setUserGoods] = useState([]);
   const [userServices, setUserServices] = useState([]);
-  const [userFreeStuff, setUserFreeStuff] = useState([]);
+  // const [userFreeStuff, setUserFreeStuff] = useState([]);
 
 
   useEffect(() => {
@@ -40,22 +40,10 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
         console.error('Error fetching user services:', error);
       });
 
-    fetch(`/users/${user.id}/user_free_stuffs`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json(); 
-        } else {
-          throw Error('Failed to fetch user free stuff');
-        }
-      })
-      .then((data) => {
-       setUserFreeStuff(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching user free stuff:', error);
-      });
   }, [user.id]);
 
+
+  
   const handleDeleteClickGood = (good_id) => {
     fetch(`/users/${user.id}/user_goods/${good_id}`, {
       method: "DELETE",
@@ -107,16 +95,18 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
         "Content-Type": "application/json"
       }
     })
-    .then((response) => {
-      if (response.ok) {
-        const updatedUserFreeStuffs = userFreeStuff.filter(
-          (stuff) => stuff.id !== free_stuffs_id
-        );
-        setUserFreeStuff(updatedUserFreeStuffs);
-      } else {
-        console.error("Failed to delete stuff");
-      }
-    })
+    .then((res) => res.json())
+  .then(() => {
+    setUser((prevUser) => {
+      const updatedUserFreeStuffs = Object.values(prevUser.saved_free_stuffs).filter(
+        (stuff) => stuff.id !== free_stuffs_id
+      );
+      return {
+        ...prevUser,
+        saved_free_stuffs: updatedUserFreeStuffs
+      };
+    });
+  })
     .catch((error) => {
       console.error("Error deleting stuff:", error);
     });
@@ -141,18 +131,17 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     
   };
 
-  const handleUpdateUserFreeStuffs = (updatedStuff) => {
-    setUserFreeStuff((prevUserStuff) => {
-      const updatedUserStuff = prevUserStuff.map((s) =>
-        s.id === updatedStuff.id ? updatedStuff : s
-      );
-      return updatedUserStuff;
-    });
     
-  };
-  console.log(userFreeStuff)
-
-
+    const handleUpdateUserFreeStuffs = (updatedStuff) => {
+      
+      setUser((prevUser) => {
+        const updatedUserStuff = prevUser.saved_free_stuffs.map((s) =>
+          s.id === updatedStuff.id ? updatedStuff : s
+        );
+        return { ...prevUser, saved_free_stuffs: updatedUserStuff };
+      });
+    };
+    
   const uniqueUserGoods = userGoods.filter(
     (value, index, self) => self.findIndex((item) => item.id === value.id) === index
   );
@@ -161,11 +150,11 @@ const UserItems = ({ allForum, user, handleUpdateFreeStuffs }) => {
     (value, index, self) => self.findIndex((item) => item.id === value.id) === index
   );
 
-  const uniqueUserFreeStuff = userFreeStuff.filter(
-    (value, index, self) => self.findIndex((item) => item.id === value.id) === index
-  );
+  // const uniqueUserFreeStuff = user.saved_free_stuffs.filter(
+  //   (value, index, self) => self.findIndex((item) => item.id === value.id) === index
+  // );
 
-console.log(uniqueUserFreeStuff)
+
   if (allForum.length > 1) {
     return (
     <div className='user-items-container'>
@@ -201,16 +190,18 @@ console.log(uniqueUserFreeStuff)
       
       <div className='user-column'>
         <h2>Saved Free Stuff</h2>
-        {uniqueUserFreeStuff
+        {user.saved_free_stuffs
           .filter((stuff) => stuff.claimant_id === null && stuff.user_id !== user.id) 
           .map((stuff) => (
             <FreeStuffCard
               key={`saved-${stuff.id}`}
               stuff={stuff}
               user={user}
-              userFreeStuff={userFreeStuff}
+              // allForum={allForum}
+              // setAllForum={setAllForum}
+              // userFreeStuff={userFreeStuff}
               handleUpdateFreeStuffs={handleUpdateFreeStuffs}
-              setUserFreeStuff={setUserFreeStuff}
+              // setUserFreeStuff={setUserFreeStuff}
               handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
               handleDeleteClickFreeStuff={handleDeleteClickFreeStuff}
             />
@@ -219,17 +210,19 @@ console.log(uniqueUserFreeStuff)
 
   <div className='user-column'>
     <h2>Claimed Free Stuff</h2>
-    {uniqueUserFreeStuff
+    {user.saved_free_stuffs
       .filter((stuff) => stuff.claimant_id === user.id)
       .map((stuff) => (
         <FreeStuffCard
           key={`claimed-${stuff.id}`} 
-          uniqueUserFreeStuff={uniqueUserFreeStuff}
+          // uniqueUserFreeStuff={uniqueUserFreeStuff}
           stuff={stuff}
           user={user}
-          userFreeStuff={userFreeStuff}
+          // allForum={allForum}
+          // setAllForum={setAllForum}
+          // userFreeStuff={userFreeStuff}
           handleUpdateFreeStuffs={handleUpdateFreeStuffs}
-          setUserFreeStuff={setUserFreeStuff}
+          // setUserFreeStuff={setUserFreeStuff}
           handleUpdateUserFreeStuffs={handleUpdateUserFreeStuffs}
           handleDeleteClickFreeStuff={handleDeleteClickFreeStuff}
         />

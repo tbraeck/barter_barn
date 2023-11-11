@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react'
-// import DrawingCard from './DrawingCard'
 import ServicesCard from '../services-components/ServicesCard';
-import FreeStuffCard from '../free-stuff-components/FreeStuffCard';
+import FreeStuffCard from '../FreeStuffCard';
 import NewUserGoods from '../new_forms/NewUserGoods';
 import { useParams } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext';
@@ -32,6 +31,7 @@ const isUserProfile = user.username !== forum.title;
 
 useEffect(() => {
   const selectedForum = allForum.find(f => f.id === parseInt(id));
+ 
   if (selectedForum) {
     setForum(selectedForum);
   }
@@ -139,14 +139,12 @@ const handleSaveServiceToUserProfile = (item) => {
 
 const handleSaveFreeStuffToUserProfile = (item) => {
   if (!isUserProfile) {
-    console.log("Not allowed to save in this profile.");
 
     return {
       success: false,
       message: "Saving items is not allowed in your profile.",
     };
   }
-  console.log("Saving item:", item);
 
   return fetch(`/users/${user.id}/user_free_stuffs`, {
     method: 'POST',
@@ -158,9 +156,11 @@ const handleSaveFreeStuffToUserProfile = (item) => {
     .then((res) => {
       if (res.ok) {
         return res.json().then((savedItem) => {
-          console.log(savedItem);
-          setUserFreeStuff([...userFreeStuff, savedItem]);
-          return { success: true, message: "Item saved to profile!" };
+
+          const userCopy = {...user}
+          userCopy.saved_free_stuffs = [...userCopy.saved_free_stuffs, savedItem] 
+         setUser(userCopy)
+         return alert("Item saved to profile!");
         });
       } else {
         res.json().then((error) => setErrors(error.errors));
@@ -228,25 +228,19 @@ const handleDeleteClickService = (user_id, service_id) => {
     });
 };
 
-const handleDeleteClickFreeStuff = (user_id, free_stuffs_id) => {
+const handleDeleteClickFreeStuff = (user_id, user, free_stuffs_id) => {
   fetch(`/users/${user_id}/user_free_stuffs/${free_stuffs_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": 'application/json',
     },
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Failed to delete stuff');
-      }
-      return response.json();
-    })
-    .then(() => {
-      // Assuming you have the items stored in userFreeStuff state
-      const updatedUserFreeStuff = userFreeStuff.filter(stuff => stuff.id !== free_stuffs_id);
-      setUserFreeStuff(updatedUserFreeStuff);
-
-      // Handle any additional updates or side effects here
+    .then((res)=> res.json())
+    .then((data) =>  {
+      setUser((prevUser) => {
+        prevUser.saved_free_stuffs = data
+        return prevUser;
+      });
     })
     .catch((error) => {
       console.error('Error deleting stuff:', error);
@@ -357,11 +351,7 @@ const forumServices = forum && forum.services
   : [];
 
 
-
-
-
-  const forumFreeStuff = forum && forum.free_stuffs
-  ? forum.free_stuffs
+  const forumFreeStuff =  allForum[2] && allForum[2].free_stuffs ? allForum[2].free_stuffs 
       .filter((stuff) => (
         stuff.claimant_id === null || stuff.user_id === user.id
       ))
@@ -370,9 +360,8 @@ const forumServices = forum && forum.services
           key={stuff.id}
           stuff={stuff}
           user={user}
+          setUser={setUser}
           forum={forum}
-          allForum={allForum}
-          setAllForum={setAllForum}
           setUserFreeStuff={setUserFreeStuff}
           handleUpdateFreeStuffs={handleUpdateFreeStuffs}
           setUserClaimedGoods={setUserClaimedGoods}
@@ -384,9 +373,7 @@ const forumServices = forum && forum.services
           isClaimed={isClaimed}    
           setIsClaimed={setIsClaimed}
         />
-      ))
-  : [];
-
+      )) : []
 
 
 return (

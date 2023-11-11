@@ -34,21 +34,34 @@ class FreeStuffsController < ApplicationController
 
   
 
+  # user_free_stuff = @current_user.saved_free_stuffs.find_by!(id: params[:id])
+  # @current_user.saved_free_stuffs.delete(user_free_stuff)    
+  # render json: @current_user.saved_free_stuffs
+def return
+  @free_stuff = FreeStuff.find(params[:id])
 
-  def return
-    @free_stuff = FreeStuff.find(params[:id])
-
-    if @free_stuff.claimant_id 
-      @free_stuff.update(claimant_id: nil)
-
-      render json: @free_stuff
-    else
-      render json: { error: 'Item could not be returned' }, status: :unprocessable_entity
-    end
+  if @free_stuff.update(claimant_id: nil)
+    render json: @free_stuff
+  else
+    render json: @free_stuff.errors, status: :unprocessable_entity
   end
+end
+
+  # def return
+  #   @free_stuff = find_free_stuff
+
+  #   # Assuming you want to update the claimant_id to nil when returning
+  #   if @free_stuff.update(claimant_id: nil)
+  #     render json: @free_stuff
+  #   else
+  #     render json: @free_stuff.errors, status: :unprocessable_entity
+  #   end
+  # end
+
 
   def update
-    if @free_stuff.update(free_stuffs_params)
+    @free_stuff = find_free_stuff
+    if @free_stuff.update(claimant_id: @current_user.id)
       render json: @free_stuff
     else
       render json: @free_stuff.errors, status: :unprocessable_entity
@@ -56,9 +69,9 @@ class FreeStuffsController < ApplicationController
   end
 
   def destroy
-    free_stuff = find_free_stuff
-    free_stuff.destroy
-    head :no_content
+    user_free_stuff = @current_user.saved_free_stuffs.find_by!(id: params[:id])
+    @current_user.saved_free_stuffs.delete(user_free_stuff)    
+    render json: @current_user.saved_free_stuffs
   end
   
   private
