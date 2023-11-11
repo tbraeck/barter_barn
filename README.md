@@ -5,7 +5,7 @@ It is a full CRUD site that allows the user to login, to access the three forums
 
 The React front end is an SPA with a navbar that clients can use to navigate to Home, Things to Barter, a featured item page, and the user profile. The back end is Ruby on Rails.  This site has basic tools like a navbar, logout button, and a logo image that links to the home page,  
 
-Live demo [_here_](https://youtu.be/b4JDXWqOegs). <!-- If you have the project hosted somewhere, include the link here. -->
+Live demo [_here_](https://youtu.be/RZ5tK-JDJkA). <!-- If you have the project hosted somewhere, include the link here. -->
 
 ## Table of Contents
 * [General Info](#general-information)
