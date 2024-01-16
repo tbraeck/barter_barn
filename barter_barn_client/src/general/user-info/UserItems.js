@@ -42,8 +42,6 @@ const UserItems = ({ allForum, user, setAllForum,setUser, handleUpdateFreeStuffs
 
   }, [user.id]);
 
-
-  
   const handleDeleteClickGood = (good_id) => {
     fetch(`/users/${user.id}/user_goods/${good_id}`, {
       method: "DELETE",

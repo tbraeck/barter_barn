@@ -17,7 +17,7 @@ const FreeStuffCard = ({
     return <div>Loading...</div>;
   }
   
-  const { body,} = stuff;
+  const { body} = stuff;
 
   const handleSave = () => {
     if (user.saved_free_stuffs.some(savedItem => savedItem.id === stuff.id)) {

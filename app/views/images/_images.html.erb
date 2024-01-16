@@ -1,40 +1,40 @@
-<%= form_with(model: good, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label :main_image %>
-    <%= f.file_field :main_image %>
-    <%= f.hidden_field :main_image_cache %>
-    <% if good.main_image.attached? %>
-      <%= image_tag good.main_image %>
-    <% end %>
-  </div>
-  <%= f.submit %>
-<% end %>
-
-<%= form_with(model: service, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label :main_image %>
-    <%= f.file_field :main_image %>
-    <%= f.hidden_field :main_image_cache %>
-    <% if service.main_image.attached? %>
-      <%= image_tag service.main_image %>
-    <% end %>
-  </div>
-  <%= f.submit %>
-<% end %>
-
-
-
-<%= form_for @free_stuff, html: { multipart: true } do |form| %>
+<%= form_for @good, html: { multipart: true } do |form| %>
   <div style="width: 200px; height: auto;">
-    <% if @free_stuff.main_image.attached? %>
-      <%= image_tag @free_stuff.main_image, style: "width: 100%" %>
+    <% if @good.main_image.attached? %>
+      <%= image_tag @good.main_image, style: "width: 100%" %>
     <% end %>
-
     <div>
       <%= form.label :main_image %>
       <%= form.file_field :main_image %>
     </div>
-    
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= form_for @service, html: { multipart: true } do |form| %>
+  <div style="width: 200px; height: auto;">
+    <% if @service.main_image.attached? %>
+      <%= image_tag @service.main_image, style: "width: 100%" %>
+    <% end %>
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+
+<%= form_for @free, html: { multipart: true } do |form| %>
+  <div style="width: 200px; height: auto;">
+    <% if @free.main_image.attached? %>
+      <%= image_tag @free.main_image, style: "width: 100%" %>
+    <% end %>
+    <div>
+      <%= form.label :main_image %>
+      <%= form.file_field :main_image %>
+    </div>
     <%= form.submit %>
   </div>
 <% end %>

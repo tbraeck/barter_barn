@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   resources :goods, only: [:index, :show, :create, :update, :destroy]
   resources :free_stuffs
 
-  # resources :users, only: [:show]
   resources :users do
     resources :goods
     resources :services
